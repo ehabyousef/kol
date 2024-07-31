@@ -1,0 +1,8 @@
+.mainSwiper {
+  height: 100%;
+  /* background-color: red; */
+}
+.swiper_slide {
+  background-color: green;
+  overflow: hidden;
+}

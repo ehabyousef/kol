@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+:root {
+  --white: #f3f3f3;
+  --pink: #f1737b;
+  --blue: #323590;
+  --red: #ee4353;
+  --burble: #5a3392;
+}
+textarea {
+  resize: none;
+}
