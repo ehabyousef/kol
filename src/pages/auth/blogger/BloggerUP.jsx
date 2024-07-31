@@ -8,7 +8,7 @@ const careerOptions = [
     "Lawyer", "Designer", "Programmer", "Marketing", "Artist",
     "Photographer", "Chef", "Singer", "Influencer"
 ];
-function UserUP() {
+function BloggerUP() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -254,4 +254,4 @@ function UserUP() {
     );
 }
 
-export default UserUP;
+export default BloggerUP;

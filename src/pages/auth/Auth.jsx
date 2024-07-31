@@ -2,7 +2,7 @@ import React from 'react'
 import Start from './start/Start'
 import { Route, Routes } from 'react-router-dom'
 import Login from './Login/Login'
-import UserUP from './user/UserUP'
+import BloggerUP from './blogger/BloggerUP'
 
 function Auth() {
     return (
@@ -10,7 +10,7 @@ function Auth() {
             <Routes>
                 <Route path="/" element={<Start />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/signuser" element={<UserUP />} />
+                <Route path="/signblogger" element={<BloggerUP />} />
                 {/* <Route path="/reset" element={<Reset />} /> */}
             </Routes>
         </>

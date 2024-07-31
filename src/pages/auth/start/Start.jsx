@@ -11,7 +11,7 @@ function Start() {
                 <h5>let's get started!</h5>
                 <div className={`d-flex gap-4 ${style.links}`}>
                     <Link>User</Link>
-                    <Link>Blogger</Link>
+                    <Link to='/auth/signblogger'>Blogger</Link>
                 </div>
                 <div className="d-flex gap-4 justify-content-center align-items-center">
                     <p className="m-0">already have an account</p>
