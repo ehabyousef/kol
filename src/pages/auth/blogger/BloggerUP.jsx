@@ -70,35 +70,36 @@ function BloggerUP() {
             <form onSubmit={handleSubmit} className={style.content}>
                 <h3>Create Account</h3>
                 <div className="row d-flex">
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>Full Name</label>
                         <input className={style.input} type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>Email</label>
                         <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} required />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>Phone Number</label>
 
                         <PhoneInput
-                            className={style.phone}
+                            className={`${style.phoneInput}`}
                             country={'eg'}
                             name='phoneNumber'
                             value={formData.phoneNumber}
                             onChange={handleWhatsChange}
                         />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>WhatsApp</label>
                         <PhoneInput
+                            className={`${style.phoneInput}`}
                             country={'eg'}
                             name='whatsapp'
                             value={formData.whatsapp}
                             onChange={handlePhoneChange}
                         />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>Country of Residence</label>
                         <ReactFlagsSelect
                             className={style.input}
@@ -107,61 +108,61 @@ function BloggerUP() {
                             searchable
                         />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>City</label>
                         <input className={style.input} type="text" name="city" value={formData.city} onChange={handleChange} />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>Bio</label>
                         <textarea className={style.input} name="bio" value={formData.bio} onChange={handleChange} />
                     </div>
-                    <div className='col-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
                         <label>Full Address</label>
                         <textarea className={style.input} name="address" value={formData.address} onChange={handleChange} />
                     </div>
                 </div>
                 <div className="row d-flex">
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Instagram URL</label>
                         <input className={style.input} type="text" name="instagram" value={formData.instagram} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Insta Followers</label>
                         <input className={style.input} type="number" name="instagramFollowers" value={formData.instagramFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Posts</label>
                         <input className={style.input} type="number" name="posts" value={formData.posts} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Engagement</label>
                         <input className={style.input} type="number" name="engagement" value={formData.engagement} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Snapchat URL</label>
                         <input className={style.input} type="text" name="snapchat" value={formData.snapchat} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Snap Followers</label>
                         <input className={style.input} type="number" name="snapchatFollowers" value={formData.snapchatFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>TikTok URL</label>
                         <input className={style.input} type="text" name="tiktok" value={formData.tiktok} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Tiktok Followers</label>
                         <input className={style.input} type="number" name="tiktokFollowers" value={formData.tiktokFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Youtube URL</label>
                         <input className={style.input} type="text" name="youtube" value={formData.youtube} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>YouTube Followers</label>
                         <input className={style.input} type="number" name="youtubeFollowers" value={formData.youtubeFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Career</label>
                         <select className={style.input} name="career" value={formData.career} onChange={handleChange}>
                             {careerOptions.map((x, ind) => {
@@ -169,64 +170,64 @@ function BloggerUP() {
                             })}
                         </select>
                     </div>
-                    <div className='col-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
                         <label>Specialization</label>
                         <input className={style.input} type="text" name="specialization" value={formData.specialization} onChange={handleChange} />
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Date of Birth</label>
                         <input className={style.input} type="date" name="dob" value={formData.dob} onChange={handleChange} />
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Language</label>
                         <select className={style.input} name="language" value={formData.language} onChange={handleChange}>
                             <option value="Arabic">Arabic</option>
                             <option value="English">English</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Gender</label>
                         <select className={style.input} name="gender" value={formData.gender} onChange={handleChange}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Marital Status</label>
                         <select className={style.input} name="maritalStatus" value={formData.maritalStatus} onChange={handleChange}>
                             <option value="Single">Single</option>
                             <option value="Married">Married</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Show Face</label>
                         <select className={style.input} name="showFace" value={formData.showFace} onChange={handleChange}>
                             <option value="No">No</option>
                             <option value="Yes">Yes</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Use Voice</label>
                         <select className={style.input} name="useVoice" value={formData.useVoice} onChange={handleChange}>
                             <option value="No">No</option>
                             <option value="Yes">Yes</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Public Places</label>
                         <select className={style.input} name="publicPlaces" value={formData.publicPlaces} onChange={handleChange}>
                             <option value="No">No</option>
                             <option value="Yes">Yes</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Wear Hijab</label>
                         <select className={style.input} name="wearHijab" value={formData.wearHijab} onChange={handleChange}>
                             <option value="No">No</option>
                             <option value="Yes">Yes</option>
                         </select>
                     </div>
-                    <div className='col-4 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Nationality</label>
                         <select className={style.input} name="nationality" value={formData.nationality} onChange={handleChange}>
                             <option value="">Choose Values</option>

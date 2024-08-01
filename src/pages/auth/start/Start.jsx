@@ -11,7 +11,7 @@ function Start() {
                 <h4 className="text-center">Lorem Ipsum is simply dummy text and typesetting. </h4>
                 <h5>let's get started!</h5>
                 <div className={`d-flex gap-4 ${style.links}`}>
-                    <Link>User</Link>
+                    <Link to='/auth/signuser'>User</Link>
                     <Link to='/auth/signblogger'>Blogger</Link>
                 </div>
                 <div className="d-flex gap-4 justify-content-center align-items-center" onClick={() => { navi('/auth/login') }} style={{ cursor: "pointer" }}>
