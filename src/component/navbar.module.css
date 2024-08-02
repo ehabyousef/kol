@@ -1,29 +1,3 @@
-.mainSwiper {
-  height: 100%;
-  /* background-color: red; */
-}
-.swiper_slide {
-  background-color: green;
-  overflow: hidden;
-}
-.brief {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 6px;
-}
-.brief p {
-  font-size: 2rem;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-.brief p:last-of-type {
-  font-size: 1.5rem;
-}
-.brief span {
-  color: var(--red);
-}
 .button {
   display: inline-block;
   padding: 6px 12px;
@@ -36,7 +10,6 @@
   cursor: pointer;
   color: black;
   z-index: 1;
-  margin: 6px 0;
 }
 
 .button:before {
@@ -85,3 +58,35 @@
   background-color: var(--red);
   transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
+
+.link {
+  color: black;
+  font-weight: normal;
+  font-size: 1.1rem;
+}
+.active {
+  color: var(--red);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.active:hover {
+  color: var(--red);
+}
+/* @media (min-width: 992px) {
+  .container {
+    display: flex;
+    gap: 14rem;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    display: flex;
+    gap: 24rem;
+  }
+}
+@media (min-width: 1500px) {
+  .container {
+    display: flex;
+    gap: 40rem;
+  }
+} */
