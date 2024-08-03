@@ -10,8 +10,6 @@ import fit from '../../assets/fit.jpg';
 import medi from '../../assets/medi.jpg';
 import travel from '../../assets/travel.jpg';
 import life from '../../assets/life.jpg';
-
-import nsoo7y from '../../assets/nsoo7y.jpg';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTiktok } from 'react-icons/io5';
 import Blogger from '../../component/Blogger';

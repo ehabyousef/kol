@@ -2,9 +2,11 @@ import React from 'react'
 import style from './Blogger.module.css';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTiktok } from 'react-icons/io5';
 import serry from '../assets/serry.jpg';
+import { useNavigate } from 'react-router-dom';
 function Blogger() {
+    const Navigate = useNavigate()
     return (
-        <div className={style.bloggerCard}>
+        <div className={style.bloggerCard} onClick={() => { Navigate('blogger/:1') }}>
             <img src={serry} alt="" />
             <div className="d">
                 <p>Marwan Serry</p>

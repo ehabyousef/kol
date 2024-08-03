@@ -15,7 +15,7 @@ function Navbar() {
                     <div className="navbar-collapse justify-content-between" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={`${active === 'home' ? style.active : style.link} nav-link`} aria-current="page" to="#">Home</Link>
+                                <Link className={`${active === 'home' ? style.active : style.link} nav-link`} aria-current="page" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className={`${active === 'about' ? style.active : style.link} nav-link`} to="#">about</Link>
