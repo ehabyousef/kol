@@ -67,7 +67,7 @@
 .active {
   color: var(--red);
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.12rem;
 }
 .active:hover {
   color: var(--red);

@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import style from './all.module.css';
 import ReactFlagsSelect from 'react-flags-select';
 import Slider from '@mui/material/Slider';
+import Blogger from '../../component/Blogger';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 function AllProd() {
     const [selected, setSelected] = useState("");
     const [selectedGender, setSelectedGender] = useState(null);
@@ -147,8 +150,29 @@ function AllProd() {
                             <input placeholder="search.." className={style.input} name="text" type="text" />
                         </div>
                     </div>
-                    <div className="d bg-secondary rounded-2 p-2">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid praesentium consectetur id similique, reiciendis sed neque, eveniet et temporibus, quam accusamus expedita distinctio. Nulla facilis eaque voluptas! Deleniti, beatae saepe?</p>
+                    <div className="row p-2">
+                        {[1, 2, 3, 4, 6, 5, 7].map((x) => {
+                            return (
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 ">
+                                    <Blogger />
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="row">
+                        <Stack spacing={2}>
+                            <Pagination
+                                count={10}
+                                page={1}
+                                // onChange={handlePageChange}
+                                showFirstButton
+                                showLastButton
+                                variant="outlined"
+                                shape="rounded"
+                                color="primary"
+                                style={{ margin: '1rem auto' }}
+                            />
+                        </Stack>
                     </div>
                 </div>
             </div>

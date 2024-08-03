@@ -16,3 +16,9 @@ body {
 textarea {
   resize: none;
 }
+.swiper-pagination-bullet-active {
+  background-color: var(--pink) !important;
+  width: 16px !important;
+  border-radius: 6px !important;
+  transition: 0.3s !important;
+}
