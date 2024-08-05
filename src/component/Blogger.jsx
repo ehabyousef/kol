@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 function Blogger() {
     const Navigate = useNavigate()
     return (
-        <div className={style.bloggerCard} onClick={() => { Navigate('blogger/:1') }}>
+        <div className={style.bloggerCard} onClick={() => { Navigate('/blogger/1') }}>
             <img src={serry} alt="" />
-            <div className="d">
-                <p>Marwan Serry</p>
+            <div className="p-2">
+                <p className='m-0'>Marwan Serry</p>
                 <div className="d-flex justify-content-between align-items-center">
                     <p className='fs-4 fw-bold m-0'>$17,00</p>
                     <div className="d-flex gap-3">

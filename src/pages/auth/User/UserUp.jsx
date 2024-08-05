@@ -39,11 +39,11 @@ function UserUp() {
             <form onSubmit={handleSubmit} className={style.content}>
                 <h3>Create Account</h3>
                 <div className="row d-flex">
-                    <div className='col-12 d-flex flex-column gap-2' >
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Full Name</label>
                         <input className={style.input} type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
                     </div>
-                    <div className='col-12 d-flex flex-column gap-2' >
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Phone Number</label>
                         <PhoneInput
                             className={`${style.phoneInput}`}
@@ -53,7 +53,7 @@ function UserUp() {
                             onChange={handleWhatsChange}
                         />
                     </div>
-                    <div className='col-12 d-flex flex-column gap-2' >
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Country of Residence</label>
                         <ReactFlagsSelect
                             className={style.input}
@@ -62,15 +62,15 @@ function UserUp() {
                             searchable
                         />
                     </div>
-                    <div className='col-12 d-flex flex-column gap-2' >
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Email</label>
                         <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} required />
                     </div>
-                    <div className='col-12 d-flex flex-column gap-2' >
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Password</label>
                         <input className={style.input} type="password" name="Password" value={formData.Password} onChange={handleChange} required />
                     </div>
-                    <div className='col-12 d-flex flex-column gap-2' >
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>confirm Password</label>
                         <input className={style.input} type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
                     </div>

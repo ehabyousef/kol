@@ -6,6 +6,7 @@ import AllProd from './pages/allProd/AllProd';
 import Navbar from './component/Navbar';
 import Profile from './pages/Profile/Profile';
 import BloggerProfile from './pages/BloggerProfile/BloggerProfile';
+import Footer from './component/Footer';
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
         <Route path='/blogger/:id' element={<BloggerProfile />} />
         <Route path='/allproducts' element={<AllProd />} />
       </Routes>
+      <Footer />
     </>
   );
 }

@@ -1,7 +1,12 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #f5f5f5;
+  overflow: hidden;
   position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
 }
 .container .topBlob,
 .container .leftBlob {
@@ -16,40 +21,28 @@
   right: -20rem;
   top: 10rem;
 }
-.container .content {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
+.content {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  width: 90% !important;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   background: #ededed91;
   border-radius: 13px;
   box-shadow: 1px 2px 20px #4b4b4b;
-  padding: 15px;
-  margin: 4rem 0;
+  padding: 2rem;
+  max-width: 85vw;
+  z-index: 10;
 }
-.container .content h3 {
+.content h3 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
-.container .content .form {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-bottom: 15px;
-}
-
 .input {
-  width: 80%;
   border-radius: 8px;
   border: 1px solid #555;
   outline: 0 !important;
-  padding: 5px;
-  margin-bottom: 6px;
+  padding: 10px;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 .submit,
 .reset {
@@ -63,6 +56,7 @@
   color: var(--white);
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-top: 1rem;
 }
 .submit:active,
 .reset:active {
@@ -73,22 +67,24 @@
   color: var(--burble);
 }
 .phoneInput input {
-  width: 80% !important;
+  width: 100% !important;
 }
-@media (max-width: 850px) {
-  .container .topBlob,
-  .container .leftBlob,
-  .container .rightBlob {
-    position: absolute;
-    width: 32rem;
+
+@media (max-width: 767px) {
+  .blobs {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -3rem; /* Adjust to move blobs closer/farther from content */
   }
-  .container .content h3 {
-    font-size: 2rem;
+  .blobs svg {
+    width: 60%;
+    max-width: 16rem;
+    margin-bottom: -2rem; /* Adjust to move blobs closer/farther from content */
   }
-  .input {
-    width: 100%;
+  .content {
+    width: 90vw;
   }
-  .phoneInput input {
-    width: 100% !important;
+  .content h3 {
+    font-size: 1.5rem;
   }
 }

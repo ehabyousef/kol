@@ -1,7 +1,7 @@
 .container {
   position: relative;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 .container .topBlob,
 .container .leftBlob {
@@ -18,14 +18,13 @@
 }
 .container .content {
   position: absolute;
-  top: 50%;
   left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 10px;
-  /* width: 90%; */
+  width: 80%;
   flex-wrap: wrap;
   background: #ededed91;
   border-radius: 13px;
@@ -33,7 +32,7 @@
   padding: 15px;
 }
 .container .content h3 {
-  font-size: 4rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
 }
 .container .content .form {
@@ -45,13 +44,15 @@
 }
 
 .input {
+  /* width: 80%; */
   border-radius: 8px;
   border: 1px solid #555;
   outline: 0 !important;
   padding: 5px;
   margin-bottom: 6px;
 }
-.submit {
+.submit,
+.reset {
   padding: 15px 15px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
@@ -62,8 +63,6 @@
   color: var(--white);
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  width: 50%;
-  margin: 0 auto;
 }
 .submit:active,
 .reset:active {
@@ -76,6 +75,11 @@
 .phoneInput input {
   width: 100% !important;
 }
+@media (min-width: 1200px) {
+  .container .content {
+    width: auto;
+  }
+}
 @media (max-width: 850px) {
   .container .topBlob,
   .container .leftBlob,
@@ -83,16 +87,10 @@
     position: absolute;
     width: 32rem;
   }
+  .container .content {
+    width: 90%;
+  }
   .container .content h3 {
     font-size: 2rem;
-  }
-}
-@media (max-width: 770px) {
-  .container .content {
-    top: 0%;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    width: 90%;
-    margin: 5rem 0 0 0;
   }
 }

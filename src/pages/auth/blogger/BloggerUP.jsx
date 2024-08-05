@@ -70,15 +70,15 @@ function BloggerUP() {
             <form onSubmit={handleSubmit} className={style.content}>
                 <h3>Create Account</h3>
                 <div className="row d-flex">
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>Full Name</label>
                         <input className={style.input} type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>Email</label>
                         <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} required />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>Phone Number</label>
 
                         <PhoneInput
@@ -89,7 +89,7 @@ function BloggerUP() {
                             onChange={handleWhatsChange}
                         />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>WhatsApp</label>
                         <PhoneInput
                             className={`${style.phoneInput}`}
@@ -99,7 +99,7 @@ function BloggerUP() {
                             onChange={handlePhoneChange}
                         />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>Country of Residence</label>
                         <ReactFlagsSelect
                             className={style.input}
@@ -108,57 +108,57 @@ function BloggerUP() {
                             searchable
                         />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>City</label>
                         <input className={style.input} type="text" name="city" value={formData.city} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>Bio</label>
                         <textarea className={style.input} name="bio" value={formData.bio} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-2' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
                         <label>Full Address</label>
                         <textarea className={style.input} name="address" value={formData.address} onChange={handleChange} />
                     </div>
                 </div>
                 <div className="row d-flex">
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Instagram URL</label>
                         <input className={style.input} type="text" name="instagram" value={formData.instagram} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Insta Followers</label>
                         <input className={style.input} type="number" name="instagramFollowers" value={formData.instagramFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Posts</label>
                         <input className={style.input} type="number" name="posts" value={formData.posts} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Engagement</label>
                         <input className={style.input} type="number" name="engagement" value={formData.engagement} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Snapchat URL</label>
                         <input className={style.input} type="text" name="snapchat" value={formData.snapchat} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Snap Followers</label>
                         <input className={style.input} type="number" name="snapchatFollowers" value={formData.snapchatFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>TikTok URL</label>
                         <input className={style.input} type="text" name="tiktok" value={formData.tiktok} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Tiktok Followers</label>
                         <input className={style.input} type="number" name="tiktokFollowers" value={formData.tiktokFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>Youtube URL</label>
                         <input className={style.input} type="text" name="youtube" value={formData.youtube} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
                         <label>YouTube Followers</label>
                         <input className={style.input} type="number" name="youtubeFollowers" value={formData.youtubeFollowers} onChange={handleChange} />
                     </div>

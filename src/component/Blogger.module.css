@@ -3,6 +3,12 @@
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
+  transition: 0.3s;
+  background-color: #ededed;
+}
+.bloggerCard:hover {
+  scale: 1.05;
+  box-shadow: 3px 3px 11px #959595;
 }
 .bloggerCard img {
   width: 100%;

@@ -19,10 +19,10 @@ function AllProd() {
     };
     return (
         <div className='container'>
-            <div className="d">
+            <div className="my-3">
                 <h4>All Bloggers</h4>
             </div>
-            <div className="row">
+            <div className="row my-5">
                 <div className="col-12 col-md-3 ">
                     <p className='fw-bold fs-4 fst-italic'>Filter</p>
                     <div className="accordion" id="accordionPanelsStayOpenExample">
@@ -150,10 +150,10 @@ function AllProd() {
                             <input placeholder="search.." className={style.input} name="text" type="text" />
                         </div>
                     </div>
-                    <div className="row p-2">
+                    <div className="row row-gap-3 p-2">
                         {[1, 2, 3, 4, 6, 5, 7].map((x) => {
                             return (
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-3 ">
+                                <div className="col-12 col-sm-6 col-md-4">
                                     <Blogger />
                                 </div>
                             )
