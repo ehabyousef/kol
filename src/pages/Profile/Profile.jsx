@@ -14,11 +14,11 @@ function Profile() {
                     <img className='rounded-3' src={serry} alt="" width='80%' height='80%' />
                     <p className='fs-3 fw-bold'>Marwan Serry</p>
                 </div>
-                <div className="col-12 col-md-6 d-flex gap-3 align-items-start justify-content-center">
+                <div className="col-12 col-md-6 d-flex gap-3 align-items-start justify-content-center my-4">
                     <button className={style.button} onClick={() => { navig('/') }}>Requseted</button>
                     <button className={style.button} onClick={() => { navig('/') }}>Approved</button>
                 </div>
-                <div className="col-10 d-flex gap-4 px-3 align-items-center my-2 bg-body-secondary rounded-2">
+                <div className="col-10 d-flex gap-4 p-3 align-items-center my-2 mb-5 bg-body-secondary rounded-2">
                     <div className="">
                         <h3>Current campaign</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus tempore omnis, minus illo esse ipsam? Molestias illum totam mollitia, veniam recusandae iusto error ipsum incidunt aliquid, omnis, aspernatur fugiat culpa?</p>
@@ -28,38 +28,37 @@ function Profile() {
             </div>
             <div className="row">
                 <h3 className='my-3 fw-bold'>Done campaign</h3>
-                <div className="col-12 col-md-6 col-lg-4">
+                <div className="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div className={style.card}>
                         <img src={serry} alt="Fashion" className={style.card_image} />
                         <FaRegCirclePlay className={style.play} />
                     </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-4">
+                <div className="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div className={style.card}>
                         <img src={serry} alt="Fashion" className={style.card_image} />
                         <FaRegCirclePlay className={style.play} />
                     </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-4">
+                <div className="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div className={style.card}>
                         <img src={serry} alt="Fashion" className={style.card_image} />
                         <FaRegCirclePlay className={style.play} />
                     </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-4">
+                <div className="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div className={style.card}>
                         <img src={serry} alt="Fashion" className={style.card_image} />
                         <FaRegCirclePlay className={style.play} />
                     </div>
                 </div>
-                <div className="col-12 col-md-6 col-lg-4">
+                <div className="col-12 col-md-6 col-lg-4 col-xl-3">
                     <div className={style.card}>
                         <img src={serry} alt="Fashion" className={style.card_image} />
                         <FaRegCirclePlay className={style.play} />
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }
