@@ -2,15 +2,21 @@ import React, { useState } from 'react'
 import style from './user.module.css';
 import PhoneInput from 'react-phone-input-2';
 import ReactFlagsSelect from 'react-flags-select';
+import { useDispatch } from 'react-redux';
+import { UserUP } from '../../../redux/slices/userUp';
+import Swal from 'sweetalert2';
 function UserUp() {
     const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        phoneNumber: '',
-        country: '',
-        Password: '',
-        confirmPassword: '',
+        email: "",
+        password: "",
+        name: "",
+        first_name: "",
+        last_name: "",
+        phone: "",
+        parentPhone: ""
     });
+    const dispatch = useDispatch();
+    const [logappear, setlogappear] = useState(true);
     const [selected, setSelected] = useState("");
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,15 +24,61 @@ function UserUp() {
     };
 
     const handlePhoneChange = (value) => {
-        setFormData({ ...formData, phoneNumber: value });
+        setFormData({ ...formData, phone: value });
     };
-    const handleWhatsChange = (value) => {
-        setFormData({ ...formData, phoneNumber: value });
+    const handleParPhoneChange = (value) => {
+        setFormData({ ...formData, parentPhone: value });
     };
+    console.log(formData);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        setLoading(true);
+        dispatch(UserUP(formData))
+            .then((action) => {
+                if (UserUP.fulfilled.match(action)) {
+                    if (action.payload.error) {
+                        console.error("Registration failed:", action.payload.error);
+                    } else {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.onmouseenter = Swal.stopTimer;
+                                toast.onmouseleave = Swal.resumeTimer;
+                            }
+                        });
+                        Toast.fire({
+                            icon: "success",
+                            title: "Signed up successfully"
+                        }).then(() => {
+                            setlogappear(true);
+                        });
+                    }
+                    setLoading(false);
+                } else {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "error",
+                        title: "Unaccepted data"
+                    });
+                    setLoading(false);
+                }
+            });
     };
     return (
         <div className={style.container}>
@@ -40,27 +92,16 @@ function UserUp() {
                 <h3>Create Account</h3>
                 <div className="row d-flex">
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
+                        <label>First Name</label>
+                        <input className={style.input} type="text" name="first_name" value={formData.first_name} onChange={handleChange} required />
+                    </div>
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
+                        <label>Last Name</label>
+                        <input className={style.input} type="text" name="last_name" value={formData.last_name} onChange={handleChange} required />
+                    </div>
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Full Name</label>
-                        <input className={style.input} type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
-                    </div>
-                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
-                        <label>Phone Number</label>
-                        <PhoneInput
-                            className={`${style.phoneInput}`}
-                            country={'eg'}
-                            name='phoneNumber'
-                            value={formData.phoneNumber}
-                            onChange={handleWhatsChange}
-                        />
-                    </div>
-                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
-                        <label>Country of Residence</label>
-                        <ReactFlagsSelect
-                            className={style.input}
-                            selected={selected}
-                            onSelect={(code) => setSelected(code)}
-                            searchable
-                        />
+                        <input className={style.input} type="text" name="name" value={formData.name} onChange={handleChange} required />
                     </div>
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Email</label>
@@ -68,15 +109,32 @@ function UserUp() {
                     </div>
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Password</label>
-                        <input className={style.input} type="password" name="Password" value={formData.Password} onChange={handleChange} required />
+                        <input className={style.input} type="password" name="password" value={formData.password} onChange={handleChange} required />
                     </div>
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
-                        <label>confirm Password</label>
-                        <input className={style.input} type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+                        <label>Phone Number</label>
+                        <PhoneInput
+                            className={`${style.phoneInput}`}
+                            country={'eg'}
+                            name='phone'
+                            value={formData.phone}
+                            onChange={handlePhoneChange}
+                        />
                     </div>
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
+                        <label>Parent Phone</label>
+                        <PhoneInput
+                            className={`${style.phoneInput}`}
+                            country={'eg'}
+                            name='parentPhone'
+                            value={formData.parentPhone}
+                            onChange={handleParPhoneChange}
+                        />
+                    </div>
+
                 </div>
                 <div className="d-flex w-100 justify-content-start align-items-center border-top py-2">
-                    <button className={style.submit} type="submit">Submit</button>
+                    <button className={style.form_btn}>{loading ? 'loading...' : 'Submit'}</button>
                 </div>
             </form>
         </div>

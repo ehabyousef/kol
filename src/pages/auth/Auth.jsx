@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Login from './Login/Login'
 import BloggerUP from './blogger/BloggerUP'
 import UserUp from './User/UserUp'
+import Forgot from './Forgot/Forgot'
 
 function Auth() {
     return (
@@ -13,6 +14,7 @@ function Auth() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signblogger" element={<BloggerUP />} />
                 <Route path="/signuser" element={<UserUp />} />
+                <Route path="/forgot" element={<Forgot />} />
             </Routes>
         </>
     )

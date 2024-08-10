@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import style from './navbar.module.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLoggoedUser, logoutUser } from '../redux/slices/GetUser';
 
 function Navbar() {
     const [active, setActive] = useState('home');
     const navigate = useNavigate();
-
+    const user = useSelector(getLoggoedUser);
+    console.log("🚀 ~ profile ~ user:", user);
+    const dispatch = useDispatch();
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -29,10 +33,32 @@ function Navbar() {
                                 <Link className={`${active === 'contact' ? style.active : style.link} nav-link`} to="#" onClick={() => setActive('contact')}>Contact</Link>
                             </li>
                         </ul>
-                        <div className="d-lg-flex gap-lg-3">
-                            <button className={`me-2 ${style.button}`} onClick={() => { navigate('/auth') }}>Login</button>
-                            <button className={`ms-2 ${style.button}`} onClick={() => { navigate('/auth') }}>Register</button>
-                        </div>
+                        {user ?
+                            <div className={style.userData}>
+                                <Link
+                                    className={` ${style.userName}`}
+                                    title={user?.name}
+                                    to="/"
+                                >
+                                    {user?.name}
+                                </Link>
+                                <Link className={` ${style.userImage}`} to="/profile">
+                                    <img
+                                        // src={userImage}
+                                        src={user?.img}
+                                        title={user?.userName}
+                                        alt="user"
+                                        srcset=""
+                                    />
+                                </Link>
+                                <button className={`me-2 ${style.button}`} onClick={() => { dispatch(logoutUser()); }}>logout</button>
+                            </div>
+                            :
+                            <div className="d-lg-flex gap-lg-3">
+                                <button className={`me-2 ${style.button}`} onClick={() => { navigate('/auth/login') }}>Login</button>
+                                <button className={`ms-2 ${style.button}`} onClick={() => { navigate('/auth') }}>Register</button>
+                            </div>
+                        }
                     </div>
                 </div>
             </nav>

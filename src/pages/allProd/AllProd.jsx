@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import style from './all.module.css';
 import ReactFlagsSelect from 'react-flags-select';
-import Slider from '@mui/material/Slider';
 import Blogger from '../../component/Blogger';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBlogs } from '../../redux/slices/Bloggers';
+import { fetchCategory } from '../../redux/slices/Category'; // Import the fetchCategory action
 function AllProd() {
+    const location = useLocation();
+    const category = location.state;
+
     const [selected, setSelected] = useState("");
     const [selectedGender, setSelectedGender] = useState(null);
     const [selectedCateg, setSelectedCateg] = useState(null);
@@ -17,10 +23,36 @@ function AllProd() {
     const handleSliderChange = (event, newValue) => {
         setRange(newValue);
     };
+
+    const dispatch = useDispatch();
+    const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
+    const { category: categoryData, loading: categorLoading, error: categorError } = useSelector((state) => state.Category);
+
+    const [currentPage, setCurrentPage] = useState(0);
+
+    useEffect(() => {
+        if (category) {
+            dispatch(fetchCategory({ category, page: currentPage, size }));
+        } else {
+            dispatch(fetchBlogs({ page: currentPage, size }));
+        }
+    }, [dispatch, category, currentPage, size]);
+
+    const handlePageChange = (event, value) => {
+        setCurrentPage(value - 1); // Adjusting to 0-based index
+    };
+    if (loading || categorLoading) return <div>Loading...</div>;
+    if (error || categorError) return <div>Error: {error || categorError}</div>;
+
+    // Determine which data to render
+    const bloggersToDisplay = category ? categoryData?.content : blogs?.content;
+    const totalPages = category ? categoryData?.totalPages : blogs?.totalPages;
+    console.log(bloggersToDisplay);
+
     return (
         <div className='container'>
             <div className="my-3">
-                <h4>All Bloggers</h4>
+                <h4>All Bloggers {category ? ` / ${category}` : ''}</h4>
             </div>
             <div className="row my-5">
                 <div className="col-12 col-md-3 ">
@@ -88,7 +120,7 @@ function AllProd() {
                                 </div>
                             </div>
                         </div>
-                        <div className="">
+                        {/* <div className="">
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                     Price
@@ -107,7 +139,7 @@ function AllProd() {
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="">
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
@@ -151,20 +183,26 @@ function AllProd() {
                         </div>
                     </div>
                     <div className="row row-gap-3 p-2">
-                        {[1, 2, 3, 4, 6, 5, 7].map((x) => {
-                            return (
-                                <div className="col-12 col-sm-6 col-md-4">
-                                    <Blogger />
-                                </div>
-                            )
-                        })}
+                        {bloggersToDisplay?.map((blog, index) => (
+                            <div key={index} className="col-12 col-sm-6 col-md-4">
+                                <Blogger
+                                    name={blog.name}
+                                    price={blog.instagramFollowers}
+                                    instaLink={blog.instagramUrl}
+                                    TikLink={blog.tiktokUrl}
+                                    YouLink={blog.youtubeUrl}
+                                    img={blog.image}
+                                    id={blog.id}
+                                />
+                            </div>
+                        ))}
                     </div>
                     <div className="row">
                         <Stack spacing={2}>
                             <Pagination
-                                count={10}
-                                page={1}
-                                // onChange={handlePageChange}
+                                count={totalPages} // Use the correct totalPages based on the presence of category
+                                page={currentPage + 1} // Adjusting to 1-based index for UI
+                                onChange={handlePageChange}
                                 showFirstButton
                                 showLastButton
                                 variant="outlined"
@@ -180,4 +218,4 @@ function AllProd() {
     )
 }
 
-export default AllProd
+export default AllProd;

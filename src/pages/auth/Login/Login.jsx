@@ -1,6 +1,92 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './login.module.css';
+import axios from 'axios';
+import { FaLongArrowAltRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../../redux/slices/GetUser';
+
 function Login() {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
+    });
+    const [token, setToken] = useState('');
+    const dispatch = useDispatch();
+    const userError = useSelector((state) => state.user.error);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        console.log(formData);
+    };
+
+    const fetchUserData = async (token) => {
+        if (!token) return;
+        try {
+            dispatch(
+                fetchUser({ token })
+            );
+        } catch (error) {
+            console.error("Failed to fetch user:", userError);
+        }
+    };
+    const [loading, setLoading] = useState(false); // Add loading state
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        axios.post('http://localhost:8080/api/signin', formData).then((res) => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: 'Login successfully'
+            });
+            console.log(res.data);
+            const receivedToken = res.data.token;
+            console.log(receivedToken);
+            setToken(receivedToken);
+            fetchUserData(receivedToken);
+            setLoading(false);
+            if (res.data.intent === 'bloger') {
+                navigate('/profile')
+            } else {
+                navigate('/')
+            }
+        }).catch((err) => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: err.response.data.errorMessage
+            });
+            console.log(err.response.data.errorMessage);
+            setLoading(false);
+        })
+    };
+
+
     return (
         <div className={style.container}>
             <svg className={style.topBlob} viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -18,12 +104,15 @@ function Login() {
             <div className={style.content}>
                 <h3>Login</h3>
                 <p>Good to see you back!</p>
-                <form className={style.form}>
-                    <input type="email" className={style.input} placeholder="Email" />
-                    <input type="password" className={style.input} placeholder="Password" >
-                    </input>
-                    <button className={style.form_btn}>Log in</button>
+                <form className={style.form} onSubmit={handleLogin}>
+                    <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} required placeholder='enter email' />
+                    <input className={style.input} type="password" name="password" value={formData.password} onChange={handleChange} required placeholder='enter password' />
+                    <button className={style.form_btn}>{loading ? 'loading...' : 'Log in'}</button>
                 </form>
+                <div className="d-flex gap-4 justify-content-center align-items-center" onClick={() => { navigate('/auth/forgot') }} style={{ cursor: "pointer" }}>
+                    <p className="m-0">Forgot Password ?</p>
+                    <FaLongArrowAltRight className={style.icon} />
+                </div>
             </div>
         </div>
     )

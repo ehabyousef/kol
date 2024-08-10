@@ -1,64 +1,190 @@
 import React, { useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import style from './user.module.css';
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import MultipleSelectChip from "../../../component/MultipleSelectChip";
+import Swal from 'sweetalert2';
+import axios from "axios";
+
 const careerOptions = [
     "Engineer", "Doctor", "Manager", "Teacher", "Accountant",
     "Lawyer", "Designer", "Programmer", "Marketing", "Artist",
-    "Photographer", "Chef", "Singer", "Influencer"
+    "Photographer", "Chef", "Singer", "Influencer", "Sales"
 ];
+const categoryOptions = [
+    "lifestyle", "Model", "makeup", "News", "Athelte",
+    "Food", "celebrity", "Account Blogger", "Designers", "Artist",
+    "Animation", "Comics", "Movies", "Kids", 'Fashion', "gaming",
+    "Tech", "Cars", "Traveller", "Owners", 'Islamic',
+];
+
 function BloggerUP() {
+    const [image, setImage] = useState(null);
     const [formData, setFormData] = useState({
-        fullName: '',
+        name: '',
+        first_name: '',
+        last_name: '',
         email: '',
-        phoneNumber: '',
+        password: '',
+        phone: '',
+        image: null,
         whatsapp: '',
-        country: '',
+        countryOfResidence: "",
         city: '',
+        fullAddress: '',
         bio: '',
-        address: '',
-        instagram: '',
-        instagramFollowers: '',
-        posts: '',
-        engagement: '',
-        snapchat: '',
-        snapchatFollowers: '',
-        tiktok: '',
-        tiktokFollowers: '',
-        youtube: '',
-        youtubeFollowers: '',
-        career: '',
+        instagramUrl: '',
+        instagramFollowers: null,
+        instagramPosts: "",
+        instagramEngagement: null,
+        snapchatUrl: '',
+        snapchatFollowers: null,
+        tiktokUrl: '',
+        tiktokFollowers: null,
+        youtubeUrl: '',
+        youtubeFollowers: null,
+        career: 'Engineer',
         specialization: '',
-        dob: '',
+        dateOfBirth: '',
         language: 'English',
-        gender: '',
+        gender: 'male',
         maritalStatus: 'Single',
-        showFace: 'No',
-        useVoice: 'No',
-        publicPlaces: 'No',
-        wearHijab: 'No',
+        showsFaceInStories: false,
+        usesVoiceInContent: false,
+        goesInPublicPlaces: false,
+        wearsHijab: false,
         nationality: '',
-        interests: ''
+        interests: []
     });
-    const [selected, setSelected] = useState("");
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
     const handlePhoneChange = (value) => {
-        setFormData({ ...formData, phoneNumber: value });
-    };
-    const handleWhatsChange = (value) => {
-        setFormData({ ...formData, phoneNumber: value });
+        setFormData({ ...formData, phone: value });
     };
 
+    const handleWhatsChange = (value) => {
+        setFormData({ ...formData, whatsapp: value });
+    };
+
+    const handleInterestsChange = (selectedOptions) => {
+        setFormData({ ...formData, interests: selectedOptions });
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData(prev => ({
+                    ...prev,
+                    image: reader.result, // base64 string
+                }));
+                setImage(reader.result); // For preview purposes if needed
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    const [loading, setLoading] = useState(false); // Add loading state
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        setLoading(true);
+        const data = { ...formData };
+
+        // Ensure numerical fields are numbers
+        if (typeof data.instagramFollowers === 'string') data.instagramFollowers = parseInt(data.instagramFollowers, 10);
+        if (typeof data.instagramEngagement === 'string') data.instagramEngagement = parseInt(data.instagramEngagement, 10);
+        if (typeof data.snapchatFollowers === 'string') data.snapchatFollowers = parseInt(data.snapchatFollowers, 10);
+        if (typeof data.tiktokFollowers === 'string') data.tiktokFollowers = parseInt(data.tiktokFollowers, 10);
+        if (typeof data.youtubeFollowers === 'string') data.youtubeFollowers = parseInt(data.youtubeFollowers, 10);
+
+        axios.post('http://localhost:8080/api/signup/bloger', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: res.data
+            })
+            console.log(res.data);
+            setLoading(false);
+        }).catch((er) => {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: er.response.data
+            });
+            console.log(er.response.data);
+            setLoading(false);
+        });
     };
 
+    const reset = () => {
+        setFormData({
+            name: '',
+            first_name: '',
+            last_name: '',
+            email: '',
+            password: '',
+            phone: '',
+            image: null,
+            whatsapp: '',
+            countryOfResidence: '',
+            city: '',
+            fullAddress: '',
+            bio: '',
+            instagramUrl: '',
+            instagramFollowers: '',
+            instagramPosts: '',
+            instagramEngagement: '',
+            snapchatUrl: '',
+            snapchatFollowers: '',
+            tiktokUrl: '',
+            tiktokFollowers: '',
+            youtubeUrl: '',
+            youtubeFollowers: '',
+            career: '',
+            specialization: '',
+            dateOfBirth: '',
+            language: '',
+            gender: '',
+            maritalStatus: '',
+            showsFaceInStories: false,
+            usesVoiceInContent: false,
+            goesInPublicPlaces: false,
+            wearsHijab: false,
+            nationality: '',
+            interests: []
+        });
+    };
+
+    console.log(formData);
     return (
         <div className={style.container}>
             <svg className={style.topBlob} viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -70,95 +196,111 @@ function BloggerUP() {
             <form onSubmit={handleSubmit} className={style.content}>
                 <h3>Create Account</h3>
                 <div className="row d-flex">
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
+                        <label>First Name</label>
+                        <input className={style.input} type="text" name="first_name" value={formData.first_name} onChange={handleChange} />
+                    </div>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
+                        <label>Last Name</label>
+                        <input className={style.input} type="text" name="last_name" value={formData.last_name} onChange={handleChange} />
+                    </div>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
                         <label>Full Name</label>
-                        <input className={style.input} type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+                        <input className={style.input} type="text" name="name" value={formData.name} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0'>
+                        <label>Profile Picture</label>
+                        {/* {image && <img src={image} alt="Profile Preview" className={style.previewImage} style={{ width: "80px", height: "80px" }} />} */}
+                        <input className={style.input} type="file" accept="image/*" onChange={handleFileChange} />
+                    </div>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
                         <label>Email</label>
-                        <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} required />
+                        <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
+                        <label>Password</label>
+                        <input className={style.input} type="password" name="password" value={formData.password} onChange={handleChange} />
+                    </div>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
                         <label>Phone Number</label>
-
                         <PhoneInput
                             className={`${style.phoneInput}`}
                             country={'eg'}
                             name='phoneNumber'
-                            value={formData.phoneNumber}
-                            onChange={handleWhatsChange}
+                            value={formData.phone}
+                            onChange={handlePhoneChange}
                         />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
                         <label>WhatsApp</label>
                         <PhoneInput
                             className={`${style.phoneInput}`}
                             country={'eg'}
                             name='whatsapp'
                             value={formData.whatsapp}
-                            onChange={handlePhoneChange}
+                            onChange={handleWhatsChange}
                         />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 mt-3' >
                         <label>Country of Residence</label>
                         <ReactFlagsSelect
                             className={style.input}
-                            selected={selected}
-                            onSelect={(code) => setSelected(code)}
+                            selected={formData.countryOfResidence}
+                            onSelect={(code) => setFormData({ ...formData, countryOfResidence: code })}
                             searchable
                         />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 mt-3' >
                         <label>City</label>
                         <input className={style.input} type="text" name="city" value={formData.city} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
                         <label>Bio</label>
                         <textarea className={style.input} name="bio" value={formData.bio} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-6 d-flex flex-column gap-0 ga' >
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
                         <label>Full Address</label>
-                        <textarea className={style.input} name="address" value={formData.address} onChange={handleChange} />
+                        <textarea className={style.input} name="fullAddress" value={formData.fullAddress} onChange={handleChange} />
                     </div>
                 </div>
                 <div className="row d-flex">
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Instagram URL</label>
-                        <input className={style.input} type="text" name="instagram" value={formData.instagram} onChange={handleChange} />
+                        <input className={style.input} type="text" name="instagramUrl" value={formData.instagramUrl} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Insta Followers</label>
                         <input className={style.input} type="number" name="instagramFollowers" value={formData.instagramFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Posts</label>
-                        <input className={style.input} type="number" name="posts" value={formData.posts} onChange={handleChange} />
+                        <input className={style.input} type="number" name="instagramPosts" value={formData.instagramPosts} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Engagement</label>
-                        <input className={style.input} type="number" name="engagement" value={formData.engagement} onChange={handleChange} />
+                        <input className={style.input} type="number" name="instagramEngagement" value={formData.instagramEngagement} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Snapchat URL</label>
-                        <input className={style.input} type="text" name="snapchat" value={formData.snapchat} onChange={handleChange} />
+                        <input className={style.input} type="text" name="snapchatUrl" value={formData.snapchatUrl} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Snap Followers</label>
                         <input className={style.input} type="number" name="snapchatFollowers" value={formData.snapchatFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>TikTok URL</label>
-                        <input className={style.input} type="text" name="tiktok" value={formData.tiktok} onChange={handleChange} />
+                        <input className={style.input} type="text" name="tiktokUrl" value={formData.tiktokUrl} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Tiktok Followers</label>
                         <input className={style.input} type="number" name="tiktokFollowers" value={formData.tiktokFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>Youtube URL</label>
-                        <input className={style.input} type="text" name="youtube" value={formData.youtube} onChange={handleChange} />
+                        <input className={style.input} type="text" name="youtubeUrl" value={formData.youtubeUrl} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0 ga'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-0'>
                         <label>YouTube Followers</label>
                         <input className={style.input} type="number" name="youtubeFollowers" value={formData.youtubeFollowers} onChange={handleChange} />
                     </div>
@@ -176,7 +318,7 @@ function BloggerUP() {
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Date of Birth</label>
-                        <input className={style.input} type="date" name="dob" value={formData.dob} onChange={handleChange} />
+                        <input className={style.input} type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} />
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Language</label>
@@ -201,57 +343,51 @@ function BloggerUP() {
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Show Face</label>
-                        <select className={style.input} name="showFace" value={formData.showFace} onChange={handleChange}>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
+                        <select className={style.input} name="showsFaceInStories" value={formData.showsFaceInStories} onChange={handleChange}>
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
                         </select>
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Use Voice</label>
-                        <select className={style.input} name="useVoice" value={formData.useVoice} onChange={handleChange}>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
+                        <select className={style.input} name="usesVoiceInContent" value={formData.usesVoiceInContent} onChange={handleChange}>
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
                         </select>
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Public Places</label>
-                        <select className={style.input} name="publicPlaces" value={formData.publicPlaces} onChange={handleChange}>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
+                        <label>Goes in Public Places</label>
+                        <select className={style.input} name="goesInPublicPlaces" value={formData.goesInPublicPlaces} onChange={handleChange}>
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
                         </select>
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Wear Hijab</label>
-                        <select className={style.input} name="wearHijab" value={formData.wearHijab} onChange={handleChange}>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
+                        <select className={style.input} name="wearsHijab" value={formData.wearsHijab} onChange={handleChange}>
+                            <option value={false}>No</option>
+                            <option value={true}>Yes</option>
                         </select>
                     </div>
                     <div className='col-12 col-md-4 d-flex flex-column gap-2'>
                         <label>Nationality</label>
-                        <select className={style.input} name="nationality" value={formData.nationality} onChange={handleChange}>
-                            <option value="">Choose Values</option>
-                            {/* Add nationality options here */}
-                        </select>
+                        <input className={style.input} type="text" name="nationality" value={formData.nationality} onChange={handleChange} />
                     </div>
                 </div>
                 <div className='d-flex flex-column w-100'>
                     <label>Interests</label>
-                    <select style={{
-                        maxHeight: "100px", overflowX: "auto", whiteSpace: 'nowrap',
-                    }}
-                        className={style.input} name="interests" value={formData.interests} onChange={handleChange}>
-                        {careerOptions.map((x, ind) => {
-                            return <option value={x} key={ind}>{x}</option>
-                        })}
-                    </select>
+                    <MultipleSelectChip
+                        options={categoryOptions}
+                        selectedOptions={formData.interests}
+                        setSelectedOptions={handleInterestsChange}
+                    />
                 </div>
                 <div className="d-flex w-100 justify-content-start gap-3 border-top py-2">
-                    <button className={style.submit} type="submit">Submit</button>
-                    <button className={style.reset} type="submit">reset</button>
+                    <button className={style.submit}>{loading ? 'loading...' : 'Log in'}</button>
+                    <button className={style.reset} type="reset" onClick={reset}>Reset</button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }
 

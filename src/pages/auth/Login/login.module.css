@@ -38,7 +38,7 @@
   font-size: 5rem;
 }
 .container .content .form {
-  width: 60%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -69,6 +69,14 @@
 .form_btn:active {
   box-shadow: none;
 }
+.icon {
+  background-color: var(--red);
+  color: var(--white);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 20px;
+  padding: 8px;
+}
 
 @media (max-width: 850px) {
   .container .topBlob,
@@ -84,5 +92,8 @@
   }
   .container .content {
     width: 100%;
+  }
+  .form {
+    width: 90% !important;
   }
 }

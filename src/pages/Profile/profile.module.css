@@ -45,7 +45,6 @@
 }
 
 .play {
-  content: "";
   position: absolute;
   width: 0%;
   height: 0%;
@@ -64,4 +63,5 @@
 .card:hover .play {
   width: 30%;
   height: 30%;
+  cursor: pointer;
 }
