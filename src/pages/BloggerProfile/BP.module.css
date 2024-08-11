@@ -67,13 +67,17 @@
   height: 30%;
 }
 .input,
-.textarea {
+.textarea,
+.inputSelect {
   width: 80%;
   border-radius: 8px;
   border: 1px solid #555;
   outline: 0 !important;
   padding: 18px 12px;
   margin-bottom: 6px;
+}
+.inputSelect {
+  width: 50%;
 }
 .textarea {
   height: 100px;

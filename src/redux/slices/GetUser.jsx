@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
     user: JSON.parse(localStorage.getItem('user')) || null,  // Load from localStorage
+    blogger: JSON.parse(localStorage.getItem('blogger')) || null,
     updatedUser: null,
     status: "idle",
     error: null,
@@ -10,10 +11,32 @@ const initialState = {
 
 export const fetchUser = createAsyncThunk(
     "user/fetchUser",
-    async ({ token }, { rejectWithValue }) => {
+    async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://localhost:8080/api/profile`,
+                `http://localhost:8080/api/profile?email=${email}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            if (!error.response) {
+                throw error;
+            }
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+export const fetchBlogger = createAsyncThunk(
+    "user/fetchBlogger",
+    async ({ token, email }, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/api/profile/bloger?email=${email}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -61,10 +84,12 @@ const userSlice = createSlice({
     reducers: {
         logoutUser(state) {
             state.user = null;
+            state.blogger = null;
             state.updatedUser = null;
             state.status = "idle";
             state.error = null;
-            localStorage.removeItem('user');  // Clear user data from localStorage on logout
+            localStorage.removeItem('user');
+            localStorage.removeItem('blogger');
         },
     },
     extraReducers: (builder) => {
@@ -80,6 +105,20 @@ const userSlice = createSlice({
                 localStorage.setItem('user', JSON.stringify(action.payload));  // Save user data to localStorage
             })
             .addCase(fetchUser.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload || action.error.message;
+            })
+            // Fetch Blogger
+            .addCase(fetchBlogger.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(fetchBlogger.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.blogger = action.payload;
+                state.error = null;
+                localStorage.setItem('blogger', JSON.stringify(action.payload));  // Save user data to localStorage
+            })
+            .addCase(fetchBlogger.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload || action.error.message;
             })
@@ -104,6 +143,7 @@ export const { logoutUser } = userSlice.actions;
 
 // Selectors
 export const getLoggoedUser = (state) => state.user.user;
+export const getLoggedBlogger = (state) => state.user.blogger;
 export const userStatus = (state) => state.user.status;
 export const userError = (state) => state.user.error;
 

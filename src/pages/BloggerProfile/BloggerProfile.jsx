@@ -38,7 +38,20 @@ function BloggerProfile() {
             dispatch(fetchCategory({ category: sameCateg, page: 0, size: 6 }));
         }
     }, [dispatch, sameCateg]);
-
+    const [request, setrequest] = useState({
+        "campaignDescription": "string",
+        "campaignType": "string",
+        "from": "string",
+        "to": "string",
+        "blogerStatus": "string",
+        "clientStatus": "string",
+        "blogerId": "string",
+        "clientId": "string",
+        "adminApprovalClient": true,
+        "content": "string",
+        "campaignUrl": "string",
+        "adminApprovalBloger": true
+    })
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
 
@@ -82,37 +95,38 @@ function BloggerProfile() {
                     </div>
                 </div>
             </div>
-            <div className="row gap-2 d-flex justify-content-center">
+            <div className="row gap-2 d-flex justify-content-center mt-5">
                 <h3 className="my-3 fw-bold text-center">Request campaign</h3>
-                <div className="col-12 col-md-10 d-flex justify-content-center">
+                <div className='col-12 my-1 col-md-9 d-flex justify-content-around align-items-center gap-2'>
+                    <label className="fs-5">Gift or campaign Request</label>
+                    <select className={style.inputSelect} name="campaignUrl" >
+                        <option value='campaign'>campaign</option>
+                        <option value='gift'>gift</option>
+                    </select>
+                </div>
+                <div className="col-12 my-1 col-md-10 d-flex justify-content-center">
                     <textarea
                         placeholder="Your campaign brief "
                         className={`form-control ${style.textarea}`}
                         name="request"
                     />
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 my-1 col-md-4">
                     <input
                         className={`form-control ${style.input}`}
                         type="date"
                         name="from"
                     />
                 </div>
-                <div className="col-12 col-md-4 d-flex justify-content-end">
+                <div className="col-12 my-1 col-md-4 d-flex justify-content-end">
                     <input
                         className={`form-control ${style.input}`}
                         type="date"
                         name="to"
                     />
                 </div>
-                <div className="col-12 col-md-10 d-flex justify-content-center">
-                    <textarea
-                        placeholder="send him gift"
-                        className={`form-control ${style.textarea}`}
-                        name="request"
-                    />
-                </div>
-                <div className="col-12 col-md-10 d-flex justify-content-center gap-4">
+
+                <div className="col-12 my-1 col-md-10 d-flex justify-content-center gap-4">
                     <button className={`m-0 ${style.button}`}>Request</button>
                     <button className={`m-0 ${style.button}`}>Cancel</button>
                 </div>

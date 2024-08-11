@@ -7,6 +7,7 @@ import Navbar from './component/Navbar';
 import Profile from './pages/Profile/Profile';
 import BloggerProfile from './pages/BloggerProfile/BloggerProfile';
 import Footer from './component/Footer';
+import Request from './pages/Request/Request';
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/blogger/:id' element={<BloggerProfile />} />
         <Route path='/allproducts' element={<AllProd />} />
+        <Route path='/request' element={<Request />} />
       </Routes>
       <Footer />
     </>

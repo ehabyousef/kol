@@ -34,7 +34,7 @@ function Home() {
         dispatch(fetchBlogs({ page, size }));
     }, [dispatch, page, size]);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className='w-100 h-100 d-flex justify-content-center align-items-center fs-1' style={{ minHeight: "63vh" }}>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (

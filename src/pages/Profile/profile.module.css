@@ -13,7 +13,8 @@
   width: auto;
   background-color: #fdf3f3;
 }
-.icon {
+.icon,
+.icon2 {
   background-color: var(--red);
   color: var(--white);
   width: 3rem;
@@ -21,6 +22,25 @@
   border-radius: 20px;
   padding: 8px;
   cursor: pointer;
+}
+.wallet {
+  background: rgb(90, 51, 146);
+  background: linear-gradient(
+    90deg,
+    rgba(90, 51, 146, 1) 0%,
+    rgba(248, 17, 64, 1) 100%
+  );
+  border-radius: 15px;
+  padding: 12px;
+  color: var(--white);
+  width: 100%;
+}
+
+.icon2 {
+  background-color: var(--pink);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
 }
 .card {
   background-color: #fff;
@@ -64,4 +84,9 @@
   width: 30%;
   height: 30%;
   cursor: pointer;
+}
+@media (min-width: 1100px) {
+  .wallet {
+    width: 80%;
+  }
 }

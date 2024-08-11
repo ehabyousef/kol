@@ -5,7 +5,7 @@ import { FaLongArrowAltRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../../redux/slices/GetUser';
+import { fetchBlogger, fetchUser } from '../../../redux/slices/GetUser';
 
 function Login() {
     const navigate = useNavigate();
@@ -27,7 +27,10 @@ function Login() {
         if (!token) return;
         try {
             dispatch(
-                fetchUser({ token })
+                fetchUser({ token, email: formData.email })
+            );
+            dispatch(
+                fetchBlogger({ token, email: formData.email })
             );
         } catch (error) {
             console.error("Failed to fetch user:", userError);
