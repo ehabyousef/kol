@@ -11,13 +11,13 @@ const initialState = {
     loading: false,
     error: null,
     page: 0,          // Page numbers typically start from 1
-    size: 6,
+    size: 9,
 };
 
 // Create an async thunk to fetch blogs
 export const fetchBlogs = createAsyncThunk(
     'blogs/fetchBlogs',
-    async ({ page = 0, size = 6 }, { rejectWithValue }) => {
+    async ({ page = 0, size = 9 }, { rejectWithValue }) => {
         try {
             const response = await axios.get(`http://localhost:8080/api/bloger?page=${page}&size=${size}`);
             return response.data;

@@ -5,7 +5,7 @@ import { FaLongArrowAltRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBlogger, fetchUser } from '../../../redux/slices/GetUser';
+import { fetchBlogger, fetchUser, setToken } from '../../../redux/slices/GetUser';
 
 function Login() {
     const navigate = useNavigate();
@@ -13,7 +13,6 @@ function Login() {
         email: "",
         password: ""
     });
-    const [token, setToken] = useState('');
     const dispatch = useDispatch();
     const userError = useSelector((state) => state.user.error);
 
@@ -41,52 +40,51 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         setLoading(true);
-        axios.post('http://localhost:8080/api/signin', formData).then((res) => {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 1500,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
+        axios.post('http://localhost:8080/api/signin', formData)
+            .then((res) => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: 'Login successfully'
+                });
+                const receivedToken = res.data.token;
+                dispatch(setToken(receivedToken));  // Dispatch token to Redux
+                fetchUserData(receivedToken);
+                setLoading(false);
+                if (res.data.intent === 'bloger') {
+                    navigate('/profile')
+                } else {
+                    navigate('/')
                 }
+            })
+            .catch((err) => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: err.response.data.errorMessage
+                });
+                setLoading(false);
             });
-            Toast.fire({
-                icon: "success",
-                title: 'Login successfully'
-            });
-            console.log(res.data);
-            const receivedToken = res.data.token;
-            console.log(receivedToken);
-            setToken(receivedToken);
-            fetchUserData(receivedToken);
-            setLoading(false);
-            if (res.data.intent === 'bloger') {
-                navigate('/profile')
-            } else {
-                navigate('/')
-            }
-        }).catch((err) => {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 1500,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                }
-            });
-            Toast.fire({
-                icon: "error",
-                title: err.response.data.errorMessage
-            });
-            console.log(err.response.data.errorMessage);
-            setLoading(false);
-        })
     };
 
 

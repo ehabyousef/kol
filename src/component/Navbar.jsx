@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './navbar.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLoggedBlogger, getLoggoedUser, logoutUser } from '../redux/slices/GetUser';
+import { getLoggedBlogger, getLoggedUser, logoutUser } from '../redux/slices/GetUser';
 
 function Navbar() {
     const [active, setActive] = useState('home');
     const navigate = useNavigate();
-    const user = useSelector(getLoggoedUser);
+    const user = useSelector(getLoggedUser);
     const blogger = useSelector(getLoggedBlogger);
-    console.log("🚀 ~ profile ~ user:", user);
-    console.log("🚀 ~ profile ~ blogger:", blogger);
     const dispatch = useDispatch();
     const displayData = user || blogger;
     const handleLogout = () => {
         navigate('/auth/login')
         dispatch(logoutUser());
     }
+    const location = useLocation();
+    const path = location.pathname;
+    useEffect(() => {
+        if (path === '/') {
+            setActive('home')
+        } else if (path === '/allproducts') {
+            setActive('blogger')
+        } else if (path === '/profile') {
+            setActive('profile')
+        }
+    }, [path])
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -41,13 +51,10 @@ function Navbar() {
                                     <Link className={`${active === 'home' ? style.active : style.link} nav-link`} aria-current="page" to="/" onClick={() => setActive('home')}>Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`${active === 'about' ? style.active : style.link} nav-link`} to="#" onClick={() => setActive('about')}>About</Link>
+                                    <Link className={`${active === 'blogger' ? style.active : style.link} nav-link`} to="/allproducts" onClick={() => setActive('blogger')}>Bloggers</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`${active === 'blogger' ? style.active : style.link} nav-link`} to="/allproducts" onClick={() => setActive('blogger')}>Blogger</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`${active === 'contact' ? style.active : style.link} nav-link`} to="#" onClick={() => setActive('contact')}>Contact</Link>
+                                    <Link className={`${active === 'Profile' ? style.active : style.link} nav-link`} to="/profile" onClick={() => setActive('Profile')}>Profile</Link>
                                 </li>
                             </ul>
                         }

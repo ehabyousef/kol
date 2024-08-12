@@ -163,7 +163,7 @@ function AllProd() {
                     </div>
                 </div>
                 <div className="col-12 col-md-9 d-flex flex-column gap-3">
-                    <div className="d-flex flex-column flex-md-row w-100 justify-content-end align-items-center row-gap-3 gap-4">
+                    {/* <div className="d-flex flex-column flex-md-row w-100 justify-content-end align-items-center row-gap-3 gap-4">
                         <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
                             <p className="m-0 fs-5">Sort</p>
                             <select className="form-select p-2" aria-label="Default select example" id={style.select} >
@@ -181,7 +181,7 @@ function AllProd() {
                             </button>
                             <input placeholder="search.." className={style.input} name="text" type="text" />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="row row-gap-3 p-2">
                         {bloggersToDisplay?.map((blog, index) => (
                             <div key={index} className="col-12 col-sm-6 col-md-4">

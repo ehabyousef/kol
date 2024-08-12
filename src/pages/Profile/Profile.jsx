@@ -6,10 +6,10 @@ import style from './profile.module.css';
 import { FaLongArrowAltRight } from 'react-icons/fa';
 import { FaRegCirclePlay } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
-import { getLoggedBlogger, getLoggoedUser } from '../../redux/slices/GetUser';
+import { getLoggedBlogger, getLoggedUser } from '../../redux/slices/GetUser';
 function Profile() {
     const navig = useNavigate()
-    const user = useSelector(getLoggoedUser);
+    const user = useSelector(getLoggedUser);
     const blogger = useSelector(getLoggedBlogger);
     console.log("🚀 ~ profile ~ user:", user);
     console.log("🚀 ~ profile ~ blogger:", blogger);

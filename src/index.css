@@ -31,3 +31,11 @@ textarea {
 .swiper-button-prev:after {
   font-size: 4rem !important;
 }
+.active {
+  color: var(--red);
+  font-weight: bold;
+  font-size: 1.12rem;
+}
+.active:hover {
+  color: var(--red);
+}

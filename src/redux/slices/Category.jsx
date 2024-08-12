@@ -9,7 +9,7 @@ const initialState = {
     loading: false,
     error: null,
     page: 0,
-    size: 6
+    size: 9
 }
 export const fetchCategory = createAsyncThunk(
     'bloggers/fetchCategory',
