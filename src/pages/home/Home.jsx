@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -12,9 +12,7 @@ import medi from '../../assets/medi.jpg';
 import travel from '../../assets/travel.jpg';
 import life from '../../assets/life.jpg';
 import { Link, useNavigate } from 'react-router-dom';
-import Blogger from '../../component/Blogger';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchBlogs, setPage, setSize } from '../../redux/slices/Bloggers';
+import SomeBloggers from '../../component/SomeBloggers';
 
 function Home() {
     const navig = useNavigate();
@@ -26,17 +24,6 @@ function Home() {
         { name: 'Lifestyle Bloggers', type: 'lifestyle', imgSrc: life },
         { name: 'Medical Bloggers', type: 'Tech', imgSrc: medi }
     ];
-
-    const dispatch = useDispatch();
-    const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
-
-    useEffect(() => {
-        dispatch(fetchBlogs({ page, size }));
-    }, [dispatch, page, size]);
-
-    if (loading) return <div className='w-100 h-100 d-flex justify-content-center align-items-center fs-1' style={{ minHeight: "63vh" }}>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
     return (
         <>
             <div className="bg-body-tertiary">
@@ -93,19 +80,7 @@ function Home() {
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius labore vel soluta enim exercitationem incidunt consectetur cupiditate magni esse perferendis?</p>
                     </div>
                     <div className="row row-gap-3 my-5">
-                        {blogs?.content?.slice(0, 4).map((blog, index) => (
-                            <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
-                                <Blogger
-                                    name={blog.name}
-                                    price={blog.instagramFollowers}
-                                    instaLink={blog.instagramUrl}
-                                    TikLink={blog.tiktokUrl}
-                                    YouLink={blog.youtubeUrl}
-                                    img={blog.image}
-                                    id={blog.id}
-                                />
-                            </div>
-                        ))}
+                        <SomeBloggers />
                     </div>
                     <button className={style.button} onClick={() => { navig('/allproducts') }}>See all Bloggers</button>
                 </div>

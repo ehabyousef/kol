@@ -4,10 +4,12 @@ import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 function Blogger({ name, price, instaLink, TikLink, YouLink, img, id }) {
     const Navigate = useNavigate()
-    
+
     return (
         <div className={style.bloggerCard} >
-            <img onClick={() => { Navigate(`/blogger/${id}`) }} src={img} alt="" />
+            <Link to={`/blogger/${id}`}>
+                <img src={img} alt="" />
+            </Link>
             <div className="p-2">
                 <p className='m-0'>{name}</p>
                 <div className="d-flex justify-content-between align-items-center">

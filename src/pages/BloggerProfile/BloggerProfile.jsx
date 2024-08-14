@@ -17,8 +17,29 @@ function BloggerProfile() {
     const [sameCateg, setsameCateg] = useState("");
     const dispatch = useDispatch();
     const { category, loading, error } = useSelector((state) => state.Category);
-
+    const user = useSelector(getLoggedUser);
+    const TheToken = useSelector(getToken);
     useEffect(() => {
+        if (!user && !TheToken) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "warning",
+                title: 'You must be logged in to view this page.'
+            }).then(() => {
+                navigate('/auth/login');
+            });
+            return; // Stop further execution if not logged in
+        }
         const getBlogger = async () => {
             try {
                 const response = await axios.get(
@@ -31,28 +52,27 @@ function BloggerProfile() {
             }
         };
         getBlogger();
-    }, [id]);
+    }, [id, user, TheToken, navigate]);
     useEffect(() => {
         if (sameCateg) {
             dispatch(fetchCategory({ category: sameCateg, page: 0, size: 6 }));
         }
     }, [dispatch, sameCateg]);
-    const user = useSelector(getLoggedUser);
+
     const [request, setrequest] = useState({
         campaignDescription: "",
         campaignType: "campaign",
         from: "",
         to: "",
         blogerId: id,
-        clientId: user.id,
+        clientId: user ? user.id : "",
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
         setrequest({ ...request, [name]: value });
         console.log(request);
     };
-    const TheToken = useSelector(getToken);  // Get the token from Redux state
-    console.log(TheToken);
+
     const handleRequest = (e) => {
         e.preventDefault()
         axios.post('http://localhost:8080/api/campaign/request/to-admin', request, {

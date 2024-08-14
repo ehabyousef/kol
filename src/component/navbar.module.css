@@ -51,7 +51,6 @@
 .userImage {
   width: 40px;
   border-radius: 10px;
-  align-self: flex-end;
 }
 .userImage img {
   border-radius: 10px;

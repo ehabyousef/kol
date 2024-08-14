@@ -6,6 +6,7 @@ import 'react-phone-input-2/lib/style.css';
 import MultipleSelectChip from "../../../component/MultipleSelectChip";
 import Swal from 'sweetalert2';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const careerOptions = [
     "Engineer", "Doctor", "Manager", "Teacher", "Accountant",
@@ -13,13 +14,14 @@ const careerOptions = [
     "Photographer", "Chef", "Singer", "Influencer", "Sales"
 ];
 const categoryOptions = [
-    "lifestyle", "Model", "makeup", "News", "Athelte",
-    "Food", "celebrity", "Account Blogger", "Designers", "Artist",
+    "Model", "makeup", "News", "Athelte",
+    "Food", "celebrity", "Designers", "Artist",
     "Animation", "Comics", "Movies", "Kids", 'Fashion', "gaming",
     "Tech", "Cars", "Traveller", "Owners", 'Islamic',
 ];
 
 function BloggerUP() {
+    const navigate = useNavigate()
     const [image, setImage] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
@@ -60,7 +62,15 @@ function BloggerUP() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        // Convert dateOfBirth to ISO 8601 format
+        if (name === "dateOfBirth") {
+            const date = new Date(value);
+            const isoDate = date.toISOString();
+            setFormData({ ...formData, [name]: isoDate });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handlePhoneChange = (value) => {
@@ -124,6 +134,7 @@ function BloggerUP() {
             })
             console.log(res.data);
             setLoading(false);
+            navigate('/auth/login')
         }).catch((er) => {
             const Toast = Swal.mixin({
                 toast: true,

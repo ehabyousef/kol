@@ -58,8 +58,8 @@ function Login() {
                     title: 'Login successfully'
                 });
                 const receivedToken = res.data.token;
-                dispatch(setToken(receivedToken));  // Dispatch token to Redux
                 fetchUserData(receivedToken);
+                dispatch(setToken(receivedToken));
                 setLoading(false);
                 if (res.data.intent === 'bloger') {
                     navigate('/profile')
