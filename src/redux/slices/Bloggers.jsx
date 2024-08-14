@@ -8,6 +8,7 @@ const initialState = {
         totalPages: 0, // Assuming the API returns total pages
         totalElements: 0, // Assuming the API returns total elements
     },
+    filterBloggers: null,
     loading: false,
     error: null,
     page: 0,          // Page numbers typically start from 1
@@ -26,7 +27,31 @@ export const fetchBlogs = createAsyncThunk(
         }
     }
 );
+// Create an async thunk to filter blogs
+export const fetchFilteredBlogs = createAsyncThunk(
+    'blogs/filterBlogs',
+    async ({ category, country, type, age }, { rejectWithValue }) => {
+        try {
+            // Build the query string dynamically
+            let query = 'http://localhost:8080/api/bloger/filter';
+            const params = new URLSearchParams();
 
+            if (category) params.append('category', category);
+            if (country) params.append('country', country);
+            if (type) params.append('type', type);
+            if (age) params.append('age', age);
+
+            if (params.toString()) {
+                query += `?${params.toString()}`;
+            }
+
+            const response = await axios.get(query);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
 // Create the slice
 const blogSlice = createSlice({
     name: 'blogs',
@@ -54,12 +79,26 @@ const blogSlice = createSlice({
             .addCase(fetchBlogs.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || 'Failed to fetch blogs';
-            });
+            })
+            // filter bloggers 
+            .addCase(fetchFilteredBlogs.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(fetchFilteredBlogs.fulfilled, (state, action) => {
+                state.loading = false
+                state.filterBloggers = action.payload
+                state.error = null
+            })
+            .addCase(fetchFilteredBlogs.rejected, (state, action) => {
+                state.loading = true
+                state.error = action.payload || 'Failed to fetch blogs';
+            })
     },
 });
 
 // Export the actions
 export const { setPage, setSize } = blogSlice.actions;
-
+export const getFilterBlogger = (state) => state.Bloggers.filterBloggers;
 // Export the reducer
 export default blogSlice.reducer;

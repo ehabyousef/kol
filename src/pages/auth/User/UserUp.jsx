@@ -134,7 +134,7 @@ function UserUp() {
 
                 </div>
                 <div className="d-flex w-100 justify-content-start align-items-center border-top py-2">
-                    <button className={style.form_btn}>{loading ? 'loading...' : 'Submit'}</button>
+                    <button className={style.submit}>{loading ? 'loading...' : 'Submit'}</button>
                 </div>
             </form>
         </div>

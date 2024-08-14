@@ -6,58 +6,96 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBlogs } from '../../redux/slices/Bloggers';
+import { fetchBlogs, fetchFilteredBlogs, getFilterBlogger } from '../../redux/slices/Bloggers';
 import { fetchCategory } from '../../redux/slices/Category'; // Import the fetchCategory action
+
 function AllProd() {
     const location = useLocation();
-    const category = location.state;
+    const comingCategory = location.state;
 
-    const [selected, setSelected] = useState("");
+    const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedGender, setSelectedGender] = useState(null);
     const [selectedCateg, setSelectedCateg] = useState(null);
     const [selectedAge, setSelectedAge] = useState(null);
-    const categories = ['Food', 'Travel', 'Fitness', 'Fashion'];
+    const categories = ['Food', 'Islamic', 'Tech', 'Fashion'];
     const Age = ['10', '20', '30', '40', '50'];
     const [range, setRange] = useState([10, 100]);
-
-    const handleSliderChange = (event, newValue) => {
-        setRange(newValue);
-    };
 
     const dispatch = useDispatch();
     const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
     const { category: categoryData, loading: categorLoading, error: categorError } = useSelector((state) => state.Category);
-
+    const FilterBloggers = useSelector(getFilterBlogger);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
-        if (category) {
-            dispatch(fetchCategory({ category, page: currentPage, size }));
+        if (comingCategory) {
+            dispatch(fetchCategory({ category: comingCategory, page: currentPage, size }));
         } else {
             dispatch(fetchBlogs({ page: currentPage, size }));
         }
-    }, [dispatch, category, currentPage, size]);
+    }, [dispatch, comingCategory, currentPage, size]);
+
+    const handleFilterChange = () => {
+        dispatch(fetchFilteredBlogs({
+            category: selectedCateg,
+            country: selectedCountry,
+            type: selectedGender,
+            age: selectedAge,
+        }));
+    };
+
+    useEffect(() => {
+        handleFilterChange();
+    }, [selectedCountry, selectedCateg, selectedGender, selectedAge]);
+
+    const toggleCategory = (category) => {
+        setSelectedCateg(prev => prev === category ? null : category);
+    };
+
+    const toggleCountry = (code) => {
+        setSelectedCountry(prev => prev === code ? "" : code);
+    };
+
+    const toggleGender = (gender) => {
+        setSelectedGender(prev => prev === gender ? null : gender);
+    };
+
+    const toggleAge = (age) => {
+        setSelectedAge(prev => prev === age ? null : age);
+    };
 
     const handlePageChange = (event, value) => {
-        setCurrentPage(value - 1); // Adjusting to 0-based index
+        setCurrentPage(value - 1);
     };
+
     if (loading || categorLoading) return <div>Loading...</div>;
     if (error || categorError) return <div>Error: {error || categorError}</div>;
 
-    // Determine which data to render
-    const bloggersToDisplay = category ? categoryData?.content : blogs?.content;
-    const totalPages = category ? categoryData?.totalPages : blogs?.totalPages;
-    console.log(bloggersToDisplay);
+    const hasFilterBloggers = Array.isArray(FilterBloggers) && FilterBloggers.length > 0;
+    const bloggersToDisplay = hasFilterBloggers
+        ? FilterBloggers
+        : (comingCategory && categoryData?.content?.length > 0 ? categoryData.content : blogs?.content);
+    const totalPages = hasFilterBloggers
+        ? Math.ceil(FilterBloggers.length / size)
+        : (comingCategory && categoryData?.totalPages > 0 ? categoryData.totalPages : blogs?.totalPages);
 
     return (
         <div className='container'>
             <div className="my-3">
-                <h4>All Bloggers {category ? ` / ${category}` : ''}</h4>
+                <h4>All Bloggers {comingCategory ? ` / ${comingCategory}` : ''}</h4>
             </div>
             <div className="row my-5">
                 <div className="col-12 col-md-3 ">
-                    <p className='fw-bold fs-4 fst-italic'>Filter</p>
+                    <div className="d-flex w-100 justify-content-between align-items-center">
+                        <p className='fw-bold fs-4 fst-italic'>Filter</p>
+                        {hasFilterBloggers === false && (
+                            <div className="alert alert-warning" role="alert">
+                                No Filterd data
+                            </div>
+                        )}
+                    </div>
                     <div className="accordion" id="accordionPanelsStayOpenExample">
+                        {/* Accordion for filters */}
                         <div className="">
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -68,8 +106,8 @@ function AllProd() {
                                 <div className="accordion-body">
                                     <ReactFlagsSelect
                                         className={style.flag}
-                                        selected={selected}
-                                        onSelect={(code) => setSelected(code)}
+                                        selected={selectedCountry}
+                                        onSelect={toggleCountry}
                                         countries={["EG", "AE", "SA"]}
                                     />
                                 </div>
@@ -81,21 +119,19 @@ function AllProd() {
                                     Gender
                                 </button>
                             </h2>
-                            <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div id="collapseTwo" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-column gap-3">
                                     <div
                                         className={`${style.gender} ${selectedGender === 'male' ? style.selectedGender : ''}`}
-                                        selected={selectedGender === 'male'}
-                                        onClick={() => setSelectedGender('male')}
+                                        onClick={() => toggleGender('male')}
                                     >
-                                        male
+                                        Male
                                     </div>
                                     <div
                                         className={`${style.gender} ${selectedGender === 'female' ? style.selectedGender : ''}`}
-                                        selected={selectedGender === 'female'}
-                                        onClick={() => setSelectedGender('female')}
+                                        onClick={() => toggleGender('female')}
                                     >
-                                        female
+                                        Female
                                     </div>
                                 </div>
                             </div>
@@ -106,13 +142,13 @@ function AllProd() {
                                     Age
                                 </button>
                             </h2>
-                            <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div id="collapseThree" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-3">
                                     {Age.map((age) => (
                                         <button
                                             key={age}
                                             className={`${style.button} ${selectedAge === age ? style.selectedSpecial : ''}`}
-                                            onClick={() => setSelectedAge(age)}
+                                            onClick={() => toggleAge(age)}
                                         >
                                             {age}
                                         </button>
@@ -120,39 +156,19 @@ function AllProd() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="">
-                            <h2 className="accordion-header">
-                                <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    Price
-                                </button>
-                            </h2>
-                            <div id="collapseFour" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                <div className="accordion-body d-flex flex-wrap gap-3">
-                                    <div className={style.rangeValue}>${range[0]} — ${range[1]}</div>
-                                    <Slider
-                                        value={range}
-                                        onChange={handleSliderChange}
-                                        valueLabelDisplay="auto"
-                                        min={0}
-                                        max={200}
-                                        className={style.range}
-                                    />
-                                </div>
-                            </div>
-                        </div> */}
                         <div className="">
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     Specialization
                                 </button>
                             </h2>
-                            <div id="collapseFive" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div id="collapseFive" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-3">
                                     {categories.map((category) => (
                                         <button
                                             key={category}
                                             className={`${style.button} ${selectedCateg === category ? style.selectedSpecial : ''}`}
-                                            onClick={() => setSelectedCateg(category)}
+                                            onClick={() => toggleCategory(category)}
                                         >
                                             {category}
                                         </button>
@@ -163,59 +179,44 @@ function AllProd() {
                     </div>
                 </div>
                 <div className="col-12 col-md-9 d-flex flex-column gap-3">
-                    {/* <div className="d-flex flex-column flex-md-row w-100 justify-content-end align-items-center row-gap-3 gap-4">
-                        <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
-                            <p className="m-0 fs-5">Sort</p>
-                            <select className="form-select p-2" aria-label="Default select example" id={style.select} >
-                                <option selected value={' '}>Default</option>
-                                <option value={'-recommend'}>recommend low to high</option>
-                                <option value={'recommend'}>recommend high to low</option>
-                            </select>
-                        </div>
-                        <div className={style.input_wrapper}>
-                            <button className={style.icon}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="25px" width="25px">
-                                    <path strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.5" stroke="#fff" d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z" />
-                                    <path strokeLinejoin="round" strokeLinecap="round" strokeWidth="1.5" stroke="#fff" d="M22 22L20 20" />
-                                </svg>
-                            </button>
-                            <input placeholder="search.." className={style.input} name="text" type="text" />
-                        </div>
-                    </div> */}
-                    <div className="row row-gap-3 p-2">
-                        {bloggersToDisplay?.map((blog, index) => (
-                            <div key={index} className="col-12 col-sm-6 col-md-4">
-                                <Blogger
-                                    name={blog.name}
-                                    price={blog.instagramFollowers}
-                                    instaLink={blog.instagramUrl}
-                                    TikLink={blog.tiktokUrl}
-                                    YouLink={blog.youtubeUrl}
-                                    img={blog.image}
-                                    id={blog.id}
-                                />
+                    {bloggersToDisplay && (
+                        <>
+                            <div className="row row-gap-3 p-2">
+                                {bloggersToDisplay?.map((blog, index) => (
+                                    <div key={index} className="col-12 col-sm-6 col-md-4">
+                                        <Blogger
+                                            name={blog.name}
+                                            price={blog.instagramFollowers}
+                                            instaLink={blog.instagramUrl}
+                                            TikLink={blog.tiktokUrl}
+                                            YouLink={blog.youtubeUrl}
+                                            img={blog.image}
+                                            id={blog.id}
+                                        />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                    <div className="row">
-                        <Stack spacing={2}>
-                            <Pagination
-                                count={totalPages} // Use the correct totalPages based on the presence of category
-                                page={currentPage + 1} // Adjusting to 1-based index for UI
-                                onChange={handlePageChange}
-                                showFirstButton
-                                showLastButton
-                                variant="outlined"
-                                shape="rounded"
-                                color="primary"
-                                style={{ margin: '1rem auto' }}
-                            />
-                        </Stack>
-                    </div>
+                            <div className="row">
+                                <Stack spacing={2}>
+                                    <Pagination
+                                        count={totalPages}
+                                        page={currentPage + 1}
+                                        onChange={handlePageChange}
+                                        showFirstButton
+                                        showLastButton
+                                        variant="outlined"
+                                        shape="rounded"
+                                        color="primary"
+                                        style={{ margin: '1rem auto' }}
+                                    />
+                                </Stack>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default AllProd;
