@@ -34,7 +34,7 @@ export default function Forgot() {
           icon: "success",
           title: respo.data.statusMsg,
         }).then(() => {
-          // navigate("/auth/verification");
+          navigate("/auth/reset");
         });
       })
       .catch((err) => {

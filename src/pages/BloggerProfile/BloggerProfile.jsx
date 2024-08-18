@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import style from "./BP.module.css";
 import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from "react-icons/io5";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import { fetchCategory } from "../../redux/slices/Category";
 import Blogger from "../../component/Blogger";
 import { getLoggedUser, getToken } from "../../redux/slices/GetUser";
 import Swal from "sweetalert2";
+import { addToFav, deleteFav, getFav, getFavous } from "../../redux/slices/favourite";
 
 function BloggerProfile() {
     const navigate = useNavigate();
@@ -19,6 +21,13 @@ function BloggerProfile() {
     const { category, loading, error } = useSelector((state) => state.Category);
     const user = useSelector(getLoggedUser);
     const TheToken = useSelector(getToken);
+    const favBloggers = useSelector(getFavous);
+    const isFav = favBloggers.some((blogger) => blogger.id === id);
+    useEffect(() => {
+        dispatch(getFav({ userID: user.id, token: TheToken }));
+    }, [dispatch, user.id, TheToken, isFav]);
+
+    console.log(favBloggers);
     useEffect(() => {
         if (!user && !TheToken) {
             const Toast = Swal.mixin({
@@ -149,9 +158,22 @@ function BloggerProfile() {
                 <div className="col-12 col-md-6 d-flex flex-column align-items-start mt-4">
                     <div className="d-flex flex-column flex-md-row w-100 justify-content-between">
                         <p className="fs-3 fw-bold">{blogger.name}</p>
-                        <div>
-                            <CiHeart size="2.5rem" />
-                        </div>
+                        {isFav ?
+                            <div
+                                onClick={() => dispatch(deleteFav({ userID: user.id, bloggerID: id, token: TheToken }))}>
+                                <FaHeart
+                                    size="2.5rem" color="var(--red)"
+                                    style={{ cursor: "pointer" }} />
+
+                            </div>
+                            :
+                            <div
+                                onClick={() => dispatch(addToFav({ userID: user.id, bloggerID: id, token: TheToken }))}>
+                                <CiHeart
+                                    size="2.5rem"
+                                    style={{ cursor: "pointer" }} />
+                            </div>
+                        }
                     </div>
                     <p className="fs-4 fw-bold" style={{ color: "var(--burble)" }}>
                         $17,00

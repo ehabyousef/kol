@@ -5,6 +5,7 @@ import Login from './Login/Login'
 import BloggerUP from './blogger/BloggerUP'
 import UserUp from './User/UserUp'
 import Forgot from './Forgot/Forgot'
+import Reset from './Reset/Reset'
 
 function Auth() {
     return (
@@ -15,6 +16,7 @@ function Auth() {
                 <Route path="/signblogger" element={<BloggerUP />} />
                 <Route path="/signuser" element={<UserUp />} />
                 <Route path="/forgot" element={<Forgot />} />
+                <Route path="/reset" element={<Reset />} />
             </Routes>
         </>
     )

@@ -89,7 +89,7 @@ function AllProd() {
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className='fw-bold fs-4 fst-italic'>Filter</p>
                         {hasFilterBloggers === false && (
-                            <div className="alert alert-warning" role="alert">
+                            <div className="alert alert-danger" role="alert">
                                 No Filterd data
                             </div>
                         )}
