@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBlogs, fetchFilteredBlogs, getFilterBlogger } from '../../redux/slices/Bloggers';
-import { fetchCategory } from '../../redux/slices/Category'; // Import the fetchCategory action
 
 function AllProd() {
     const location = useLocation();
@@ -15,7 +14,7 @@ function AllProd() {
 
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedGender, setSelectedGender] = useState(null);
-    const [selectedCateg, setSelectedCateg] = useState(null);
+    const [selectedCateg, setSelectedCateg] = useState(comingCategory || null);
     const [selectedAge, setSelectedAge] = useState(null);
     const categories = ['Food', 'Islamic', 'Tech', 'Fashion'];
     const Age = ['10', '20', '30', '40', '50'];
@@ -23,17 +22,24 @@ function AllProd() {
 
     const dispatch = useDispatch();
     const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
-    const { category: categoryData, loading: categorLoading, error: categorError } = useSelector((state) => state.Category);
     const FilterBloggers = useSelector(getFilterBlogger);
     const [currentPage, setCurrentPage] = useState(0);
 
     useEffect(() => {
         if (comingCategory) {
-            dispatch(fetchCategory({ category: comingCategory, page: currentPage, size }));
+            dispatch(fetchFilteredBlogs({
+                category: comingCategory
+            }));
         } else {
             dispatch(fetchBlogs({ page: currentPage, size }));
         }
     }, [dispatch, comingCategory, currentPage, size]);
+
+
+
+    useEffect(() => {
+        handleFilterChange();
+    }, [selectedCountry, selectedCateg, selectedGender, selectedAge]);
 
     const handleFilterChange = () => {
         dispatch(fetchFilteredBlogs({
@@ -43,11 +49,6 @@ function AllProd() {
             age: selectedAge,
         }));
     };
-
-    useEffect(() => {
-        handleFilterChange();
-    }, [selectedCountry, selectedCateg, selectedGender, selectedAge]);
-
     const toggleCategory = (category) => {
         setSelectedCateg(prev => prev === category ? null : category);
     };
@@ -68,21 +69,23 @@ function AllProd() {
         setCurrentPage(value - 1);
     };
 
-    if (loading || categorLoading) return <div>Loading...</div>;
-    if (error || categorError) return <div>Error: {error || categorError}</div>;
+    // if (loading || categorLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     const hasFilterBloggers = Array.isArray(FilterBloggers) && FilterBloggers.length > 0;
+
     const bloggersToDisplay = hasFilterBloggers
         ? FilterBloggers
-        : (comingCategory && categoryData?.content?.length > 0 ? categoryData.content : blogs?.content);
+        : blogs?.content || [];
+
     const totalPages = hasFilterBloggers
         ? Math.ceil(FilterBloggers.length / size)
-        : (comingCategory && categoryData?.totalPages > 0 ? categoryData.totalPages : blogs?.totalPages);
+        : blogs?.totalPages;
 
     return (
         <div className='container'>
             <div className="my-3">
-                <h4>All Bloggers {comingCategory ? ` / ${comingCategory}` : ''}</h4>
+                <h4>All Bloggers {selectedCateg ? ` / ${selectedCateg}` : ''}</h4>
             </div>
             <div className="row my-5">
                 <div className="col-12 col-md-3 ">
@@ -178,42 +181,46 @@ function AllProd() {
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-md-9 d-flex flex-column gap-3">
-                    {bloggersToDisplay && (
-                        <>
-                            <div className="row row-gap-3 p-2">
-                                {bloggersToDisplay?.map((blog, index) => (
-                                    <div key={index} className="col-12 col-sm-6 col-md-4">
-                                        <Blogger
-                                            name={blog.name}
-                                            price={blog.instagramFollowers}
-                                            instaLink={blog.instagramUrl}
-                                            TikLink={blog.tiktokUrl}
-                                            YouLink={blog.youtubeUrl}
-                                            img={blog.image}
-                                            id={blog.id}
+                {loading ?
+                    <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">loading...</div>
+                    :
+                    <div className="col-12 col-md-9 d-flex flex-column gap-3">
+                        {bloggersToDisplay && (
+                            <>
+                                <div className="row row-gap-3 p-2">
+                                    {bloggersToDisplay?.map((blog, index) => (
+                                        <div key={index} className="col-12 col-sm-6 col-md-4">
+                                            <Blogger
+                                                name={blog.name}
+                                                price={blog.instagramFollowers}
+                                                instaLink={blog.instagramUrl}
+                                                TikLink={blog.tiktokUrl}
+                                                YouLink={blog.youtubeUrl}
+                                                img={blog.image}
+                                                id={blog.id}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="row">
+                                    <Stack spacing={2}>
+                                        <Pagination
+                                            count={totalPages}
+                                            page={currentPage + 1}
+                                            onChange={handlePageChange}
+                                            showFirstButton
+                                            showLastButton
+                                            variant="outlined"
+                                            shape="rounded"
+                                            color="primary"
+                                            style={{ margin: '1rem auto' }}
                                         />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="row">
-                                <Stack spacing={2}>
-                                    <Pagination
-                                        count={totalPages}
-                                        page={currentPage + 1}
-                                        onChange={handlePageChange}
-                                        showFirstButton
-                                        showLastButton
-                                        variant="outlined"
-                                        shape="rounded"
-                                        color="primary"
-                                        style={{ margin: '1rem auto' }}
-                                    />
-                                </Stack>
-                            </div>
-                        </>
-                    )}
-                </div>
+                                    </Stack>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                }
             </div>
         </div>
     );

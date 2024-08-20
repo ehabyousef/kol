@@ -23,9 +23,11 @@ function BloggerProfile() {
     const TheToken = useSelector(getToken);
     const favBloggers = useSelector(getFavous);
     const isFav = favBloggers.some((blogger) => blogger.id === id);
-    useEffect(() => {
-        dispatch(getFav({ userID: user.id, token: TheToken }));
-    }, [dispatch, user.id, TheToken, isFav]);
+    // useEffect(() => {
+    //     if (user !== null && TheToken !== null) {
+    //         dispatch(getFav({ userID: user.id, token: TheToken }));
+    //     }
+    // }, [dispatch, user.id, TheToken, isFav]);
 
     console.log(favBloggers);
     useEffect(() => {
@@ -61,7 +63,9 @@ function BloggerProfile() {
             }
         };
         getBlogger();
-    }, [id, user, TheToken, navigate]);
+
+        dispatch(getFav({ userID: user.id, token: TheToken }));
+    }, [id, user, TheToken, navigate, dispatch]);
     useEffect(() => {
         if (sameCateg) {
             dispatch(fetchCategory({ category: sameCateg, page: 0, size: 6 }));
