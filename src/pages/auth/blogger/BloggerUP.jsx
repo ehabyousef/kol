@@ -132,7 +132,7 @@ function BloggerUP() {
                 icon: "success",
                 title: res.data
             })
-            console.log(res.data);
+            
             setLoading(false);
             navigate('/auth/login')
         }).catch((er) => {
@@ -151,7 +151,7 @@ function BloggerUP() {
                 icon: "error",
                 title: er.response.data
             });
-            console.log(er.response.data);
+            
             setLoading(false);
         });
     };
@@ -195,7 +195,7 @@ function BloggerUP() {
         });
     };
 
-    console.log(formData);
+    
     return (
         <div className={style.container}>
             <svg className={style.topBlob} viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">

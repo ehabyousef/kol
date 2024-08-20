@@ -1,9 +1,9 @@
 import React from 'react'
 import style from './Blogger.module.css';
 import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 function Blogger({ name, price, instaLink, TikLink, YouLink, img, id }) {
-    const Navigate = useNavigate()
+
 
     return (
         <div className={style.bloggerCard} >

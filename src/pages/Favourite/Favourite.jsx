@@ -17,7 +17,7 @@ function Favourite() {
     }, [dispatch, user.id, TheToken]);
 
     const favBloggers = useSelector(getFavous);
-    console.log(favBloggers);
+    
     return (
         <div className="container my-4" style={{ minHeight: "70vh" }}>
             <div className="d-flex gap-3 align-items-center" style={{ cursor: 'pointer' }} onClick={() => { navig('/profile') }}>

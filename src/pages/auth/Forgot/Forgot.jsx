@@ -10,7 +10,7 @@ export default function Forgot() {
   const navigate = useNavigate();
   const handleEmail = (e) => {
     setemail(e.target.value);
-    console.log(email);
+    
   };
 
   const confirmEmali = (e) => {
@@ -18,7 +18,7 @@ export default function Forgot() {
     axios
       .post(`http://localhost:8080/api/forgotpassword?email=${encodeURIComponent(email)}`)
       .then((respo) => {
-        console.log(respo.data);
+        
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -53,7 +53,7 @@ export default function Forgot() {
           icon: "error",
           title: err.response.data.title
         });
-        console.log(err.response.data.title);
+        
       });
   };
   return (

@@ -14,7 +14,7 @@ function Reset() {
     const handleReset = (e) => {
         const { name, value } = e.target
         setdata({ ...data, [name]: value })
-        console.log(data);
+        
     };
 
     const confirmReset = (e) => {
@@ -22,7 +22,7 @@ function Reset() {
         axios
             .put(`http://localhost:8080/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}}`)
             .then((respo) => {
-                console.log(respo.data);
+                
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -57,7 +57,7 @@ function Reset() {
                     icon: "error",
                     title: err.response.data.title
                 });
-                console.log(err.response.data.title);
+                
             });
     };
     return (

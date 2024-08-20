@@ -29,7 +29,7 @@ function UserUp() {
     const handleParPhoneChange = (value) => {
         setFormData({ ...formData, parentPhone: value });
     };
-    console.log(formData);
+    
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = (e) => {
