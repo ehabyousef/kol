@@ -25,7 +25,7 @@ function Navbar() {
         } else if (path === '/profile') {
             setActive('profile')
         }
-    }, [path])
+    }, [path, active])
 
     return (
         <>

@@ -23,13 +23,6 @@ function BloggerProfile() {
     const TheToken = useSelector(getToken);
     const favBloggers = useSelector(getFavous);
     const isFav = favBloggers.some((blogger) => blogger.id === id);
-    // useEffect(() => {
-    //     if (user !== null && TheToken !== null) {
-    //         dispatch(getFav({ userID: user.id, token: TheToken }));
-    //     }
-    // }, [dispatch, user.id, TheToken, isFav]);
-
-    console.log(favBloggers);
     useEffect(() => {
         if (!user && !TheToken) {
             const Toast = Swal.mixin({
@@ -49,7 +42,7 @@ function BloggerProfile() {
             }).then(() => {
                 navigate('/auth/login');
             });
-            return; // Stop further execution if not logged in
+            return;
         }
         const getBlogger = async () => {
             try {
