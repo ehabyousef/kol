@@ -29,14 +29,14 @@ function Home() {
             <div className="bg-body-tertiary">
                 <div className="container">
                     <div className="row  d-flex justify-content-between py-4">
-                        <div className={`col-12 col-md-7  ${style.brief}`}>
+                        <div className={`col-12 col-lg-7  ${style.brief}`}>
                             <p>get <span>100+</span></p>
                             <p>Best online Bloggers</p>
                             <p>From KOL</p>
                             <p>Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.</p>
                             <button className={`ms-0 ${style.button}`} onClick={() => { navig('/allproducts') }}>Find our Bloggers</button>
                         </div>
-                        <div className="col-12 col-md-3 overflow-hidden">
+                        <div className="d-none d-lg-block col-lg-4 overflow-hidden">
                             <img src={travel} alt="" width='100%' height='100%' className='rounded-4' />
                         </div>
                     </div>

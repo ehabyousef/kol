@@ -76,7 +76,7 @@ function BloggerProfile() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setrequest({ ...request, [name]: value });
-        
+
     };
 
     const handleRequest = (e) => {
@@ -101,7 +101,7 @@ function BloggerProfile() {
                 icon: "success",
                 title: 'Request send successfully'
             });
-            
+
 
         }).catch((err) => {
             const Toast = Swal.mixin({
@@ -119,7 +119,7 @@ function BloggerProfile() {
                 icon: "error",
                 title: "can't send request"
             });
-            
+
         })
     }
     const reset = (e) => {
