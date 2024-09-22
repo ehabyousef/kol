@@ -18,7 +18,7 @@ function BloggerProfile() {
     const [blogger, setBlogger] = useState({});
     const [sameCateg, setsameCateg] = useState("");
     const dispatch = useDispatch();
-    const { category, loading, error } = useSelector((state) => state.Category);
+    const { category, loading } = useSelector((state) => state.Category);
     const user = useSelector(getLoggedUser);
     const TheToken = useSelector(getToken);
     const favBloggers = useSelector(getFavous);
@@ -47,10 +47,11 @@ function BloggerProfile() {
         const getBlogger = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8080/api/bloger/${id}`
+                    `http://92.113.26.138:8081/api/bloger/${id}`
                 );
                 setBlogger(response.data);
                 setsameCateg(response.data.interests[1]);
+                console.log(response.data)
             } catch (err) {
                 console.error(err);
             }
@@ -81,7 +82,7 @@ function BloggerProfile() {
 
     const handleRequest = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:8080/api/campaign/request/to-admin', request, {
+        axios.post('http://92.113.26.138:8081/api/campaign/request/to-admin', request, {
             headers: {
                 Authorization: `Bearer ${TheToken}`,
             },
@@ -133,7 +134,6 @@ function BloggerProfile() {
         })
     }
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
 
     return (
         <div className="container">

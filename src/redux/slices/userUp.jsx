@@ -6,7 +6,7 @@ export const UserUP = createAsyncThunk(
     "auth/register",
     async (userData) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/signup/user", userData)
+            const response = await axios.post("http://92.113.26.138:8081/api/signup/user", userData)
             return response.data;
         } catch (error) {
             throw error.response.data;
@@ -31,7 +31,6 @@ const signupUserSlice = createSlice({
             .addCase(UserUP.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
-                console.log(action.payload);
             })
             .addCase(UserUP.rejected, (state, action) => {
                 state.loading = false;

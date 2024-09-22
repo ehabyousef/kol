@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react'; // Added useMemo and useCallback for optimization
 import style from './all.module.css';
 import ReactFlagsSelect from 'react-flags-select';
 import Blogger from '../../component/Blogger';
@@ -12,75 +12,78 @@ function AllProd() {
     const location = useLocation();
     const comingCategory = location.state;
 
+    // Moved constants and state initialization to the top for readability
+    const categories = ['Food', 'Islamic', 'Tech', 'Fashion'];
+    const Age = ['10', '20', '30', '40', '50'];
+
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedGender, setSelectedGender] = useState(null);
     const [selectedCateg, setSelectedCateg] = useState(comingCategory || null);
     const [selectedAge, setSelectedAge] = useState(null);
-    const categories = ['Food', 'Islamic', 'Tech', 'Fashion'];
-    const Age = ['10', '20', '30', '40', '50'];
-    const [range, setRange] = useState([10, 100]);
-
-    const dispatch = useDispatch();
-    const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
-    const FilterBloggers = useSelector(getFilterBlogger);
+    const [range, setRange] = useState([10, 100]); // Not currently used, consider removing or using it
     const [currentPage, setCurrentPage] = useState(0);
 
-    useEffect(() => {
-        if (comingCategory) {
-            dispatch(fetchFilteredBlogs({
-                category: comingCategory
-            }));
-        } else {
-            dispatch(fetchBlogs({ page: currentPage, size }));
-        }
-    }, [dispatch, comingCategory, currentPage, size]);
+    const dispatch = useDispatch();
+    const { blogs, loading, size } = useSelector((state) => state.Bloggers);
+    const FilterBloggers = useSelector(getFilterBlogger);
 
+    // Memoizing data for improved performance (only recalculated if FilterBloggers or blogs change)
+    const bloggersToDisplay = useMemo(() => {
+        return Array.isArray(FilterBloggers) && FilterBloggers.length > 0
+            ? FilterBloggers
+            : blogs?.content || [];
+    }, [FilterBloggers, blogs]);
 
+    const totalPages = useMemo(() => {
+        return Array.isArray(FilterBloggers) && FilterBloggers.length > 0
+            ? Math.ceil(FilterBloggers.length / size)
+            : blogs?.totalPages;
+    }, [FilterBloggers, blogs, size]);
 
-    useEffect(() => {
-        handleFilterChange();
-    }, [selectedCountry, selectedCateg, selectedGender, selectedAge]);
-
-    const handleFilterChange = () => {
+    // Memoized filter change handler to prevent re-creating function on every render
+    const handleFilterChange = useCallback(() => {
         dispatch(fetchFilteredBlogs({
             category: selectedCateg,
             country: selectedCountry,
             type: selectedGender,
             age: selectedAge,
         }));
-    };
-    const toggleCategory = (category) => {
+    }, [dispatch, selectedCateg, selectedCountry, selectedGender, selectedAge]);
+
+    // useEffect for fetching blogs and filtered blogs
+    useEffect(() => {
+        if (comingCategory) {
+            dispatch(fetchFilteredBlogs({ category: comingCategory }));
+        } else {
+            dispatch(fetchBlogs({ page: currentPage, size }));
+        }
+    }, [dispatch, comingCategory, currentPage, size]);
+
+    // Trigger filter changes only when selected filter states change
+    useEffect(() => {
+        handleFilterChange();
+    }, [selectedCountry, selectedCateg, selectedGender, selectedAge, handleFilterChange]);
+
+    // Memoized functions for toggling filters to avoid unnecessary re-renders
+    const toggleCategory = useCallback((category) => {
         setSelectedCateg(prev => prev === category ? null : category);
-    };
+    }, []);
 
-    const toggleCountry = (code) => {
+    const toggleCountry = useCallback((code) => {
         setSelectedCountry(prev => prev === code ? "" : code);
-    };
+    }, []);
 
-    const toggleGender = (gender) => {
+    const toggleGender = useCallback((gender) => {
         setSelectedGender(prev => prev === gender ? null : gender);
-    };
+    }, []);
 
-    const toggleAge = (age) => {
+    const toggleAge = useCallback((age) => {
         setSelectedAge(prev => prev === age ? null : age);
-    };
+    }, []);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value - 1);
     };
-
-    // if (loading || categorLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
-    const hasFilterBloggers = Array.isArray(FilterBloggers) && FilterBloggers.length > 0;
-
-    const bloggersToDisplay = hasFilterBloggers
-        ? FilterBloggers
-        : blogs?.content || [];
-
-    const totalPages = hasFilterBloggers
-        ? Math.ceil(FilterBloggers.length / size)
-        : blogs?.totalPages;
 
     return (
         <div className='container'>
@@ -88,18 +91,18 @@ function AllProd() {
                 <h4>All Bloggers {selectedCateg ? ` / ${selectedCateg}` : ''}</h4>
             </div>
             <div className="row my-5">
-                <div className="col-12 col-md-3 ">
+                <div className="col-12 col-md-3">
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className='fw-bold fs-4 fst-italic'>Filter</p>
-                        {hasFilterBloggers === false && (
+                        {bloggersToDisplay.length === 0 && (
                             <div className="alert alert-danger" role="alert">
-                                No Filterd data
+                                No Filtered data
                             </div>
                         )}
                     </div>
                     <div className="accordion" id="accordionPanelsStayOpenExample">
                         {/* Accordion for filters */}
-                        <div className="">
+                        <div>
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     Country
@@ -116,7 +119,8 @@ function AllProd() {
                                 </div>
                             </div>
                         </div>
-                        <div className="">
+                        {/* Gender Filter */}
+                        <div>
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Gender
@@ -139,7 +143,8 @@ function AllProd() {
                                 </div>
                             </div>
                         </div>
-                        <div className="">
+                        {/* Age Filter */}
+                        <div>
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     Age
@@ -159,7 +164,8 @@ function AllProd() {
                                 </div>
                             </div>
                         </div>
-                        <div className="">
+                        {/* Specialization Filter */}
+                        <div>
                             <h2 className="accordion-header">
                                 <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                     Specialization
@@ -181,46 +187,45 @@ function AllProd() {
                         </div>
                     </div>
                 </div>
-                {loading ?
-                    <div className="col-12 col-md-9 d-flex justify-content-center align-items-center text-center gap-3 h-100">loading...</div>
-                    :
-                    <div className="col-12 col-md-9 d-flex flex-column gap-3">
-                        {bloggersToDisplay && (
-                            <>
-                                <div className="row row-gap-3 p-2">
-                                    {bloggersToDisplay?.map((blog, index) => (
-                                        <div key={index} className="col-12 col-sm-6 col-md-4">
-                                            <Blogger
-                                                name={blog.name}
-                                                price={blog.instagramFollowers}
-                                                instaLink={blog.instagramUrl}
-                                                TikLink={blog.tiktokUrl}
-                                                YouLink={blog.youtubeUrl}
-                                                img={blog.image}
-                                                id={blog.id}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="row">
-                                    <Stack spacing={2}>
-                                        <Pagination
-                                            count={totalPages}
-                                            page={currentPage + 1}
-                                            onChange={handlePageChange}
-                                            showFirstButton
-                                            showLastButton
-                                            variant="outlined"
-                                            shape="rounded"
-                                            color="primary"
-                                            style={{ margin: '1rem auto' }}
+                {/* Bloggers List */}
+                <div className="col-12 col-md-9 d-flex flex-column gap-3">
+                    {bloggersToDisplay.length > 0 ? (
+                        <>
+                            <div className="row row-gap-3 p-2">
+                                {bloggersToDisplay?.map((blog, index) => (
+                                    <div key={index} className="col-12 col-sm-6 col-md-4">
+                                        <Blogger
+                                            name={blog.name}
+                                            price={blog.instagramFollowers}
+                                            instaLink={blog.instagramUrl}
+                                            TikLink={blog.tiktokUrl}
+                                            YouLink={blog.youtubeUrl}
+                                            img={blog.image}
+                                            id={blog.id}
                                         />
-                                    </Stack>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                }
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="row">
+                                <Stack spacing={2}>
+                                    <Pagination
+                                        count={totalPages}
+                                        page={currentPage + 1}
+                                        onChange={handlePageChange}
+                                        showFirstButton
+                                        showLastButton
+                                        variant="outlined"
+                                        shape="rounded"
+                                        color="primary"
+                                        style={{ margin: '1rem auto' }}
+                                    />
+                                </Stack>
+                            </div>
+                        </>
+                    ) : (
+                        <div>No Bloggers Available</div>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -20,7 +20,7 @@ export const fetchBlogs = createAsyncThunk(
     'blogs/fetchBlogs',
     async ({ page = 0, size = 9 }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/bloger?page=${page}&size=${size}`);
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger?page=${page}&size=${size}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -33,7 +33,7 @@ export const fetchFilteredBlogs = createAsyncThunk(
     async ({ category, country, type, age }, { rejectWithValue }) => {
         try {
             // Build the query string dynamically
-            let query = 'http://localhost:8080/api/bloger/filter';
+            let query = 'http://92.113.26.138:8081/api/bloger/filter';
             const params = new URLSearchParams();
 
             if (category) params.append('category', category);
