@@ -394,7 +394,7 @@ function BloggerUP() {
                     />
                 </div>
                 <div className="d-flex w-100 justify-content-start gap-3 border-top py-2">
-                    <button className={style.submit}>{loading ? 'loading...' : 'Log in'}</button>
+                    <button className={style.submit}>{loading ? 'loading...' : 'sign up'}</button>
                     <button className={style.reset} type="reset" onClick={reset}>Reset</button>
                 </div>
             </form >

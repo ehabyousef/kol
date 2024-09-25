@@ -43,7 +43,7 @@ function Profile() {
                 <div className="col-12 col-md-6 gap-5 my-4 d-flex flex-column align-items-end">
                     <div className="d-flex gap-3 align-items-start justify-content-center">
                         <button className={style.button} onClick={() => { navig('/request') }}>Requested</button>
-                        <button className={style.button} onClick={() => { navig('/') }}>Approved</button>
+                        <button className={style.button} onClick={() => { navig('/request') }}>Approved</button>
                     </div>
                     {blogger ? (
                         <div className={style.wallet}>

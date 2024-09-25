@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Auth from './pages/auth/Auth';
 import AllProd from './pages/allProd/AllProd';
@@ -9,7 +9,19 @@ import BloggerProfile from './pages/BloggerProfile/BloggerProfile';
 import Footer from './component/Footer';
 import Request from './pages/Request/Request';
 import Favourite from './pages/Favourite/Favourite';
+import { getLoggedBlogger, getLoggedUser, getToken } from './redux/slices/GetUser';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 function App() {
+  const blogger = useSelector(getLoggedBlogger);
+  const TheToken = useSelector(getToken);
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (blogger) {
+      navigate('/profile');
+    }
+  }, [blogger]);
+
   return (
     <>
       <Navbar />

@@ -73,7 +73,7 @@ function Navbar() {
                                         src={displayData?.image}
                                         title={displayData?.userName}
                                         alt="user"
-                                        srcset=""
+                                        srcSet=""
                                     />
                                 </Link>
                                 <button className={`me-2 ${style.button}`} onClick={handleLogout}>logout</button>

@@ -5,6 +5,7 @@ import ReactFlagsSelect from 'react-flags-select';
 import { useDispatch } from 'react-redux';
 import { UserUP } from '../../../redux/slices/userUp';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 function UserUp() {
     const [formData, setFormData] = useState({
         email: "",
@@ -29,9 +30,9 @@ function UserUp() {
     const handleParPhoneChange = (value) => {
         setFormData({ ...formData, parentPhone: value });
     };
-    
-    const [loading, setLoading] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+    let navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -57,6 +58,7 @@ function UserUp() {
                             title: "Signed up successfully"
                         }).then(() => {
                             setlogappear(true);
+                            navigate('/auth/login')
                         });
                     }
                     setLoading(false);
