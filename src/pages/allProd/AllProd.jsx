@@ -94,7 +94,7 @@ function AllProd() {
                 <div className="col-12 col-md-3">
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className='fw-bold fs-4 fst-italic'>Filter</p>
-                        {bloggersToDisplay.length === 0 && (
+                        {FilterBloggers?.length === 0 && (
                             <div className="alert alert-danger" role="alert">
                                 No Filtered data
                             </div>

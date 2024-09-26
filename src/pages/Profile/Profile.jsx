@@ -30,6 +30,7 @@ function Profile() {
     if (!displayData) {
         return <div>Loading...</div>; // or any other loading state
     }
+    console.log(displayData)
 
     return (
         <div className='container'>

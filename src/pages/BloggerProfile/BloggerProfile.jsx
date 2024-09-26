@@ -50,7 +50,7 @@ function BloggerProfile() {
                     `http://92.113.26.138:8081/api/bloger/${id}`
                 );
                 setBlogger(response.data);
-                setsameCateg(response.data.interests[1]);
+                setsameCateg(response.data.interests[0]);
                 console.log(response.data)
             } catch (err) {
                 console.error(err);

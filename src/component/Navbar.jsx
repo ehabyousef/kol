@@ -54,7 +54,7 @@ function Navbar() {
                                     <Link className={`${active === 'blogger' ? style.active : style.link} nav-link`} to="/allproducts" onClick={() => setActive('blogger')}>Bloggers</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className={`${active === 'Profile' ? style.active : style.link} nav-link`} to="/profile" onClick={() => setActive('Profile')}>Profile</Link>
+                                    <Link className={`${active === 'profile' ? style.active : style.link} nav-link`} to="/profile" onClick={() => setActive('Profile')}>Profile</Link>
                                 </li>
                             </ul>
                         }
