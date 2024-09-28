@@ -68,7 +68,7 @@ function Navbar() {
                                 <button className={`me-2 ${style.button}`} onClick={handleLogout}>logout</button>
                             </div>
                             :
-                            <div className="d-lg-flex gap-lg-3">
+                            <div className="d-flex gap-lg-3">
                                 <button className={`me-2 ${style.button}`} onClick={() => { navigate('/auth/login') }}>Login</button>
                                 <button className={`ms-2 ${style.button}`} onClick={() => { navigate('/auth') }}>Register</button>
                             </div>

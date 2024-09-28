@@ -64,3 +64,9 @@
   border-radius: 50%;
 }
 /* search  */
+@media (max-width: 660px) {
+  .button,
+  .userData {
+    margin: 2px !important;
+  }
+}
