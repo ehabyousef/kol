@@ -29,8 +29,12 @@ function ProfileDash() {
 
     useEffect(() => {
         const path = location.pathname.replace('/profileDash/', '');
-        setSelected(path || 'profile'); // Default to 'profile' if path is empty
-    }, [location.pathname]); // Update selected state when pathname changes
+        setSelected(path || 'profile');
+        if (path === '/profileDash') {
+            setSelected('profile')
+        }
+        console.log(path)
+    }, [location.pathname, selected]);
 
     return (
         <div className='container my-3'>

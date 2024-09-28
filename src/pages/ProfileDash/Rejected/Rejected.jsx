@@ -6,11 +6,11 @@ import { bloggerReject, Reject, rejectBloggerCampagins, rejectedCampagins } from
 function Rejected() {
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
-    const user = useSelector(getLoggedUser); // Get the user object
-    const blogger = useSelector(getLoggedBlogger); // Get the blogger object
+    const user = useSelector(getLoggedUser);
+    const blogger = useSelector(getLoggedBlogger);
 
-    const userId = useSelector(getUserId); // User ID (might be null if logged in as blogger)
-    const bloggerId = useSelector(getBloggerId); // Blogger ID (might be null if logged in as user)
+    const userId = useSelector(getUserId);
+    const bloggerId = useSelector(getBloggerId);
 
     const rejectedCamp = useSelector(rejectedCampagins || []);
     const rejectedBloggerCamp = useSelector(rejectBloggerCampagins || []);

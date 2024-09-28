@@ -7,23 +7,23 @@ import { bloggerRequested, bloggerResponse, requested, requestedBloggerCampagins
 function Requested() {
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
-    const user = useSelector(getLoggedUser); // Get the user object
-    const blogger = useSelector(getLoggedBlogger); // Get the blogger object
+    const user = useSelector(getLoggedUser);
+    const blogger = useSelector(getLoggedBlogger);
 
-    const userId = useSelector(getUserId); // User ID (might be null if logged in as blogger)
-    const bloggerId = useSelector(getBloggerId); // Blogger ID (might be null if logged in as user)
+    const userId = useSelector(getUserId);
+    const bloggerId = useSelector(getBloggerId);
 
-    const requestedCamp = useSelector(requestedCampagins); // For user campaigns
-    const requestedBloggerCamp = useSelector(requestedBloggerCampagins || []); // For blogger campaigns
+    const requestedCamp = useSelector(requestedCampagins);
+    const requestedBloggerCamp = useSelector(requestedBloggerCampagins || []);
     // Modal state
     const [showModal, setShowModal] = useState(false);
-    const [currentCampaignId, setCurrentCampaignId] = useState(null); // Store campaign ID for response
-    const [Response, setResponse] = useState(null); // True for approve, False for reject
-    const [content, setContent] = useState(""); // Input content
+    const [currentCampaignId, setCurrentCampaignId] = useState(null);
+    const [Response, setResponse] = useState(null);
+    const [content, setContent] = useState("");
 
     const handleShowModal = (campaignId, response) => {
         setCurrentCampaignId(campaignId);
-        setResponse(response); // True or False depending on Approve or Reject
+        setResponse(response);
         setShowModal(true);
     };
 
@@ -44,10 +44,8 @@ function Requested() {
     };
     useEffect(() => {
         if (blogger) {
-            // If logged in as blogger
             dispatch(bloggerRequested({ id: bloggerId }));
         } else if (user) {
-            // If logged in as user
             dispatch(requested({ TheToken, id: userId }));
         }
     }, [dispatch, blogger, user, TheToken, userId, bloggerId]);
@@ -90,6 +88,7 @@ function Requested() {
                                     <p style={{ color: 'var(--red)' }}>Description :</p>
                                     {camp.campaignDescription}
                                 </p>
+                                <hr />
                                 <div className="d-flex align-items-center w-100 justify-content-between">
                                     <div className="d-flex flex-column">
                                         <p>From</p>

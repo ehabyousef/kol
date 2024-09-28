@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
-import { Accept, acceptedCampagins, bloggerPaid, paidBloggerCampagins, requestedBloggerCampagins } from '../../../redux/slices/Campagins';
+import { Accept, acceptedCampagins, bloggerPaid, paidBloggerCampagins } from '../../../redux/slices/Campagins';
 function Accepted() {
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
