@@ -9,6 +9,7 @@ import BloggerProfile from './pages/BloggerProfile/BloggerProfile';
 import Footer from './component/Footer';
 import Request from './pages/Request/Request';
 import Favourite from './pages/Favourite/Favourite';
+import ProfileDash from './pages/ProfileDash/ProfileDash';
 import { getLoggedBlogger, getLoggedUser, getToken } from './redux/slices/GetUser';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -30,6 +31,7 @@ function App() {
           <Route path={x} key={id} element={<Home />} />
         ))}
         <Route path="/auth/*" element={<Auth />} />
+        <Route path="/profileDash/*" element={<ProfileDash />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/blogger/:id' element={<BloggerProfile />} />
         <Route path='/allproducts' element={<AllProd />} />

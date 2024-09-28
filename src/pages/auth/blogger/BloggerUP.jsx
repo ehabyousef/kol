@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import style from './user.module.css';
 import PhoneInput from 'react-phone-input-2';
@@ -7,19 +7,14 @@ import MultipleSelectChip from "../../../component/MultipleSelectChip";
 import Swal from 'sweetalert2';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { allCategories, getAllCategories } from "../../../redux/slices/Category";
 
 const careerOptions = [
     "Engineer", "Doctor", "Manager", "Teacher", "Accountant",
     "Lawyer", "Designer", "Programmer", "Marketing", "Artist",
     "Photographer", "Chef", "Singer", "Influencer", "Sales"
 ];
-const categoryOptions = [
-    "Model", "makeup", "News", "Athelte",
-    "Food", "Celebrity", "Designers", "Artist",
-    "Animation", "Comics", "Movies", "Kids", 'Fashion', "Gaming",
-    "Tech", "Cars", "Traveller", "Owners", 'Islamic',
-];
-
 function BloggerUP() {
     const navigate = useNavigate()
     const [image, setImage] = useState(null);
@@ -36,6 +31,7 @@ function BloggerUP() {
         city: '',
         fullAddress: '',
         bio: '',
+        price: null,
         instagramUrl: '',
         instagramFollowers: null,
         instagramPosts: "",
@@ -170,6 +166,7 @@ function BloggerUP() {
             city: '',
             fullAddress: '',
             bio: '',
+            price: null,
             instagramUrl: '',
             instagramFollowers: '',
             instagramPosts: '',
@@ -194,7 +191,12 @@ function BloggerUP() {
             interests: []
         });
     };
+    const dispatch = useDispatch();
+    const categories = useSelector(allCategories);
 
+    useEffect(() => {
+        dispatch(getAllCategories());
+    }, [dispatch]);
 
     return (
         <div className={style.container}>
@@ -315,83 +317,87 @@ function BloggerUP() {
                         <label>YouTube Followers</label>
                         <input className={style.input} type="number" name="youtubeFollowers" value={formData.youtubeFollowers} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column '>
                         <label>Career</label>
-                        <select className={style.input} name="career" value={formData.career} onChange={handleChange}>
+                        <select className={`${style.input} m-0`} name="career" value={formData.career} onChange={handleChange}>
                             {careerOptions.map((x, ind) => {
                                 return <option value={x} key={ind} >{x}</option>
                             })}
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column gap-2'>
+                    <div className='col-12 col-md-4 col-lg-3 d-flex flex-column '>
                         <label>Specialization</label>
                         <input className={style.input} type="text" name="specialization" value={formData.specialization} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Date of Birth</label>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0' >
+                        <label>Nationality</label>
+                        <input className={style.input} type="text" name="nationality" value={formData.nationality} onChange={handleChange} />
+                    </div>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0'>
+                        <label>Interests</label>
+                        <MultipleSelectChip
+                            options={categories ? categories.map((category) => category.name) : []}
+                            selectedOptions={formData.interests}
+                            setSelectedOptions={handleInterestsChange}
+                        />
+                    </div>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Date of Birth</label>
                         <input className={style.input} type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} />
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Language</label>
-                        <select className={style.input} name="language" value={formData.language} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Language</label>
+                        <select className={`${style.input} m-0`} name="language" value={formData.language} onChange={handleChange}>
                             <option value="Arabic">Arabic</option>
                             <option value="English">English</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Gender</label>
-                        <select className={style.input} name="gender" value={formData.gender} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Gender</label>
+                        <select className={`${style.input} m-0`} name="gender" value={formData.gender} onChange={handleChange}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Marital Status</label>
-                        <select className={style.input} name="maritalStatus" value={formData.maritalStatus} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Marital Status</label>
+                        <select className={`${style.input} m-0`} name="maritalStatus" value={formData.maritalStatus} onChange={handleChange}>
                             <option value="Single">Single</option>
                             <option value="Married">Married</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Show Face</label>
-                        <select className={style.input} name="showsFaceInStories" value={formData.showsFaceInStories} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Show Face</label>
+                        <select className={`${style.input} m-0`} name="showsFaceInStories" value={formData.showsFaceInStories} onChange={handleChange}>
                             <option value={false}>No</option>
                             <option value={true}>Yes</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Use Voice</label>
-                        <select className={style.input} name="usesVoiceInContent" value={formData.usesVoiceInContent} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Use Voice</label>
+                        <select className={`${style.input} m-0`} name="usesVoiceInContent" value={formData.usesVoiceInContent} onChange={handleChange}>
                             <option value={false}>No</option>
                             <option value={true}>Yes</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Goes in Public Places</label>
-                        <select className={style.input} name="goesInPublicPlaces" value={formData.goesInPublicPlaces} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Goes in Public Places</label>
+                        <select className={`${style.input} m-0`} name="goesInPublicPlaces" value={formData.goesInPublicPlaces} onChange={handleChange}>
                             <option value={false}>No</option>
                             <option value={true}>Yes</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Wear Hijab</label>
-                        <select className={style.input} name="wearsHijab" value={formData.wearsHijab} onChange={handleChange}>
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Wear Hijab</label>
+                        <select className={`${style.input} m-0`} name="wearsHijab" value={formData.wearsHijab} onChange={handleChange}>
                             <option value={false}>No</option>
                             <option value={true}>Yes</option>
                         </select>
                     </div>
-                    <div className='col-12 col-md-4 d-flex flex-column gap-2'>
-                        <label>Nationality</label>
-                        <input className={style.input} type="text" name="nationality" value={formData.nationality} onChange={handleChange} />
+                    <div className='col-12 col-md-4 d-flex flex-column '>
+                        <label className='mt-1'>Your Price</label>
+                        <input className={style.input} type="number" name="price" value={formData.price} onChange={handleChange} />
                     </div>
-                </div>
-                <div className='d-flex flex-column w-100'>
-                    <label>Interests</label>
-                    <MultipleSelectChip
-                        options={categoryOptions}
-                        selectedOptions={formData.interests}
-                        setSelectedOptions={handleInterestsChange}
-                    />
                 </div>
                 <div className="d-flex w-100 justify-content-start gap-3 border-top py-2">
                     <button className={style.submit}>{loading ? 'loading...' : 'sign up'}</button>

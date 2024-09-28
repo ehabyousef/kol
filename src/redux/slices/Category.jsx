@@ -6,6 +6,7 @@ const initialState = {
         totalPages: 0, // Assuming the API returns total pages
         totalElements: 0, // Assuming the API returns total elements
     },
+    categories: [],
     loading: false,
     error: null,
     page: 0,
@@ -27,6 +28,18 @@ export const fetchCategory = createAsyncThunk(
         }
     }
 )
+// Create an async thunk to get categories
+export const getAllCategories = createAsyncThunk(
+    'admin/getAllCategories',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`http://92.113.26.138:8081/api/categories`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
 const categorySlice = createSlice({
     name: 'category',
     initialState,
@@ -52,7 +65,21 @@ const categorySlice = createSlice({
                 state.loading = false
                 state.error = action.payload
             })
+            // Get categories
+            .addCase(getAllCategories.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getAllCategories.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload;
+            })
+            .addCase(getAllCategories.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     }
 })
 export const { setPtage, setSize } = categorySlice.actions
+export const allCategories = (state) => state.Category.categories;
 export default categorySlice.reducer

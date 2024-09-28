@@ -7,7 +7,9 @@ const initialState = {
     token: localStorage.getItem('token') || null,
     updatedUser: null,
     status: "idle",
+    updateStatus: "idle", // For updateUser status
     error: null,
+    updateError: null, // For updateUser error
 };
 
 export const fetchUser = createAsyncThunk(
@@ -32,6 +34,7 @@ export const fetchUser = createAsyncThunk(
         }
     }
 );
+
 export const fetchBlogger = createAsyncThunk(
     "user/fetchBlogger",
     async ({ token, email }, { rejectWithValue }) => {
@@ -64,8 +67,7 @@ export const updateUser = createAsyncThunk(
                 formData,
                 {
                     headers: {
-                        token: `${token}`,
-                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -93,7 +95,9 @@ const userSlice = createSlice({
             state.token = null;
             state.updatedUser = null;
             state.status = "idle";
+            state.updateStatus = "idle";
             state.error = null;
+            state.updateError = null;
             localStorage.removeItem('user');
             localStorage.removeItem('blogger');
             localStorage.removeItem('token');
@@ -131,16 +135,17 @@ const userSlice = createSlice({
             })
             // Update User
             .addCase(updateUser.pending, (state) => {
-                state.status = "loading";
+                state.updateStatus = "loading"; // Update user API is in progress
+                state.updateError = null;
             })
             .addCase(updateUser.fulfilled, (state, action) => {
-                state.status = "succeeded";
+                state.updateStatus = "succeeded"; // Update was successful
                 state.updatedUser = action.payload;
-                state.error = null;
+                state.updateError = null;
             })
             .addCase(updateUser.rejected, (state, action) => {
-                state.status = "failed";
-                state.error = action.payload || action.error.message;
+                state.updateStatus = "failed"; // Update failed
+                state.updateError = action.payload || action.error.message;
             });
     },
 });
@@ -151,8 +156,11 @@ export const { setToken, logoutUser } = userSlice.actions;
 // Selectors
 export const getLoggedUser = (state) => state.user.user;
 export const getLoggedBlogger = (state) => state.user.blogger;
-export const getToken = (state) => state.user.token;  // Selector for token
+export const getToken = (state) => state.user.token;
 export const userStatus = (state) => state.user.status;
 export const userError = (state) => state.user.error;
+
+// Selectors for updateUser status and error
+export const updatingstatus = (state) => state.user.updateStatus;
 
 export default userSlice.reducer;

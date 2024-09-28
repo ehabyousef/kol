@@ -90,3 +90,13 @@
     width: 80%;
   }
 }
+.mainImage {
+  width: 600px;
+  height: 400px;
+}
+@media (max-width: 769px) {
+  .mainImage {
+    width: 375px;
+    height: 400px;
+  }
+}

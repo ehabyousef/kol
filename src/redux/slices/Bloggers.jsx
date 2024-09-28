@@ -30,28 +30,28 @@ export const fetchBlogs = createAsyncThunk(
 // Create an async thunk to filter blogs
 export const fetchFilteredBlogs = createAsyncThunk(
     'blogs/filterBlogs',
-    async ({ category, country, type, age }, { rejectWithValue }) => {
+    async ({ category, country, type, age, minPrice, maxPrice, page, size }, { rejectWithValue }) => {
         try {
-            // Build the query string dynamically
-            let query = 'http://92.113.26.138:8081/api/bloger/filter';
-            const params = new URLSearchParams();
-
-            if (category) params.append('category', category);
-            if (country) params.append('country', country);
-            if (type) params.append('type', type);
-            if (age) params.append('age', age);
-
-            if (params.toString()) {
-                query += `?${params.toString()}`;
-            }
-
-            const response = await axios.get(query);
-            return response.data;
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/filter`, {
+                params: {
+                    category,
+                    country,
+                    type,
+                    age,
+                    lowerPrice: minPrice,
+                    upperPrice: maxPrice,
+                    page,
+                    size,
+                    price: 'asc',
+                },
+            });
+            return response.data; // Adjust this according to the API response structure
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
         }
     }
 );
+
 // Create the slice
 const blogSlice = createSlice({
     name: 'blogs',

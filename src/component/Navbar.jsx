@@ -3,7 +3,8 @@ import style from './navbar.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLoggedBlogger, getLoggedUser, logoutUser } from '../redux/slices/GetUser';
-
+import avatar from '../assets/avatar.avif';
+import { FaRegHeart } from "react-icons/fa6";
 function Navbar() {
     const [active, setActive] = useState('home');
     const navigate = useNavigate();
@@ -29,52 +30,37 @@ function Navbar() {
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                <div className='container-fluid container-md px-2 px-md-0 gap-2 gap-md-5'>
+            <nav className="navbars bg-body-tertiary ">
+                <div className='container-fluid container-md px-2 px-md-0 gap-2 gap-md-5 py-3 d-flex align-items-center justify-content-between'>
                     {blogger ?
                         <Link className="navbar-brand fs-3" to="/profile">KOL</Link>
                         :
                         <Link className="navbar-brand fs-3" to="/">KOL</Link>
                     }
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
-                        {blogger ?
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                </li>
-                            </ul>
-                            :
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <Link className={`${active === 'home' ? style.active : style.link} nav-link`} aria-current="page" to="/" onClick={() => setActive('home')}>Home</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`${active === 'blogger' ? style.active : style.link} nav-link`} to="/allproducts" onClick={() => setActive('blogger')}>Bloggers</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className={`${active === 'profile' ? style.active : style.link} nav-link`} to="/profile" onClick={() => setActive('Profile')}>Profile</Link>
-                                </li>
-                            </ul>
-                        }
+                    <form class="d-flex" role="search" style={{ width: '500px' }}>
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    </form>
+                    <div className="d-flex align-items-center">
                         {displayData ?
                             <div className={style.userData}>
-                                <Link
-                                    className={` ${style.userName}`}
-                                    title={displayData?.name}
-                                    to="/profile"
-                                >
-                                    {displayData?.name}
+                                <Link className={`d-none d-sm-block ${style.favIcon}`} to="/">
+                                    <FaRegHeart size={25} />
                                 </Link>
                                 <Link className={` ${style.userImage}`} to="/profile">
                                     <img
                                         // src={userImage}
-                                        src={displayData?.image}
+                                        src={displayData?.image || avatar}
                                         title={displayData?.userName}
                                         alt="user"
                                         srcSet=""
                                     />
+                                </Link>
+                                <Link
+                                    className={` ${style.userName} d-none d-md-block`}
+                                    title={displayData?.name}
+                                    to="/profile"
+                                >
+                                    hello {displayData?.name}
                                 </Link>
                                 <button className={`me-2 ${style.button}`} onClick={handleLogout}>logout</button>
                             </div>
@@ -85,6 +71,23 @@ function Navbar() {
                             </div>
                         }
                     </div>
+                </div>
+                <div className="py-2" style={{ backgroundColor: "var(--blue)" }}>
+                    {blogger ?
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                            </li>
+                        </ul>
+                        :
+                        <ul className="navbar-nav d-flex flex-row  align-items-center justify-content-center gap-5">
+                            <li className="nav-item">
+                                <Link className={`${active === 'home' ? style.active : style.link} nav-link`} aria-current="page" to="/" onClick={() => setActive('home')}>Home</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className={`${active === 'blogger' ? style.active : style.link} nav-link`} to="/allproducts" onClick={() => setActive('blogger')}>Bloggers</Link>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </nav >
         </>

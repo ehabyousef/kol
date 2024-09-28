@@ -137,12 +137,12 @@ function BloggerProfile() {
 
     return (
         <div className="container">
-            <div className="row my-3 justify-content-center">
+            <div className="row my-5 justify-content-center">
                 <div
                     className="col-12 col-md-6 d-flex flex-column position-relative"
                     style={{ minHeight: "300px" }}
                 >
-                    <div className="position-absolute w-75 h-100">
+                    <div className="position-absolute w-75 h-100 my-2">
                         <img
                             className="rounded-3"
                             src={blogger.image}
@@ -173,7 +173,7 @@ function BloggerProfile() {
                         }
                     </div>
                     <p className="fs-4 fw-bold" style={{ color: "var(--burble)" }}>
-                        $17,00
+                        {blogger.price || '000$'}$
                     </p>
                     <div className="d-flex flex-column gap-4">
                         <div className="d-flex gap-2 align-items-center">

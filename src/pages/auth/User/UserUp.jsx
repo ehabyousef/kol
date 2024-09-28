@@ -10,11 +10,11 @@ function UserUp() {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        name: "",
-        first_name: "",
-        last_name: "",
+        fullname: "",
+        username: "",
+        city: "",
+        country: "",
         phone: "",
-        parentPhone: ""
     });
     const dispatch = useDispatch();
     const [logappear, setlogappear] = useState(true);
@@ -26,9 +26,6 @@ function UserUp() {
 
     const handlePhoneChange = (value) => {
         setFormData({ ...formData, phone: value });
-    };
-    const handleParPhoneChange = (value) => {
-        setFormData({ ...formData, parentPhone: value });
     };
 
     const [loading, setLoading] = useState(false);
@@ -94,16 +91,12 @@ function UserUp() {
                 <h3>Create Account</h3>
                 <div className="row d-flex">
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
-                        <label>First Name</label>
-                        <input className={style.input} type="text" name="first_name" value={formData.first_name} onChange={handleChange} required />
-                    </div>
-                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
-                        <label>Last Name</label>
-                        <input className={style.input} type="text" name="last_name" value={formData.last_name} onChange={handleChange} required />
+                        <label>username</label>
+                        <input className={style.input} type="text" name="username" value={formData.username} onChange={handleChange} required />
                     </div>
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Full Name</label>
-                        <input className={style.input} type="text" name="name" value={formData.name} onChange={handleChange} required />
+                        <input className={style.input} type="text" name="fullname" value={formData.fullname} onChange={handleChange} required />
                     </div>
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Email</label>
@@ -112,6 +105,19 @@ function UserUp() {
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Password</label>
                         <input className={style.input} type="password" name="password" value={formData.password} onChange={handleChange} required />
+                    </div>
+                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
+                        <label>city</label>
+                        <input className={style.input} type="text" name="city" value={formData.city} onChange={handleChange} required />
+                    </div>
+                    <div className='col-12 col-md-6 d-flex flex-column gap-0 mt-3 w-100' >
+                        <label>Country</label>
+                        <ReactFlagsSelect
+                            className={style.input}
+                            selected={formData.country}
+                            onSelect={(code) => setFormData({ ...formData, country: code })}
+                            searchable
+                        />
                     </div>
                     <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
                         <label>Phone Number</label>
@@ -123,17 +129,6 @@ function UserUp() {
                             onChange={handlePhoneChange}
                         />
                     </div>
-                    <div className='col-12 d-flex flex-column gap-0 gap-md-2' >
-                        <label>Parent Phone</label>
-                        <PhoneInput
-                            className={`${style.phoneInput}`}
-                            country={'eg'}
-                            name='parentPhone'
-                            value={formData.parentPhone}
-                            onChange={handleParPhoneChange}
-                        />
-                    </div>
-
                 </div>
                 <div className="d-flex w-100 justify-content-start align-items-center border-top py-2">
                     <button className={style.submit}>{loading ? 'loading...' : 'Submit'}</button>
