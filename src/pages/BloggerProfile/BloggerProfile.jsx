@@ -8,23 +8,25 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategory } from "../../redux/slices/Category";
 import Blogger from "../../component/Blogger";
-import { getLoggedUser, getToken } from "../../redux/slices/GetUser";
+import { getLoggedUser, getToken, getUserId } from "../../redux/slices/GetUser";
 import Swal from "sweetalert2";
 import { addToFav, deleteFav, getFav, getFavous } from "../../redux/slices/favourite";
 
 function BloggerProfile() {
     const navigate = useNavigate();
     const { id } = useParams();
+    console.log(id)
     const [blogger, setBlogger] = useState({});
     const [sameCateg, setsameCateg] = useState("");
     const dispatch = useDispatch();
     const { category, loading } = useSelector((state) => state.Category);
-    const user = useSelector(getLoggedUser);
+    const userID = useSelector(getUserId);
+    console.log(userID)
     const TheToken = useSelector(getToken);
     const favBloggers = useSelector(getFavous);
     const isFav = favBloggers.some((blogger) => blogger.id === id);
     useEffect(() => {
-        if (!user && !TheToken) {
+        if (!userID && !TheToken) {
             const Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
@@ -51,15 +53,14 @@ function BloggerProfile() {
                 );
                 setBlogger(response.data);
                 setsameCateg(response.data.interests[0]);
-                console.log(response.data)
             } catch (err) {
                 console.error(err);
             }
         };
         getBlogger();
 
-        dispatch(getFav({ userID: user.id, token: TheToken }));
-    }, [id, user, TheToken, navigate, dispatch]);
+        dispatch(getFav({ userID, token: TheToken }));
+    }, [id, userID, TheToken, navigate, dispatch]);
     useEffect(() => {
         if (sameCateg) {
             dispatch(fetchCategory({ category: sameCateg, page: 0, size: 6 }));
@@ -72,11 +73,12 @@ function BloggerProfile() {
         from: "",
         to: "",
         blogerId: id,
-        clientId: user ? user.id : "",
+        clientId: userID,
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
         setrequest({ ...request, [name]: value });
+        console.log(request)
 
     };
 
@@ -101,9 +103,10 @@ function BloggerProfile() {
             Toast.fire({
                 icon: "success",
                 title: 'Request send successfully'
-            });
-
-
+            }).then((e) => {
+                handleCloseModal()
+                reset()
+            })
         }).catch((err) => {
             const Toast = Swal.mixin({
                 toast: true,
@@ -119,8 +122,10 @@ function BloggerProfile() {
             Toast.fire({
                 icon: "error",
                 title: "can't send request"
-            });
-
+            }).then((e) => {
+                handleCloseModal()
+                reset()
+            })
         })
     }
     const reset = (e) => {
@@ -133,16 +138,28 @@ function BloggerProfile() {
             clientId: '',
         })
     }
+    // Modal state
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        reset()
+    };
+    console.log(blogger)
     if (loading) return <div>Loading...</div>;
 
     return (
         <div className="container">
-            <div className="row my-5 justify-content-center">
+            <div className="row my-5">
                 <div
-                    className="col-12 col-md-6 d-flex flex-column position-relative"
-                    style={{ minHeight: "300px" }}
+                    className="col-12 col-md-5 d-flex flex-column position-relative"
+                    style={{ minHeight: "420px" }}
                 >
-                    <div className="position-absolute w-75 h-100 my-2">
+                    <div className="position-absolute h-100 my-2" style={{ width: "90%" }}>
                         <img
                             className="rounded-3"
                             src={blogger.image}
@@ -153,25 +170,7 @@ function BloggerProfile() {
                     </div>
                 </div>
                 <div className="col-12 col-md-6 d-flex flex-column align-items-start mt-4">
-                    <div className="d-flex flex-column flex-md-row w-100 justify-content-between">
-                        <p className="fs-3 fw-bold">{blogger.name}</p>
-                        {isFav ?
-                            <div
-                                onClick={() => dispatch(deleteFav({ userID: user.id, bloggerID: id, token: TheToken }))}>
-                                <FaHeart
-                                    size="2.5rem" color="var(--red)"
-                                    style={{ cursor: "pointer" }} />
-
-                            </div>
-                            :
-                            <div
-                                onClick={() => dispatch(addToFav({ userID: user.id, bloggerID: id, token: TheToken }))}>
-                                <CiHeart
-                                    size="2.5rem"
-                                    style={{ cursor: "pointer" }} />
-                            </div>
-                        }
-                    </div>
+                    <p className="fs-3 fw-bold">{blogger.name}</p>
                     <p className="fs-4 fw-bold" style={{ color: "var(--burble)" }}>
                         {blogger.price || '000$'}$
                     </p>
@@ -195,53 +194,34 @@ function BloggerProfile() {
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="row gap-2 d-flex justify-content-center mt-5">
-                <h3 className="my-3 fw-bold text-center">Request campaign</h3>
-                <div className="col-12 my-1 col-md-9 d-flex justify-content-around align-items-center gap-2">
-                    <label className="fs-5">Gift or campaign Request</label>
-                    <select
-                        className={style.inputSelect}
-                        name="campaignType"
-                        value={request.campaignType}
-                        onChange={handleChange}
-                    >
-                        <option value="campaign">campaign</option>
-                        <option value="gift">gift</option>
-                    </select>
-                </div>
-                <div className="col-12 my-1 col-md-10 d-flex justify-content-center">
-                    <textarea
-                        placeholder="Your campaign brief "
-                        className={`form-control ${style.textarea}`}
-                        name="campaignDescription"
-                        value={request.campaignDescription}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="col-12 my-1 col-md-4">
-                    <input
-                        className={`form-control ${style.input}`}
-                        type="date"
-                        name="from"
-                        value={request.from}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="col-12 my-1 col-md-4 d-flex justify-content-end">
-                    <input
-                        className={`form-control ${style.input}`}
-                        type="date"
-                        name="to"
-                        value={request.to}
-                        onChange={handleChange}
-                    />
-                </div>
+                    <div className="my-2 d-flex gap-2 align-items-center">
+                        <h5 className="m-0" style={{ color: 'var(--red)' }}>nationality :</h5>
+                        <p className="m-0 fs-4">{blogger.nationality}</p>
+                    </div>
+                    <div className="my-2 d-flex gap-2 align-items-center">
+                        <h5 className="m-0" style={{ color: 'var(--red)' }}>language :</h5>
+                        <p className="m-0 fs-4">{blogger.language}</p>
+                    </div>
+                    <div className="d-flex align-items-center gap-4 my-3">
 
-                <div className="col-12 my-1 col-md-10 d-flex justify-content-center gap-4">
-                    <button className={`m-0 ${style.button}`} onClick={handleRequest}>Request</button>
-                    <button className={`m-0 ${style.button}`} onClick={reset}>Cancel</button>
+                        <button className={style.button} onClick={handleShowModal}>request campagin</button>
+                        {isFav ?
+                            <div
+                                onClick={() => dispatch(deleteFav({ userID, bloggerID: id, token: TheToken }))}>
+                                <FaHeart
+                                    size="2.5rem" color="var(--red)"
+                                    style={{ cursor: "pointer" }} />
+
+                            </div>
+                            :
+                            <div
+                                onClick={() => dispatch(addToFav({ userID, bloggerID: id, token: TheToken }))}>
+                                <CiHeart
+                                    size="2.5rem"
+                                    style={{ cursor: "pointer" }} />
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
             <div className="row row-gap-3" style={{ margin: "6rem 0" }}>
@@ -262,6 +242,72 @@ function BloggerProfile() {
                     </div>
                 ))}
             </div>
+            {showModal && (
+                <div className="modal show d-block" tabIndex="-1" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content shadow-lg">
+                            <div className="modal-header">
+                                <h5 className="modal-title">{Response ? "Approve Campaign" : "Reject Campaign"}</h5>
+                                <button type="button" className="close" onClick={handleCloseModal} aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="d-flex flex-column gap-2 ">
+                                    <h4 className="my-2 fw-bold text-center">Request campaign</h4>
+                                    <div className="d-flex align-items-center justify-content-between">
+                                        <label className="fs-5">Gift or campaign Request</label>
+                                        <select
+                                            className={style.inputSelect}
+                                            name="campaignType"
+                                            value={request.campaignType}
+                                            onChange={handleChange}
+                                        >
+                                            <option value="campaign">campaign</option>
+                                            <option value="gift">gift</option>
+                                        </select>
+                                    </div>
+                                    <div className=" d-flex justify-content-center">
+                                        <textarea
+                                            placeholder="Your campaign brief "
+                                            className={`form-control ${style.textarea}`}
+                                            name="campaignDescription"
+                                            value={request.campaignDescription}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="">
+                                        <p className="m-0">from</p>
+                                        <input
+                                            className={`form-control ${style.input}`}
+                                            type="date"
+                                            name="from"
+                                            value={request.from}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className="my-1">
+                                        <p className="m-0">to</p>
+                                        <input
+                                            className={`form-control ${style.input}`}
+                                            type="date"
+                                            name="to"
+                                            value={request.to}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+                                <button type="button" className="btn btn-success" onClick={handleRequest}>
+                                    send campgain
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

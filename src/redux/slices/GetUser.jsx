@@ -58,6 +58,34 @@ export const fetchBlogger = createAsyncThunk(
     }
 );
 
+export const updateUserPassword = createAsyncThunk(
+    "user/updateUserPassword",
+    async ({ token, userId, oldPassword, newPassword }, { rejectWithValue }) => {
+        const formData = {
+            userId,
+            oldPassword,
+            newPassword,
+        };
+        try {
+            const response = await axios.put(
+                `http://92.113.26.138:8081/api/profile?user_id=${userId}`, // Remove extra bracket here
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            if (!error.response) {
+                throw error;
+            }
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 export const updateUser = createAsyncThunk(
     "user/updateUser",
     async ({ token, formData, id }, { rejectWithValue }) => {
@@ -146,6 +174,20 @@ const userSlice = createSlice({
             .addCase(updateUser.rejected, (state, action) => {
                 state.updateStatus = "failed"; // Update failed
                 state.updateError = action.payload || action.error.message;
+            })
+            // Update password
+            .addCase(updateUserPassword.pending, (state) => {
+                state.updateStatus = "loading"; // Update user API is in progress
+                state.updateError = null;
+            })
+            .addCase(updateUserPassword.fulfilled, (state, action) => {
+                state.updateStatus = "succeeded";
+                state.updatedUser = action.payload;
+                state.updateError = null;
+            })
+            .addCase(updateUserPassword.rejected, (state, action) => {
+                state.updateStatus = "failed"; // Update failed
+                state.updateError = action.payload || action.error.message;
             });
     },
 });
@@ -157,6 +199,10 @@ export const { setToken, logoutUser } = userSlice.actions;
 export const getLoggedUser = (state) => state.user.user;
 export const getLoggedBlogger = (state) => state.user.blogger;
 export const getToken = (state) => state.user.token;
+// In GetUser.js (redux slice)
+export const getUserId = (state) => state.user.user ? state.user.user.id : null;
+export const getBloggerId = (state) => state.user.blogger ? state.user.blogger.id : null;
+
 export const userStatus = (state) => state.user.status;
 export const userError = (state) => state.user.error;
 

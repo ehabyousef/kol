@@ -28,3 +28,16 @@
 .rejApp2:active {
   box-shadow: none;
 }
+.campaign_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.campaign_description {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

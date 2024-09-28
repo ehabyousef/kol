@@ -23,8 +23,6 @@ function Navbar() {
             setActive('home')
         } else if (path === '/allproducts') {
             setActive('blogger')
-        } else if (path === '/profile') {
-            setActive('profile')
         }
     }, [path, active])
 
@@ -37,16 +35,21 @@ function Navbar() {
                         :
                         <Link className="navbar-brand fs-3" to="/">KOL</Link>
                     }
-                    <form class="d-flex" role="search" style={{ width: '500px' }}>
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    </form>
+                    {blogger ? '' :
+                        <form class="d-flex" role="search" style={{ width: '500px' }}>
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        </form>
+                    }
+
                     <div className="d-flex align-items-center">
                         {displayData ?
                             <div className={style.userData}>
-                                <Link className={`d-none d-sm-block ${style.favIcon}`} to="/">
-                                    <FaRegHeart size={25} />
-                                </Link>
-                                <Link className={` ${style.userImage}`} to="/profile">
+                                {blogger ? '' :
+                                    <Link className={`d-none d-sm-block ${style.favIcon}`} to="/profileDash/favourite">
+                                        <FaRegHeart size={25} />
+                                    </Link>
+                                }
+                                <Link className={` ${style.userImage}`} to="/profileDash">
                                     <img
                                         // src={userImage}
                                         src={displayData?.image || avatar}
@@ -58,7 +61,7 @@ function Navbar() {
                                 <Link
                                     className={` ${style.userName} d-none d-md-block`}
                                     title={displayData?.name}
-                                    to="/profile"
+                                    to="/profileDash"
                                 >
                                     hello {displayData?.name}
                                 </Link>

@@ -119,16 +119,20 @@ function AllProd() {
                                 </button>
                             </h2>
                             <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                <div className="accordion-body">
-                                    <ReactFlagsSelect
-                                        className={style.flag}
-                                        selected={selectedCountry}
-                                        onSelect={toggleCountry}
-                                        countries={["EG", "AE", "SA"]}
-                                    />
+                                <div className="accordion-body d-flex flex-wrap gap-2">
+                                    {["EG", "AE", "SA"].map((countryCode) => (
+                                        <button
+                                            key={countryCode}
+                                            className={`${style.button} ${selectedCountry === countryCode ? style.selectedSpecial : ''}`}
+                                            onClick={() => toggleCountry(countryCode)}
+                                        >
+                                            {countryCode === 'EG' ? 'Egypt' : countryCode === 'AE' ? 'UAE' : 'Saudi'}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
                         </div>
+
                         {/* Gender Filter */}
                         <div>
                             <h2 className="accordion-header">
@@ -136,7 +140,7 @@ function AllProd() {
                                     Gender
                                 </button>
                             </h2>
-                            <div id="collapseTwo" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                            <div id="collapseTwo" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-column gap-3">
                                     <div
                                         className={`${style.gender} ${selectedGender === 'male' ? style.selectedGender : ''}`}
@@ -160,7 +164,7 @@ function AllProd() {
                                     Age
                                 </button>
                             </h2>
-                            <div id="collapseThree" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                            <div id="collapseThree" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-2">
                                     {Age.map((age) => (
                                         <button
@@ -181,7 +185,7 @@ function AllProd() {
                                     Price
                                 </button>
                             </h2>
-                            <div id="collapseFour" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                            <div id="collapseFour" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-3">
                                     <div className={style.rangeValue}>${range[0]} — ${range[1]}</div>
                                     <Slider
@@ -202,7 +206,7 @@ function AllProd() {
                                     Specialization
                                 </button>
                             </h2>
-                            <div id="collapseFive" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                            <div id="collapseFive" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-2">
                                     {categories.map((category) => (
                                         <button

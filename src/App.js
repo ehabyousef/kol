@@ -7,19 +7,19 @@ import Navbar from './component/Navbar';
 import Profile from './pages/Profile/Profile';
 import BloggerProfile from './pages/BloggerProfile/BloggerProfile';
 import Footer from './component/Footer';
-import Request from './pages/Request/Request';
-import Favourite from './pages/Favourite/Favourite';
-import ProfileDash from './pages/ProfileDash/ProfileDash';
+// import Request from './pages/Request/Request';
+// import Favourite from './pages/Favourite/Favourite';
 import { getLoggedBlogger, getLoggedUser, getToken } from './redux/slices/GetUser';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import ProfileDash from './pages/ProfileDash/ProfileDash';
 function App() {
   const blogger = useSelector(getLoggedBlogger);
   const TheToken = useSelector(getToken);
   let navigate = useNavigate();
   useEffect(() => {
     if (blogger) {
-      navigate('/profile');
+      navigate('/profileDash');
     }
   }, [blogger]);
 
@@ -35,8 +35,8 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/blogger/:id' element={<BloggerProfile />} />
         <Route path='/allproducts' element={<AllProd />} />
-        <Route path='/request' element={<Request />} />
-        <Route path='/favourite' element={<Favourite />} />
+        {/* <Route path='/request' element={<Request />} /> */}
+        {/* <Route path='/favourite' element={<Favourite />} /> */}
       </Routes>
       <Footer />
     </>
