@@ -13,8 +13,10 @@ function Requested() {
     const userId = useSelector(getUserId);
     const bloggerId = useSelector(getBloggerId);
 
-    const requestedCamp = useSelector(requestedCampagins);
-    const requestedBloggerCamp = useSelector(requestedBloggerCampagins || []);
+    // Ensure empty arrays as fallbacks
+    const requestedCamp = useSelector(requestedCampagins) || [];
+    const requestedBloggerCamp = useSelector(requestedBloggerCampagins) || [];
+
     // Modal state
     const [showModal, setShowModal] = useState(false);
     const [currentCampaignId, setCurrentCampaignId] = useState(null);
@@ -31,7 +33,7 @@ function Requested() {
         setShowModal(false);
         setContent("");
     };
-    console.log(TheToken)
+
     const handleResponse = () => {
         dispatch(bloggerResponse({
             id: currentCampaignId,
@@ -42,6 +44,7 @@ function Requested() {
         handleCloseModal();
         dispatch(bloggerRequested({ id: bloggerId }));
     };
+
     useEffect(() => {
         if (blogger) {
             dispatch(bloggerRequested({ id: bloggerId }));
@@ -54,9 +57,14 @@ function Requested() {
         <div className="bg-body-tertiary d-flex flex-column gap-3 p-4 rounded-2" style={{ minHeight: '55vh' }}>
             <div className="row mx-1 d-flex justify-content-around align-items-center">
                 <h3>Requested</h3>
-                {blogger ? requestedBloggerCamp.length == 0 ? 'loading...' : '' : user ? requestedCamp.length == 0 ? 'loading...' : '' : ''}
+                {/* Handle loading or no campaign states */}
                 {blogger ? (
-                    requestedBloggerCamp?.map((camp, ind) => (
+                    requestedBloggerCamp?.length === 0 ? 'No requested campaigns.' : ''
+                ) : (
+                    user ? (requestedCamp?.length === 0 ? 'No requested campaigns.' : '') : ''
+                )}
+                {blogger ? (
+                    Array.isArray(requestedBloggerCamp) && requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (
                         <div className="col-12 col-md-6 p-2" key={ind}>
                             <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
                                 <p className={style.campaign_description}>
@@ -81,7 +89,7 @@ function Requested() {
                         </div>
                     ))
                 ) : (
-                    requestedCamp?.map((camp, ind) => (
+                    Array.isArray(requestedCamp) && requestedCamp.length > 0 && requestedCamp.map((camp, ind) => (
                         <div className="col-12 col-md-6 p-2" key={ind}>
                             <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
                                 <p className={style.campaign_description}>

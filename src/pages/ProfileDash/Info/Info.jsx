@@ -13,7 +13,7 @@ function Info() {
     const token = useSelector(getToken);
     const displayData = user || blogger;
     const updateStatus = useSelector(updatingstatus);
-
+    console.log(blogger)
     // State to manage form inputs
     const [formData, setFormData] = useState({
         fullname: displayData?.fullname || '',

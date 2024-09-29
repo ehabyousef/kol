@@ -98,7 +98,7 @@ function AllProd() {
                 <h4>All Bloggers {selectedCateg ? ` / ${selectedCateg}` : ''}</h4>
             </div>
             <div className="row my-5">
-                <button class={`btn btn-primary ms-3 d-lg-none ${style.filterButton}`} style={{ width: 'fit-content' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <button className={`btn btn-primary ms-3 d-lg-none ${style.filterButton}`} style={{ width: 'fit-content' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     filter
                 </button>
                 <div className="col-12 col-md-3 d-none d-lg-block">

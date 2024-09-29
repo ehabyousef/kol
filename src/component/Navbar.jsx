@@ -36,8 +36,8 @@ function Navbar() {
                         <Link className="navbar-brand fs-3" to="/">KOL</Link>
                     }
                     {blogger ? '' :
-                        <form class="d-flex" role="search" style={{ width: '500px' }}>
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        <form className="d-flex" role="search" style={{ width: '500px' }}>
+                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         </form>
                     }
 

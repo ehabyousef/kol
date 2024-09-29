@@ -54,7 +54,7 @@ function ProfileDash() {
                         </div>
                         <div onClick={() => navStyle('accepted')} className={`d-flex align-items-center gap-2 p-3 rounded-3 ${selected === 'accepted' ? 'bg-body-secondary' : ''}`} style={{ cursor: 'pointer' }}>
                             <FcAcceptDatabase size={20} />
-                            <p className='m-0'>Accepted campaign</p>
+                            <p className='m-0'> {blogger ? 'Done' : 'Accepted'} campaign</p>
                         </div>
                         <div onClick={() => navStyle('rejected')} className={`d-flex align-items-center gap-2 p-3 rounded-3 ${selected === 'rejected' ? 'bg-body-secondary' : ''}`} style={{ cursor: 'pointer' }}>
                             <MdCancelPresentation size={20} />
