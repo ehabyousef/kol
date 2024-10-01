@@ -124,6 +124,22 @@ export const bloggerReject = createAsyncThunk(
         }
     }
 );
+// Create an async thunk to fetch reject to blogger
+export const bloggerCompeleteAdmin = createAsyncThunk(
+    'campagins/bloggerCompeleteAdmin',
+    async ({ TheToken, Body }, { rejectWithValue }) => {
+        try {
+            const response = await axios.post(`http://92.113.26.138:8081/api/campaign/complete/to-admin`, Body, {
+                headers: {
+                    Authorization: `Bearer ${TheToken}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response ? error.response.data : error.message);
+        }
+    }
+);
 // Create the slice
 const campaginsSlice = createSlice({
     name: 'campagins',
@@ -210,7 +226,7 @@ const campaginsSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // get paid
+            // get bloggerReject
             .addCase(bloggerReject.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -220,6 +236,19 @@ const campaginsSlice = createSlice({
                 state.bloggerRject = action.payload;
             })
             .addCase(bloggerReject.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            // post compelete
+            .addCase(bloggerCompeleteAdmin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(bloggerCompeleteAdmin.fulfilled, (state, action) => {
+                state.loading = false;
+                // state.bloggerRject = action.payload;
+            })
+            .addCase(bloggerCompeleteAdmin.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

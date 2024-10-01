@@ -224,7 +224,7 @@ function BloggerProfile() {
                     </div>
                 </div>
             </div>
-            <div className="row row-gap-3" style={{ margin: "6rem 0" }}>
+            {/* <div className="row row-gap-3" style={{ margin: "6rem 0" }}>
                 <h3 className="text-center">
                     Related <span style={{ color: "var(--burble)" }}>Bloggers</span>
                 </h3>
@@ -241,7 +241,7 @@ function BloggerProfile() {
                         />
                     </div>
                 ))}
-            </div>
+            </div> */}
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-dialog-centered" role="document">

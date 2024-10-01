@@ -40,9 +40,12 @@ function Requested() {
             Res: Response,
             content,
             TheToken
-        }));
-        handleCloseModal();
-        dispatch(bloggerRequested({ id: bloggerId }));
+        })).unwrap().then(() => {
+            dispatch(bloggerRequested({ id: bloggerId }));
+            handleCloseModal();
+        }).catch((err) => {
+            console.error('Error updating the campaign:', err);
+        });
     };
 
     useEffect(() => {
@@ -64,7 +67,7 @@ function Requested() {
                     user ? (requestedCamp?.length === 0 ? 'No requested campaigns.' : '') : ''
                 )}
                 {blogger ? (
-                    Array.isArray(requestedBloggerCamp) && requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (
+                    requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (
                         <div className="col-12 col-md-6 p-2" key={ind}>
                             <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
                                 <p className={style.campaign_description}>
@@ -89,7 +92,7 @@ function Requested() {
                         </div>
                     ))
                 ) : (
-                    Array.isArray(requestedCamp) && requestedCamp.length > 0 && requestedCamp.map((camp, ind) => (
+                    requestedCamp.length > 0 && requestedCamp.map((camp, ind) => (
                         <div className="col-12 col-md-6 p-2" key={ind}>
                             <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
                                 <p className={style.campaign_description}>
