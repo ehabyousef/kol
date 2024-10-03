@@ -13,7 +13,7 @@ function Info() {
     const token = useSelector(getToken);
     const displayData = user || blogger;
     const updateStatus = useSelector(updatingstatus);
-    console.log(blogger)
+    console.log(user)
     // State to manage form inputs
     const [formData, setFormData] = useState({
         fullname: displayData?.fullname || '',
@@ -28,7 +28,7 @@ function Info() {
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
-
+    const [selectedImage, setSelectedImage] = useState(null);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -114,6 +114,16 @@ function Info() {
             });
         }
     }, [updateStatus]);
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSelectedImage(reader.result); // Update the state with the base64 URL of the image
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     if (!displayData) {
         return <div>Loading...</div>; // or any other loading state
@@ -125,11 +135,20 @@ function Info() {
             <div className='w-100 d-flex align-items-center justify-content-center'>
                 <div className={style.profilePicture}>
                     <img
-                        src={displayData.image || avatar}
+                        src={selectedImage || displayData.image || avatar}
                         alt="Profile"
                         className={style.avatar}
                     />
-                    <IoMdCamera className={`fas fa-camera ${style.editAvatar}`} />
+                    <label htmlFor="image">
+                        <IoMdCamera className={`fas fa-camera ${style.editAvatar}`} />
+                    </label>
+                    <input
+                        type="file"
+                        className='d-none'
+                        id='image'
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
                 </div>
             </div>
 

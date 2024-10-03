@@ -3,7 +3,7 @@ import { FaHeart } from 'react-icons/fa6';
 import { FcAcceptDatabase } from 'react-icons/fc';
 import { GiWallet } from 'react-icons/gi';
 import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
-import { MdCancelPresentation } from 'react-icons/md';
+import { MdCancelPresentation, MdLiveTv } from 'react-icons/md';
 import { PiGitPullRequest } from 'react-icons/pi';
 import { RxAvatar } from 'react-icons/rx';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -14,6 +14,8 @@ import Rejected from './Rejected/Rejected';
 import Favourite from './Favourite/Favourite';
 import { getLoggedBlogger } from '../../redux/slices/GetUser';
 import { useSelector } from 'react-redux';
+import LIve from './LIve/LIve';
+import Done from './Done/Done';
 
 function ProfileDash() {
     const [selected, setSelected] = useState('');
@@ -39,7 +41,7 @@ function ProfileDash() {
     return (
         <div className='container my-3'>
             <div className="row">
-                <button className={`btn btn-primary ms-3 d-lg-none my-4`} style={{ width: 'fit-content' }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <button className={`btn btn-primary ms-3 d-lg-none my-4 border-0`} style={{ width: 'fit-content', color: "var(--white)", backgroundColor: "var(--burble)" }} type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     Pages
                 </button>
                 <div className="col-3 d-none d-lg-block">
@@ -64,6 +66,10 @@ function ProfileDash() {
                             <IoCheckmarkDoneCircleSharp size={20} />
                             <p className='m-0'>Done campaign</p>
                         </div>
+                        <div onClick={() => navStyle('live')} className={`d-flex align-items-center gap-2 p-3 rounded-3 ${selected === 'live' ? 'bg-body-secondary' : ''}`} style={{ cursor: 'pointer' }}>
+                            <MdLiveTv size={20} />
+                            <p className='m-0'>Live campaign</p>
+                        </div>
                         {blogger ? (
                             <div onClick={() => navStyle('wallet')} className={`d-flex align-items-center gap-2 p-3 rounded-3 ${selected === 'wallet' ? 'bg-body-secondary' : ''}`} style={{ cursor: 'pointer' }}>
                                 <GiWallet size={20} />
@@ -84,6 +90,8 @@ function ProfileDash() {
                         <Route path="/requested" element={<Requested />} />
                         <Route path="/accepted" element={<Accepted />} />
                         <Route path="/rejected" element={<Rejected />} />
+                        <Route path="/live" element={<LIve />} />
+                        <Route path="/done" element={<Done />} />
                         <Route path="/favourite" element={<Favourite />} />
                     </Routes>
                 </div>
@@ -91,7 +99,7 @@ function ProfileDash() {
             {/* Offcanvas */}
             <div className="offcanvas offcanvas-start" tabIndex={-1} id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style={{ width: "300px" }}>
                 <div className="offcanvas-header">
-                    <h5 className="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                    <h5 className="offcanvas-title" id="offcanvasExampleLabel">Pages</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" />
                 </div>
                 <div className="offcanvas-body">
