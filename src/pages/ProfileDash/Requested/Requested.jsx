@@ -62,9 +62,9 @@ function Requested() {
                 <h3>Requested</h3>
                 {/* Handle loading or no campaign states */}
                 {blogger ? (
-                    requestedBloggerCamp?.length === 0 ? 'No requested campaigns.' : ''
+                    requestedBloggerCamp?.length === 0 ? 'loading...' : ''
                 ) : (
-                    user ? (requestedCamp?.length === 0 ? 'No requested campaigns.' : '') : ''
+                    user ? (requestedCamp?.length === 0 ? 'loading...' : '') : ''
                 )}
                 {blogger ? (
                     requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (

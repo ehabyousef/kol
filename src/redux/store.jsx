@@ -5,6 +5,7 @@ import Category from "./slices/Category";
 import userReducer from "./slices/GetUser";
 import favourite from "./slices/favourite";
 import Campagins from "./slices/Campagins";
+import language from "./slices/language";
 const store = configureStore({
     reducer: {
         signupUser: UserUP,
@@ -12,7 +13,8 @@ const store = configureStore({
         Category: Category,
         user: userReducer,
         fav: favourite,
-        campagin: Campagins
+        campagin: Campagins,
+         language: language,
 
     },
 });

@@ -32,7 +32,7 @@
   margin-right: 20px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 .userName {
   text-transform: capitalize;

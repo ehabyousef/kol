@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLoggedBlogger, getLoggedUser, logoutUser } from '../redux/slices/GetUser';
 import avatar from '../assets/avatar.avif';
 import { FaRegHeart } from "react-icons/fa6";
+import LanguageSelector from './languageSelector/LanguageSelector';
 function Navbar() {
     const [active, setActive] = useState('home');
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ function Navbar() {
                         </form>
                     }
 
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center gap-2">
                         {displayData ?
                             <div className={style.userData}>
                                 {blogger ? '' :
@@ -69,10 +70,11 @@ function Navbar() {
                             </div>
                             :
                             <div className="d-flex gap-lg-3">
-                                <button className={`me-2 ${style.button}`} onClick={() => { navigate('/auth/login') }}>Login</button>
+                                <button className={`me-2 ${style.button} d-none d-md-block`} onClick={() => { navigate('/auth/login') }}>Login</button>
                                 <button className={`ms-2 ${style.button}`} onClick={() => { navigate('/auth') }}>Register</button>
                             </div>
                         }
+                        <LanguageSelector />
                     </div>
                 </div>
                 <div className="py-2" style={{ backgroundColor: "var(--blue)" }}>
