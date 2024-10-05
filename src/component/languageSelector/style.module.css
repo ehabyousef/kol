@@ -177,3 +177,9 @@
   visibility: visible;
   opacity: 1;
 }
+@media (max-width: 650px) {
+  .burger {
+    width: 2rem;
+    height: 2rem;
+  }
+}
