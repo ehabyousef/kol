@@ -71,24 +71,61 @@ function Navbar() {
                                     {loading ? (
                                         <div className={style.loadingText}>Loading...</div>
                                     ) : (
-                                        searchResults?.blogers?.length > 0 ? (
-                                            searchResults.blogers.map((result) => (
-                                                <div key={result.id} className={style.searchItem}>
-                                                    <Link to={`/blogger/${result.id}`} onClick={() => setSearchTerm('')}>
-                                                        <img src={result.image || avatar} alt="avatar" className={style.avatar} />
-                                                        <span>{result.first_name} {result.last_name}</span>
-                                                    </Link>
+                                        <>
+                                            {/* Categories Section */}
+                                            {searchResults?.categories?.length > 0 ? (
+                                                <div>
+                                                    <p className='m-0'>Categories:</p>
+                                                    {searchResults.categories.map((result) => (
+                                                        <div key={result.id} className={style.searchItem}>
+                                                            <Link
+                                                                to={`/allproducts`}
+                                                                state={result.name}
+                                                                onClick={() => setSearchTerm('')}
+                                                            >
+                                                                <img
+                                                                    src={result.image || avatar}
+                                                                    alt="avatar"
+                                                                    className={style.avatar}
+                                                                />
+                                                                <span>{result.name}</span>
+                                                            </Link>
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <div className={style.noResults}>No results found</div>
-                                        )
+                                            ) : (
+                                                <div className={style.noResults}>No categories found</div>
+                                            )}
+
+                                            {/* Bloggers Section */}
+                                            {searchResults?.blogers?.length > 0 ? (
+                                                <div>
+                                                    <p className='m-0'>Bloggers:</p>
+                                                    {searchResults.blogers.map((result) => (
+                                                        <div key={result.id} className={style.searchItem}>
+                                                            <Link
+                                                                to={`/blogger/${result.id}`}
+                                                                onClick={() => setSearchTerm('')}
+                                                            >
+                                                                <img
+                                                                    src={result.image || avatar}
+                                                                    alt="avatar"
+                                                                    className={style.avatar}
+                                                                />
+                                                                <span>{result.first_name} {result.last_name}</span>
+                                                            </Link>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className={style.noResults}>No bloggers found</div>
+                                            )}
+                                        </>
                                     )}
                                 </div>
                             )}
                         </form>
                     )}
-
                     <div className="d-flex align-items-center gap-0 gap-lg-2">
                         {displayData ? (
                             <div className={style.userData}>
