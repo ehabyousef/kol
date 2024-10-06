@@ -8,11 +8,11 @@ const initialState = {
         totalPages: 0, // Assuming the API returns total pages
         totalElements: 0, // Assuming the API returns total elements
     },
-    filterBloggers: null,
+    filterBloggers: [],
     loading: false,
     error: null,
     page: 0,          // Page numbers typically start from 1
-    size: 9,
+    size: 4,
 };
 
 // Create an async thunk to fetch blogs
@@ -30,7 +30,7 @@ export const fetchBlogs = createAsyncThunk(
 // Create an async thunk to filter blogs
 export const fetchFilteredBlogs = createAsyncThunk(
     'blogs/filterBlogs',
-    async ({ category, country, type, age, minPrice, maxPrice, page, size }, { rejectWithValue }) => {
+    async ({ category, country, type, age, lowerPrice, upperPrice, page, size }, { rejectWithValue }) => {
         try {
             const response = await axios.get(`http://92.113.26.138:8081/api/bloger/filter`, {
                 params: {
@@ -38,14 +38,13 @@ export const fetchFilteredBlogs = createAsyncThunk(
                     country,
                     type,
                     age,
-                    lowerPrice: minPrice,
-                    upperPrice: maxPrice,
+                    lowerPrice,
+                    upperPrice,
                     page,
                     size,
-                    price: 'asc',
                 },
             });
-            return response.data; // Adjust this according to the API response structure
+            return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
         }
