@@ -1,15 +1,14 @@
 import React from 'react'
 import style from './footer.module.css';
 import { Link } from 'react-router-dom';
-import life from '../assets/life.jpg';
+import logo from '../assets/logo.png';
 function Footer() {
     return (
         <div className="mt-4">
             <footer className={style.footer}>
                 <div className='d-flex justify-content-around align-items-start flex-column flex-md-row'>
                     <div className={style.footer_left}>
-                        <img src={life} alt="EduCourses Logo" className={style.logo} />
-                        <p>KoL</p>
+                        <img src={logo} alt="EduCourses Logo" className={style.logo} />
                         <p>It is a long established fact that a reader will be distracted making it look like readable English.</p>
                     </div>
                     <div className='d-flex flex-column'>

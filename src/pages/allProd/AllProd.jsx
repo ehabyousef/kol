@@ -5,7 +5,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilteredBlogs, getFilterBlogger } from '../../redux/slices/Bloggers';
+import { fetchFilteredBlogs, filterLoading, getFilterBlogger } from '../../redux/slices/Bloggers';
 import Slider from '@mui/material/Slider';
 
 function AllProd() {
@@ -24,7 +24,8 @@ function AllProd() {
 
     const dispatch = useDispatch();
     const FilterBloggers = useSelector(getFilterBlogger);
-
+    const loading = useSelector(filterLoading);
+    console.log(loading)
     // Function to build dynamic query params
     const buildQueryParams = () => {
         const params = {};
@@ -244,7 +245,9 @@ function AllProd() {
                                 </Stack>
                             </div>
                         </>
-                    ) : (
+                    ) : (loading ?
+                        <p>loading....</p>
+                        :
                         <div>No Bloggers Available</div>
                     )}
                 </div>
