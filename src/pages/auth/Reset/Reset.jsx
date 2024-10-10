@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import style from '../Forgot/page.module.css';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from 'axios';
 
 function Reset() {
+    const location = useLocation()
+    const mail = location.state || ''
     const [data, setdata] = useState({
-        userEmail: '',
+        userEmail: mail,
         otp: '',
         newPassword: '',
     });
@@ -14,7 +16,6 @@ function Reset() {
     const handleReset = (e) => {
         const { name, value } = e.target
         setdata({ ...data, [name]: value })
-
     };
 
     const confirmReset = (e) => {
@@ -22,12 +23,11 @@ function Reset() {
         axios
             .put(`http://92.113.26.138:8081/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}}`)
             .then((respo) => {
-
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 2000,
                     timerProgressBar: true,
                     didOpen: (toast) => {
                         toast.onmouseenter = Swal.stopTimer;
@@ -38,7 +38,7 @@ function Reset() {
                     icon: "success",
                     title: respo.data.statusMsg,
                 }).then(() => {
-                    // navigate("/auth/verification");
+                    navigate("/auth/login");
                 });
             })
             .catch((err) => {
@@ -70,14 +70,6 @@ function Reset() {
             </div>
             <form onSubmit={confirmReset} className={style.form}>
                 <div className='d-flex flex-column gap-4 align-items-center justify-content-center w-100 gap-2'>
-                    <input
-                        name="userEmail"
-                        onChange={handleReset}
-                        value={data.userEmail}
-                        type="email"
-                        className={style.input}
-                        placeholder="Enter your Email"
-                    />
                     <input
                         name="otp"
                         onChange={handleReset}

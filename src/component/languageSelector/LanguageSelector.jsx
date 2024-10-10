@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { switchToEnglish, switchToArabic, getLanguage } from "../../redux/slices/language";
 import style from './style.module.css';
@@ -17,6 +17,7 @@ const getDirection = (lng) => {
 export default function LanguageSelector() {
     const dispatch = useDispatch();
     const language = useSelector(getLanguage);
+    const checkboxRef = useRef(null); // Reference for the checkbox
 
     // Function to handle language change
     const changeLanguage = (lng) => {
@@ -24,6 +25,10 @@ export default function LanguageSelector() {
             dispatch(switchToEnglish());
         } else if (lng === 'ar') {
             dispatch(switchToArabic());
+        }
+        // Uncheck the checkbox to close the menu
+        if (checkboxRef.current) {
+            checkboxRef.current.checked = false;
         }
     };
 
@@ -35,7 +40,7 @@ export default function LanguageSelector() {
     return (
         <>
             <label className={style.popup}>
-                <input type="checkbox" />
+                <input type="checkbox" ref={checkboxRef} /> {/* Add ref here */}
                 <div tabIndex={0} className={style.burger}>
                     <MdLanguage size={20} color='white' />
                 </div>
