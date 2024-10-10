@@ -5,15 +5,14 @@ import Blogger from './Blogger';
 
 function SomeBloggers() {
     const dispatch = useDispatch();
-    const { blogs, loading, error, page, size } = useSelector((state) => state.Bloggers);
+    const { blogs, loading, page, size } = useSelector((state) => state.Bloggers);
 
     useEffect(() => {
         dispatch(fetchBlogs({ page, size }));
     }, [dispatch, page, size]);
 
     if (loading) return <div className='w-100 h-100 d-flex justify-content-center align-items-center fs-1' style={{ minHeight: "63vh" }}>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
+    console.log(blogs)
     return (
         <>
             {
