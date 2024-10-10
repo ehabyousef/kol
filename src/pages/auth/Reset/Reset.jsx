@@ -7,8 +7,9 @@ import axios from 'axios';
 function Reset() {
     const location = useLocation()
     const mail = location.state || ''
+    console.log(mail.email)
     const [data, setdata] = useState({
-        userEmail: mail,
+        userEmail: mail.email,
         otp: '',
         newPassword: '',
     });
@@ -21,7 +22,7 @@ function Reset() {
     const confirmReset = (e) => {
         e.preventDefault();
         axios
-            .put(`http://92.113.26.138:8081/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}}`)
+            .put(`http://92.113.26.138:8081/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}`)
             .then((respo) => {
                 const Toast = Swal.mixin({
                     toast: true,
