@@ -6,9 +6,7 @@ import { getFav, getFavous } from '../../../redux/slices/favourite';
 import Blogger from '../../../component/Blogger';
 
 function Favourite() {
-    const navig = useNavigate()
     const user = useSelector(getLoggedUser);
-    const blogger = useSelector(getLoggedBlogger);
     const dispatch = useDispatch()
     const TheToken = useSelector(getToken);
     useEffect(() => {

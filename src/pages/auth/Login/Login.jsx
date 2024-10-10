@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import style from './login.module.css';
 import axios from 'axios';
 import { FaLongArrowAltRight } from 'react-icons/fa';

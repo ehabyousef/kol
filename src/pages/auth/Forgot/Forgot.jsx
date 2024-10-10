@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { MdOutlineMailOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import style from "./page.module.css";

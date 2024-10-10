@@ -7,8 +7,7 @@ import { IoLogoInstagram, IoLogoTiktok, IoLogoYoutube } from "react-icons/io5";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategory } from "../../redux/slices/Category";
-import Blogger from "../../component/Blogger";
-import { getLoggedUser, getToken, getUserId } from "../../redux/slices/GetUser";
+import { getToken, getUserId } from "../../redux/slices/GetUser";
 import Swal from "sweetalert2";
 import { addToFav, deleteFav, getFav, getFavous } from "../../redux/slices/favourite";
 

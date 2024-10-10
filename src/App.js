@@ -15,13 +15,12 @@ import { useEffect } from 'react';
 import ProfileDash from './pages/ProfileDash/ProfileDash';
 function App() {
   const blogger = useSelector(getLoggedBlogger);
-  const TheToken = useSelector(getToken);
   let navigate = useNavigate();
   useEffect(() => {
     if (blogger) {
       navigate('/profileDash');
     }
-  }, [blogger]);
+  }, [blogger, navigate]);
 
   return (
     <>

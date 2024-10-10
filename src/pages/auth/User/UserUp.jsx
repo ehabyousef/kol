@@ -18,7 +18,6 @@ function UserUp() {
     });
     const dispatch = useDispatch();
     const [logappear, setlogappear] = useState(true);
-    const [selected, setSelected] = useState("");
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });

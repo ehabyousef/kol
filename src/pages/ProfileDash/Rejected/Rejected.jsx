@@ -26,7 +26,7 @@ function Rejected() {
         <div className="bg-body-tertiary d-flex flex-column gap-3 p-4 rounded-2" style={{ minHeight: '55vh' }}>
             <div className=" row  mx-1 d-flex justify-content-around align-items-center">
                 <h3>Rejected</h3>
-                {blogger ? rejectedBloggerCamp.length == 0 ? 'loading....' : '' : user ? rejectedCamp.length == 0 ? 'loading....' : '' : ''}
+                {blogger ? rejectedBloggerCamp.length === 0 ? 'loading....' : '' : user ? rejectedCamp.length == 0 ? 'loading....' : '' : ''}
                 {blogger ? (
                     rejectedBloggerCamp?.map((camp, ind) => (
                         <div className="col-12 col-md-6 p-2" key={ind}>
