@@ -15,7 +15,7 @@ function Home() {
     const navig = useNavigate();
     const dispatch = useDispatch();
     const categories = useSelector(allCategories);
-    const [loading, setloading] = useState(second)
+    const [loading, setloading] = useState(false)
     useEffect(() => {
         setloading(true)
         dispatch(getAllCategories()).finally(() => setloading(false))
