@@ -252,6 +252,128 @@ function AllProd() {
                     )}
                 </div>
             </div>
+            {/* Offcanvas */}
+            <div className="offcanvas offcanvas-start" tabIndex={-1} id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style={{ width: "300px" }}>
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="offcanvasExampleLabel">Filter</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" />
+                </div>
+                <div className="offcanvas-body">
+                    <div className="accordion" id="accordionPanelsStayOpenExample">
+                        <div>
+                            <h2 className="accordion-header">
+                                <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Country
+                                </button>
+                            </h2>
+                            <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                <div className="accordion-body d-flex flex-wrap gap-2">
+                                    {["EG", "AE", "SA"].map((countryCode) => (
+                                        <button
+                                            key={countryCode}
+                                            className={`${style.button} ${selectedCountry === countryCode ? style.selectedSpecial : ''}`}
+                                            onClick={() => toggleCountry(countryCode)}
+                                        >
+                                            {countryCode === 'EG' ? 'Egypt' : countryCode === 'AE' ? 'UAE' : 'Saudi'}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Gender Filter */}
+                        <div>
+                            <h2 className="accordion-header">
+                                <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Gender
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                                <div className="accordion-body d-flex flex-column gap-3">
+                                    <div
+                                        className={`${style.gender} ${selectedGender === 'male' ? style.selectedGender : ''}`}
+                                        onClick={() => toggleGender('male')}
+                                    >
+                                        Male
+                                    </div>
+                                    <div
+                                        className={`${style.gender} ${selectedGender === 'female' ? style.selectedGender : ''}`}
+                                        onClick={() => toggleGender('female')}
+                                    >
+                                        Female
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Age Filter */}
+                        <div>
+                            <h2 className="accordion-header">
+                                <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Age
+                                </button>
+                            </h2>
+                            <div id="collapseThree" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                                <div className="accordion-body d-flex flex-wrap gap-2">
+                                    {Age.map((age) => (
+                                        <button
+                                            key={age}
+                                            className={`${style.button} ${selectedAge === age ? style.selectedSpecial : ''}`}
+                                            onClick={() => toggleAge(age)}
+                                        >
+                                            {age}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Price Filter */}
+                        <div className="">
+                            <h2 className="accordion-header">
+                                <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Price
+                                </button>
+                            </h2>
+                            <div id="collapseFour" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                                <div className="accordion-body d-flex flex-wrap gap-3">
+                                    <div className={style.rangeValue}>${range[0]} — ${range[1]}</div>
+                                    <Slider
+                                        value={range}
+                                        onChange={handleSliderChange}
+                                        valueLabelDisplay="auto"
+                                        min={0}
+                                        max={200}
+                                        className={style.range}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Specialization Filter */}
+                        <div>
+                            <h2 className="accordion-header">
+                                <button className={`${style.accBtn} accordion-button`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Specialization
+                                </button>
+                            </h2>
+                            <div id="collapseFive" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                                <div className="accordion-body d-flex flex-wrap gap-2">
+                                    {categories.map((category) => (
+                                        <button
+                                            key={category}
+                                            className={`${style.button} ${selectedCateg === category ? style.selectedSpecial : ''}`}
+                                            onClick={() => toggleCategory(category)}
+                                        >
+                                            {category}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
