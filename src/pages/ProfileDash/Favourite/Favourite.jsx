@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { getLoggedBlogger, getLoggedUser, getToken } from '../../../redux/slices/GetUser';
+import { getLoggedUser, getToken } from '../../../redux/slices/GetUser';
 import { getFav, getFavous } from '../../../redux/slices/favourite';
 import Blogger from '../../../component/Blogger';
 
