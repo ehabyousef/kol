@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
@@ -14,11 +14,16 @@ function LIve() {
 
     const userlive = useSelector(userLiveCampagins || []);
     const bloggerlive = useSelector(bloggerLiveCampagins || []);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         if (blogger) {
-            dispatch(bloggerLiveCampagin({ TheToken, id: bloggerId }));
+            setLoading(true)
+            dispatch(bloggerLiveCampagin({ TheToken, id: bloggerId }))
+                .finally(() => setLoading(false));
         } else if (user) {
+            setLoading(true)
             dispatch(userLiveCampagin({ TheToken, id: userId }))
+                .finally(() => setLoading(false));
         }
     }, [dispatch, blogger, user, TheToken, userId, bloggerId]);
     console.log(userlive)
@@ -27,9 +32,23 @@ function LIve() {
             <div className=" row  mx-1 d-flex justify-content-around align-items-center">
                 <h3>Live</h3>
                 {blogger ? (
-                    bloggerlive?.length === 0 ? 'loading...' : ''
+                    loading ? (
+                        'loading...'
+                    ) : bloggerlive.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
+                ) : user ? (
+                    loading ? (
+                        'loading...'
+                    ) : userlive.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
                 ) : (
-                    user ? (userlive?.length === 0 ? 'loading...' : '') : ''
+                    'no campaigns available'
                 )}
                 {blogger ? (
                     bloggerlive?.map((camp, ind) => (

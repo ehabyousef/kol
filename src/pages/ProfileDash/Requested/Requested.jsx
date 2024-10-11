@@ -47,12 +47,16 @@ function Requested() {
             console.error('Error updating the campaign:', err);
         });
     };
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         if (blogger) {
-            dispatch(bloggerRequested({ id: bloggerId }));
+            setLoading(true)
+            dispatch(bloggerRequested({ id: bloggerId }))
+                .finally(() => setLoading(false));
         } else if (user) {
-            dispatch(requested({ TheToken, id: userId }));
+            setLoading(true)
+            dispatch(requested({ TheToken, id: userId }))
+                .finally(() => setLoading(false));
         }
     }, [dispatch, blogger, user, TheToken, userId, bloggerId]);
 
@@ -62,9 +66,23 @@ function Requested() {
                 <h3>Requested</h3>
                 {/* Handle loading or no campaign states */}
                 {blogger ? (
-                    requestedBloggerCamp?.length === 0 ? 'loading...' : ''
+                    loading ? (
+                        'loading...'
+                    ) : requestedBloggerCamp.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
+                ) : user ? (
+                    loading ? (
+                        'loading...'
+                    ) : requestedCamp.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
                 ) : (
-                    user ? (requestedCamp?.length === 0 ? 'loading...' : '') : ''
+                    'no campaigns available'
                 )}
                 {blogger ? (
                     requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (

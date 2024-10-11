@@ -52,12 +52,17 @@ function Accepted() {
     };
 
     const acceptedCamp = useSelector(acceptedCampagins);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (blogger) {
-            dispatch(bloggerPaid({ id: bloggerId }));
+            setLoading(true);
+            dispatch(bloggerPaid({ id: bloggerId }))
+                .finally(() => setLoading(false));
         } else if (user) {
-            dispatch(Accept({ TheToken, id: userId }));
+            setLoading(true);
+            dispatch(Accept({ TheToken, id: userId }))
+                .finally(() => setLoading(false));
         }
     }, [dispatch, blogger, user, bloggerId, TheToken, userId]);
 
@@ -65,7 +70,25 @@ function Accepted() {
         <div className="bg-body-tertiary d-flex flex-column gap-3 p-4 rounded-2" style={{ minHeight: '55vh' }}>
             <div className="row mx-1 d-flex justify-content-around align-items-center">
                 <h3>Accepted</h3>
-                {blogger ? paidBlogger.length === 0 ? 'loading....' : '' : user ? acceptedCamp.length === 0 ? 'loading....' : '' : ''}
+                {blogger ? (
+                    loading ? (
+                        'loading...'
+                    ) : paidBlogger.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
+                ) : user ? (
+                    loading ? (
+                        'loading...'
+                    ) : acceptedCamp.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
+                ) : (
+                    'no campaigns available'
+                )}
                 {blogger ? (
                     paidBlogger?.map((camp, ind) => (
                         <div className="col-12 col-md-6 p-2" key={ind}>
@@ -90,7 +113,7 @@ function Accepted() {
                                     </div>
                                 </div>
                                 <div className="d-flex align-items-center justify-content-around">
-                                    <button className={style.rejApp2} onClick={() => handleShowModal(camp)}>Approve</button>
+                                    <button className={style.rejApp2} style={{ width: "180px" }} onClick={() => handleShowModal(camp)}>Approve</button>
                                 </div>
                             </div>
                         </div>
@@ -117,6 +140,9 @@ function Accepted() {
                                         <p>To</p>
                                         <p>{camp.to}</p>
                                     </div>
+                                </div>
+                                <div className="d-flex align-items-center justify-content-around">
+                                    <button className={style.rejApp2} style={{ width: "180px" }} >Pay</button>
                                 </div>
                             </div>
                         </div>

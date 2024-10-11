@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
@@ -14,21 +14,40 @@ function Done() {
 
     const userDone = useSelector(userDoneCampagins || []);
     const bloggerDone = useSelector(bloggerDoneCampagins || []);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         if (blogger) {
-            dispatch(bloggerDoneCampagin({ TheToken, id: bloggerId }));
+            setLoading(true)
+            dispatch(bloggerDoneCampagin({ TheToken, id: bloggerId }))
+                .finally(() => setLoading(false));
         } else if (user) {
+            setLoading(true)
             dispatch(userDoneCampagin({ TheToken, id: userId }))
+                .finally(() => setLoading(false));
         }
-    }, [dispatch, blogger, user, TheToken, userId, bloggerId]);
+    }, [dispatch, blogger, user, TheToken, userId, bloggerId])
     return (
         <div className="bg-body-tertiary d-flex flex-column gap-3 p-4 rounded-2" style={{ minHeight: '55vh' }}>
             <div className=" row  mx-1 d-flex justify-content-around align-items-center">
                 <h3>Done</h3>
                 {blogger ? (
-                    bloggerDone?.length === 0 ? 'loading...' : ''
+                    loading ? (
+                        'loading...'
+                    ) : bloggerDone.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
+                ) : user ? (
+                    loading ? (
+                        'loading...'
+                    ) : userDone.length === 0 ? (
+                        'no campaigns available'
+                    ) : (
+                        '' // campaigns are available
+                    )
                 ) : (
-                    user ? (userDone?.length === 0 ? 'loading...' : '') : ''
+                    'no campaigns available'
                 )}
                 {blogger ? (
                     bloggerDone?.map((camp, ind) => (
