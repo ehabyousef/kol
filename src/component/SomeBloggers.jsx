@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBlogs } from '../redux/slices/Bloggers';
 import Blogger from './Blogger';
 
-const SomeBloggers = React.memo(() => {
+function SomeBloggers() {
     const dispatch = useDispatch();
     const { blogs, loading, page, size } = useSelector((state) => state.Bloggers);
 
@@ -32,6 +32,6 @@ const SomeBloggers = React.memo(() => {
             }
         </>
     )
-})
+}
 
 export default SomeBloggers
