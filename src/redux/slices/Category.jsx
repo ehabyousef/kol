@@ -17,7 +17,7 @@ export const fetchCategory = createAsyncThunk(
     'bloggers/fetchCategory',
     async ({ category, page, size }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/category/${category}`, {
+            const response = await axios.get(`https://92.113.26.138:8081/api/category/${category}`, {
                 params: {
                     page,
                     size
@@ -34,7 +34,7 @@ export const getAllCategories = createAsyncThunk(
     'category/getAllCategories',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/categories`);
+            const response = await axios.get(`https://92.113.26.138:8081/api/categories`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -46,7 +46,7 @@ export const search = createAsyncThunk(
     'category/search',
     async ({ keyword }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/search?keyword=${keyword}`);
+            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/search?keyword=${keyword}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);

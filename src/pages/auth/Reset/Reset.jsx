@@ -22,7 +22,7 @@ function Reset() {
     const confirmReset = (e) => {
         e.preventDefault();
         axios
-            .put(`http://92.113.26.138:8081/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}`)
+            .put(`https://92.113.26.138:8081/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}`)
             .then((respo) => {
                 const Toast = Swal.mixin({
                     toast: true,

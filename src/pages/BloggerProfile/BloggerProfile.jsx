@@ -48,7 +48,7 @@ function BloggerProfile() {
         const getBlogger = async () => {
             try {
                 const response = await axios.get(
-                    `http://92.113.26.138:8081/api/bloger/${id}`
+                    `https://92.113.26.138:8081/api/bloger/${id}`
                 );
                 setBlogger(response.data);
                 setsameCateg(response.data.interests[0]);
@@ -83,7 +83,7 @@ function BloggerProfile() {
 
     const handleRequest = (e) => {
         e.preventDefault()
-        axios.post('http://92.113.26.138:8081/api/campaign/request/to-admin', request, {
+        axios.post('https://92.113.26.138:8081/api/campaign/request/to-admin', request, {
             headers: {
                 Authorization: `Bearer ${TheToken}`,
             },

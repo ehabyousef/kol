@@ -6,7 +6,7 @@ export const UserUP = createAsyncThunk(
     "auth/register",
     async (userData) => {
         try {
-            const response = await axios.post("http://92.113.26.138:8081/api/signup/user", userData)
+            const response = await axios.post("https://92.113.26.138:8081/api/signup/user", userData)
             return response.data;
         } catch (error) {
             throw error.response.data;

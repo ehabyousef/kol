@@ -17,7 +17,7 @@ export const fetchUser = createAsyncThunk(
     async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://92.113.26.138:8081/api/profile?email=${email}`,
+                `https://92.113.26.138:8081/api/profile?email=${email}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export const fetchBlogger = createAsyncThunk(
     async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://92.113.26.138:8081/api/profile/bloger?email=${email}`,
+                `https://92.113.26.138:8081/api/profile/bloger?email=${email}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ export const updateUserPassword = createAsyncThunk(
         };
         try {
             const response = await axios.put(
-                `http://92.113.26.138:8081/api/profile?user_id=${userId}`, // Remove extra bracket here
+                `https://92.113.26.138:8081/api/profile?user_id=${userId}`, // Remove extra bracket here
                 formData,
                 {
                     headers: {
@@ -91,7 +91,7 @@ export const updateUser = createAsyncThunk(
     async ({ token, formData, id }, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                `http://92.113.26.138:8081/api/profile?user_id=${id}`,
+                `https://92.113.26.138:8081/api/profile?user_id=${id}`,
                 formData,
                 {
                     headers: {

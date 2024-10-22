@@ -19,8 +19,8 @@ function Favourite() {
 
     return (
         <div className="bg-body-tertiary d-flex flex-column gap-3 p-4 rounded-2" style={{ minHeight: '55vh' }}>
-            <div className="row my-5">
-                <h3 className='my-3 fw-bold'><span style={{ color: "var(--red)" }}>favorite</span> Bloggers</h3>
+            <div className="row">
+                <h3 className='my-1 fw-bold'><span style={{ color: "var(--red)" }}>favorite</span> Bloggers</h3>
                 {loading ? 'loading' : (favBloggers.length === 0 ? 'no favourite bloggers' : '')}
                 {favBloggers.map((blog, index) => {
                     return (

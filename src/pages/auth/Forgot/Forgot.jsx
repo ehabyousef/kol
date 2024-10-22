@@ -15,7 +15,7 @@ export default function Forgot() {
   const confirmEmali = (e) => {
     e.preventDefault();
     axios
-      .post(`http://92.113.26.138:8081/api/forgotpassword?email=${encodeURIComponent(email)}`)
+      .post(`https://92.113.26.138:8081/api/forgotpassword?email=${encodeURIComponent(email)}`)
       .then((respo) => {
 
         const Toast = Swal.mixin({

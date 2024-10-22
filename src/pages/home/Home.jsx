@@ -17,9 +17,12 @@ function Home() {
     const categories = useSelector(allCategories);
     const [loading, setloading] = useState(false)
     useEffect(() => {
-        setloading(true)
-        dispatch(getAllCategories()).finally(() => setloading(false))
-    }, [dispatch]);
+        // Fetch categories only if they are not already in the state
+        if (categories.length === 0) {
+            setloading(true);
+            dispatch(getAllCategories()).finally(() => setloading(false));
+        }
+    }, [dispatch, categories]);
 
     return (
         <>

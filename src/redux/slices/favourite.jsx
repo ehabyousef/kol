@@ -14,7 +14,7 @@ export const getFav = createAsyncThunk(
     async ({ userID, token }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `http://92.113.26.138:8081/api/favorite?userId=${userID}`,
+                `https://92.113.26.138:8081/api/favorite?userId=${userID}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ export const addToFav = createAsyncThunk(
     async ({ userID, bloggerID, token }, { rejectWithValue }) => {
         try {
             await axios.post(
-                `http://92.113.26.138:8081/api/favorite?userId=${userID}&blogerId=${bloggerID}`,
+                `https://92.113.26.138:8081/api/favorite?userId=${userID}&blogerId=${bloggerID}`,
                 {},
                 {
                     headers: {
@@ -44,7 +44,7 @@ export const addToFav = createAsyncThunk(
             );
             // Fetch the updated list of favorite bloggers
             const response = await axios.get(
-                `http://92.113.26.138:8081/api/favorite?userId=${userID}`,
+                `https://92.113.26.138:8081/api/favorite?userId=${userID}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ export const deleteFav = createAsyncThunk(
     async ({ userID, bloggerID, token }, { rejectWithValue }) => {
         try {
             const response = await axios.delete(
-                `http://92.113.26.138:8081/api/favorite?userId=${userID}&blogerId=${bloggerID}`,
+                `https://92.113.26.138:8081/api/favorite?userId=${userID}&blogerId=${bloggerID}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
