@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBlogs } from '../redux/slices/Bloggers';
 import Blogger from './Blogger';
+import Spinner from './spinner/Spinner';
 
 function SomeBloggers() {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ function SomeBloggers() {
         dispatch(fetchBlogs({ page, size }));
     }, [dispatch, page, size]);
 
-    if (loading) return <div className='w-100 h-100 d-flex justify-content-center align-items-center fs-1' style={{ minHeight: "63vh" }}>Loading...</div>;
+    if (loading) return <div className='w-100 h-100 d-flex justify-content-center align-items-center fs-1' style={{ minHeight: "63vh" }}> <Spinner /> </div>;
     console.log(blogs)
     return (
         <>

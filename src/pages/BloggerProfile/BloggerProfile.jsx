@@ -10,6 +10,7 @@ import { fetchCategory } from "../../redux/slices/Category";
 import { getToken, getUserId } from "../../redux/slices/GetUser";
 import Swal from "sweetalert2";
 import { addToFav, deleteFav, getFav, getFavous } from "../../redux/slices/favourite";
+import Spinner from "../../component/spinner/Spinner";
 
 function BloggerProfile() {
     const navigate = useNavigate();
@@ -80,9 +81,10 @@ function BloggerProfile() {
         console.log(request)
 
     };
-
+    const [spinner, setspinner] = useState(false)
     const handleRequest = (e) => {
         e.preventDefault()
+        setspinner(true)
         axios.post('https://92.113.26.138:8081/api/campaign/request/to-admin', request, {
             headers: {
                 Authorization: `Bearer ${TheToken}`,
@@ -102,10 +104,10 @@ function BloggerProfile() {
             Toast.fire({
                 icon: "success",
                 title: 'Request send successfully'
-            }).then((e) => {
-                handleCloseModal()
-                reset()
             })
+            handleCloseModal()
+            reset()
+            setspinner(false)
         }).catch((err) => {
             const Toast = Swal.mixin({
                 toast: true,
@@ -121,10 +123,10 @@ function BloggerProfile() {
             Toast.fire({
                 icon: "error",
                 title: "can't send request"
-            }).then((e) => {
-                handleCloseModal()
-                reset()
             })
+            handleCloseModal()
+            reset()
+            setspinner(false)
         })
     }
     const reset = (e) => {
@@ -300,7 +302,11 @@ function BloggerProfile() {
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
                                 <button type="button" className="btn btn-success" onClick={handleRequest}>
-                                    send campgain
+                                    {spinner ?
+                                        <Spinner />
+                                        :
+                                        'send campgain'
+                                    }
                                 </button>
                             </div>
                         </div>

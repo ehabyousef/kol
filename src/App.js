@@ -2,7 +2,7 @@ import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Auth from './pages/auth/Auth';
-import AllProd from './pages/allProd/AllProd';
+import AllBloggers from './pages/AllBloggers/AllBloggers';
 import Navbar from './component/Navbar';
 import Profile from './pages/Profile/Profile';
 import BloggerProfile from './pages/BloggerProfile/BloggerProfile';
@@ -31,7 +31,7 @@ function App() {
         <Route path="/profileDash/*" element={<ProfileDash />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/blogger/:id' element={<BloggerProfile />} />
-        <Route path='/allproducts' element={<AllProd />} />
+        <Route path='/AllBloggers' element={<AllBloggers />} />
         {/* <Route path='/request' element={<Request />} /> */}
         {/* <Route path='/favourite' element={<Favourite />} /> */}
       </Routes>

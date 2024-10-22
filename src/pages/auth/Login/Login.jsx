@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBlogger, fetchUser, setToken } from '../../../redux/slices/GetUser';
+import Spinner from '../../../component/spinner/Spinner';
 
 function Login() {
     const navigate = useNavigate();
@@ -108,7 +109,7 @@ function Login() {
                 <form className={style.form} onSubmit={handleLogin}>
                     <input className={style.input} type="email" name="email" value={formData.email} onChange={handleChange} required placeholder='enter email' />
                     <input className={style.input} type="password" name="password" value={formData.password} onChange={handleChange} required placeholder='enter password' />
-                    <button className={style.form_btn}>{loading ? 'loading...' : 'Log in'}</button>
+                    <button className={style.form_btn}>{loading ? <Spinner /> : 'Log in'}</button>
                 </form>
                 <div className="d-flex gap-4 justify-content-center align-items-center" onClick={() => { navigate('/auth/forgot') }} style={{ cursor: "pointer" }}>
                     <p className="m-0">Forgot Password ?</p>

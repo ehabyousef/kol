@@ -7,8 +7,9 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilteredBlogs, filterLoading, getFilterBlogger } from '../../redux/slices/Bloggers';
 import Slider from '@mui/material/Slider';
+import Spinner from '../../component/spinner/Spinner';
 
-function AllProd() {
+function AllBloggers() {
     const location = useLocation();
     const comingCategory = location.state;
 
@@ -88,11 +89,11 @@ function AllProd() {
                 <div className="col-12 col-md-3 d-none d-lg-block">
                     <div className="d-flex w-100 justify-content-between align-items-center">
                         <p className='fw-bold fs-4 fst-italic'>Filter</p>
-                        {FilterBloggers?.length === 0 && (
+                        {/* {FilterBloggers?.length === 0 && (
                             <div className="alert alert-danger" role="alert">
                                 No Filtered data
                             </div>
-                        )}
+                        )} */}
                     </div>
                     <div className="accordion" id="accordionPanelsStayOpenExample">
                         {/* Accordion for filters */}
@@ -214,42 +215,50 @@ function AllProd() {
                 <div className="col-12 col-lg-9  d-flex flex-column gap-3">
                     {FilterBloggers && FilterBloggers.length > 0 ? (
                         <>
-                            <div className="row row-gap-3 p-2">
-                                {FilterBloggers?.map((blog, index) => (
-                                    <div key={index} className="col-12 col-sm-6 col-md-4">
-                                        <Blogger
-                                            name={blog.name}
-                                            price={blog.instagramFollowers}
-                                            instaLink={blog.instagramUrl}
-                                            TikLink={blog.tiktokUrl}
-                                            YouLink={blog.youtubeUrl}
-                                            img={blog.image}
-                                            id={blog.id}
-                                        />
+                            {loading ?
+                                <p><Spinner /></p>
+                                :
+                                <>
+                                    <div className="row row-gap-3 p-2">
+                                        {FilterBloggers?.map((blog, index) => (
+                                            <div key={index} className="col-12 col-sm-6 col-md-4">
+                                                <Blogger
+                                                    name={blog.name}
+                                                    price={blog.instagramFollowers}
+                                                    instaLink={blog.instagramUrl}
+                                                    TikLink={blog.tiktokUrl}
+                                                    YouLink={blog.youtubeUrl}
+                                                    img={blog.image}
+                                                    id={blog.id}
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                            <div className="row">
-                                <Stack spacing={2}>
-                                    <Pagination
-                                        count={FilterBloggers?.totalPages}
-                                        page={currentPage + 1}
-                                        onChange={handlePageChange}
-                                        showFirstButton
-                                        showLastButton
-                                        variant="outlined"
-                                        shape="rounded"
-                                        color="primary"
-                                        style={{ margin: '1rem auto' }}
-                                    />
-                                </Stack>
-                            </div>
+                                    <div className="row">
+                                        <Stack spacing={2}>
+                                            <Pagination
+                                                count={FilterBloggers?.totalPages}
+                                                page={currentPage + 1}
+                                                onChange={handlePageChange}
+                                                showFirstButton
+                                                showLastButton
+                                                variant="outlined"
+                                                shape="rounded"
+                                                color="primary"
+                                                style={{ margin: '1rem auto' }}
+                                            />
+                                        </Stack>
+                                    </div>
+                                </>
+                            }
                         </>
-                    ) : (loading ?
-                        <p>loading....</p>
-                        :
-                        <div>No Bloggers Available</div>
-                    )}
+                    ) :
+                        (loading ?
+                            <p><Spinner /></p>
+                            :
+                            <div className='text-center my-2 fs-4'>No Bloggers Available🤷‍♂️</div>
+                        )
+                    }
                 </div>
             </div>
             {/* Offcanvas */}
@@ -378,4 +387,4 @@ function AllProd() {
     );
 }
 
-export default AllProd;
+export default AllBloggers;

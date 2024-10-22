@@ -8,6 +8,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import LanguageSelector from './languageSelector/LanguageSelector';
 import { search, searchResult } from '../redux/slices/Category';
 import { CiLogout } from "react-icons/ci";
+import Spinner from './spinner/Spinner';
 function Navbar() {
     const [active, setActive] = useState('home');
     const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +31,7 @@ function Navbar() {
     useEffect(() => {
         if (path === '/') {
             setActive('home');
-        } else if (path === '/allproducts') {
+        } else if (path === '/AllBloggers') {
             setActive('blogger');
         }
     }, [path]);
@@ -69,7 +70,7 @@ function Navbar() {
                             {searchTerm && (
                                 <div className={style.searchResults}>
                                     {loading ? (
-                                        <div className={style.loadingText}>Loading...</div>
+                                        <div className={style.loadingText}><Spinner /></div>
                                     ) : (
                                         <>
                                             {/* Categories Section */}
@@ -79,7 +80,7 @@ function Navbar() {
                                                     {searchResults.categories.map((result) => (
                                                         <div key={result.id} className={style.searchItem}>
                                                             <Link
-                                                                to={`/allproducts`}
+                                                                to={`/AllBloggers`}
                                                                 state={result.name}
                                                                 onClick={() => setSearchTerm('')}
                                                             >
@@ -179,7 +180,7 @@ function Navbar() {
                             <li className="nav-item">
                                 <Link
                                     className={`${active === 'blogger' ? style.active : style.link} nav-link`}
-                                    to="/allproducts"
+                                    to="/AllBloggers"
                                     onClick={() => setActive('blogger')}
                                 >
                                     Bloggers

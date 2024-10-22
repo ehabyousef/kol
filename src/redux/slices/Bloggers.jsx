@@ -10,6 +10,7 @@ const initialState = {
     },
     filterBloggers: [],
     loading: false,
+    filterLoading: false,
     error: null,
     page: 0,          // Page numbers typically start from 1
     size: 4,
@@ -81,16 +82,16 @@ const blogSlice = createSlice({
             })
             // filter bloggers 
             .addCase(fetchFilteredBlogs.pending, (state) => {
-                state.loading = true
+                state.filterLoading = true
                 state.error = null
             })
             .addCase(fetchFilteredBlogs.fulfilled, (state, action) => {
-                state.loading = false
+                state.filterLoading = false
                 state.filterBloggers = action.payload
                 state.error = null
             })
             .addCase(fetchFilteredBlogs.rejected, (state, action) => {
-                state.loading = true
+                state.filterLoading = true
                 state.error = action.payload || 'Failed to fetch blogs';
             })
     },
@@ -99,6 +100,6 @@ const blogSlice = createSlice({
 // Export the actions
 export const { setPage, setSize } = blogSlice.actions;
 export const getFilterBlogger = (state) => state.Bloggers.filterBloggers;
-export const filterLoading = (state) => state.Bloggers.loading;
+export const filterLoading = (state) => state.Bloggers.filterLoading;
 // Export the reducer
 export default blogSlice.reducer;

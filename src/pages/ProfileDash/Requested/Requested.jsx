@@ -3,6 +3,7 @@ import style from "./request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getToken, getUserId, getLoggedUser } from '../../../redux/slices/GetUser';
 import { bloggerRequested, bloggerResponse, requested, requestedBloggerCampagins, requestedCampagins } from '../../../redux/slices/Campagins';
+import Spinner from '../../../component/spinner/Spinner';
 
 function Requested() {
     const dispatch = useDispatch();
@@ -67,7 +68,7 @@ function Requested() {
                 {/* Handle loading or no campaign states */}
                 {blogger ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : requestedBloggerCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -75,7 +76,7 @@ function Requested() {
                     )
                 ) : user ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : requestedCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (

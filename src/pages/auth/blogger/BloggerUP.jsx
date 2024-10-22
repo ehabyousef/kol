@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allCategories, getAllCategories } from "../../../redux/slices/Category";
+import Spinner from "../../../component/spinner/Spinner";
 
 const careerOptions = [
     "Engineer", "Doctor", "Manager", "Teacher", "Accountant",
@@ -400,7 +401,7 @@ function BloggerUP() {
                     </div>
                 </div>
                 <div className="d-flex w-100 justify-content-start gap-3 border-top py-2">
-                    <button className={style.submit}>{loading ? 'loading...' : 'sign up'}</button>
+                    <button className={style.submit}>{loading ? <Spinner /> : 'sign up'}</button>
                     <button className={style.reset} type="reset" onClick={reset}>Reset</button>
                 </div>
             </form >

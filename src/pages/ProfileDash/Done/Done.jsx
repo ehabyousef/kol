@@ -3,6 +3,7 @@ import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
 import { bloggerDoneCampagin, bloggerDoneCampagins, userDoneCampagin, userDoneCampagins } from '../../../redux/slices/Campagins';
+import Spinner from '../../../component/spinner/Spinner';
 function Done() {
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
@@ -32,7 +33,7 @@ function Done() {
                 <h3>Done</h3>
                 {blogger ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : bloggerDone.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -40,7 +41,7 @@ function Done() {
                     )
                 ) : user ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : userDone.length === 0 ? (
                         'no campaigns available'
                     ) : (

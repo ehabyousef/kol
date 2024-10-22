@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { UserUP } from '../../../redux/slices/userUp';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../../../component/spinner/Spinner';
 function UserUp() {
     const [formData, setFormData] = useState({
         email: "",
@@ -130,7 +131,7 @@ function UserUp() {
                     </div>
                 </div>
                 <div className="d-flex w-100 justify-content-start align-items-center border-top py-2">
-                    <button className={style.submit}>{loading ? 'loading...' : 'Submit'}</button>
+                    <button className={style.submit}>{loading ? <Spinner /> : 'Submit'}</button>
                 </div>
             </form>
         </div>

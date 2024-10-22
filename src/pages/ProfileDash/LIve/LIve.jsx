@@ -3,6 +3,7 @@ import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
 import { bloggerLiveCampagin, bloggerLiveCampagins, userLiveCampagin, userLiveCampagins } from '../../../redux/slices/Campagins';
+import Spinner from '../../../component/spinner/Spinner';
 function LIve() {
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
@@ -33,7 +34,7 @@ function LIve() {
                 <h3>Live</h3>
                 {blogger ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : bloggerlive.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -41,7 +42,7 @@ function LIve() {
                     )
                 ) : user ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : userlive.length === 0 ? (
                         'no campaigns available'
                     ) : (

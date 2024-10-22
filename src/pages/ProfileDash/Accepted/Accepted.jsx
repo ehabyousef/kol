@@ -3,6 +3,7 @@ import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
 import { Accept, acceptedCampagins, bloggerPaid, paidBloggerCampagins, bloggerCompeleteAdmin } from '../../../redux/slices/Campagins';
+import Spinner from '../../../component/spinner/Spinner';
 
 function Accepted() {
     const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function Accepted() {
                 <h3>Accepted</h3>
                 {blogger ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : paidBlogger.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -80,7 +81,7 @@ function Accepted() {
                     )
                 ) : user ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : acceptedCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (

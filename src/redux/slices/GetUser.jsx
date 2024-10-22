@@ -177,16 +177,13 @@ const userSlice = createSlice({
             })
             // Update password
             .addCase(updateUserPassword.pending, (state) => {
-                state.updateStatus = "loading"; // Update user API is in progress
                 state.updateError = null;
             })
             .addCase(updateUserPassword.fulfilled, (state, action) => {
-                state.updateStatus = "succeeded";
                 state.updatedUser = action.payload;
                 state.updateError = null;
             })
             .addCase(updateUserPassword.rejected, (state, action) => {
-                state.updateStatus = "failed"; // Update failed
                 state.updateError = action.payload || action.error.message;
             });
     },

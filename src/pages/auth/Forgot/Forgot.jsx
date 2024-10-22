@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import style from "./page.module.css";
+import Spinner from "../../../component/spinner/Spinner";
 
 export default function Forgot() {
   const [email, setemail] = useState("");
@@ -11,9 +12,10 @@ export default function Forgot() {
     setemail(e.target.value);
 
   };
-
+  const [loading, setLoading] = useState(false);
   const confirmEmali = (e) => {
     e.preventDefault();
+    setLoading(true);
     axios
       .post(`https://92.113.26.138:8081/api/forgotpassword?email=${encodeURIComponent(email)}`)
       .then((respo) => {
@@ -34,7 +36,7 @@ export default function Forgot() {
           title: respo.data.statusMsg,
         }).then(() => {
           navigate("/auth/reset", { state: { email } });
-        });
+        });setLoading(false);
       })
       .catch((err) => {
         const Toast = Swal.mixin({
@@ -52,7 +54,7 @@ export default function Forgot() {
           icon: "error",
           title: err.response.data.title
         });
-
+setLoading(false);
       });
   };
   return (
@@ -74,7 +76,7 @@ export default function Forgot() {
             placeholder="Enter your Email"
           />
         </div>
-        <button className={style.button_submit}>Send</button>
+        <button className={style.button_submit}>{loading ? <Spinner /> : 'Send'}</button>
       </form>
     </div>
   );

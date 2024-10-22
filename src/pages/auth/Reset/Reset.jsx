@@ -3,6 +3,7 @@ import style from '../Forgot/page.module.css';
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from 'axios';
+import Spinner from '../../../component/spinner/Spinner';
 
 function Reset() {
     const location = useLocation()
@@ -18,9 +19,10 @@ function Reset() {
         const { name, value } = e.target
         setdata({ ...data, [name]: value })
     };
-
+    const [loading, setLoading] = useState(false);
     const confirmReset = (e) => {
         e.preventDefault();
+        setLoading(true);
         axios
             .put(`https://92.113.26.138:8081/api/resetpassword?userEmail=${data.userEmail}&otp=${data.otp}&newPassword=${data.newPassword}`)
             .then((respo) => {
@@ -41,6 +43,7 @@ function Reset() {
                 }).then(() => {
                     navigate("/auth/login");
                 });
+                setLoading(false);
             })
             .catch((err) => {
                 const Toast = Swal.mixin({
@@ -58,7 +61,7 @@ function Reset() {
                     icon: "error",
                     title: err.response.data.title
                 });
-
+                setLoading(false);
             });
     };
     return (
@@ -88,7 +91,7 @@ function Reset() {
                         placeholder="Enter your password"
                     />
                 </div>
-                <button className={style.button_submit}>Send</button>
+                <button className={style.button_submit}>{loading ? <Spinner /> : 'Send'}</button>
             </form>
         </div>
     );

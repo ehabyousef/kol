@@ -5,7 +5,7 @@ import avatar from '../../../assets/avatar.avif';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLoggedBlogger, getLoggedUser, getToken, updateUser, updateUserPassword, updatingstatus } from '../../../redux/slices/GetUser';
 import Swal from 'sweetalert2';
-
+import Spinner from '../../../component/spinner/Spinner';
 function Info() {
     const user = useSelector(getLoggedUser);
     const blogger = useSelector(getLoggedBlogger);
@@ -44,10 +44,10 @@ function Info() {
             dispatch(updateUser({ token, formData, id }));
         }
     };
-
+    const [passLoading, setpassLoading] = useState(false)
     const handleResetPassword = (e) => {
         e.preventDefault();
-
+        setpassLoading(true)
         const id = displayData?.id; // Assuming the user has an ID
         if (id && token) {
             dispatch(updateUserPassword({ token, userId: id, oldPassword, newPassword })).unwrap()
@@ -67,6 +67,7 @@ function Info() {
                         icon: "success",
                         title: 'Updated successfully'
                     });
+                    setpassLoading(false)
                 })
                 .catch((err) => {
                     const Toast = Swal.mixin({
@@ -84,6 +85,7 @@ function Info() {
                         icon: "error",
                         title: 'cant updat'
                     });
+                    setpassLoading(false)
                 });
         }
         handleCloseChangePasswordModal(); // Close the modal after dispatch
@@ -229,7 +231,7 @@ function Info() {
 
                 <div className="d-flex justify-content-end gap-4">
                     <button type="submit" className={style.updateButton}>
-                        {updateStatus === 'loading' ? 'Updating..' : ' Update'}
+                        {updateStatus === 'loading' ? <Spinner /> : ' Update'}
                     </button>
                     <button type="button" className={style.updateButton} onClick={() => setShowChangePasswordModal(true)}>
                         Change Password
@@ -274,7 +276,9 @@ function Info() {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" onClick={handleCloseChangePasswordModal}>Close</button>
-                                        <button type="submit" className="btn btn-primary">Change Password</button>
+                                        <button type="submit" className="btn btn-primary">
+                                            {passLoading ? <Spinner /> : 'Change Password'}
+                                        </button>
                                     </div>
                                 </form>
                             </div>

@@ -3,6 +3,7 @@ import style from "../Requested/request.module.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getBloggerId, getLoggedBlogger, getLoggedUser, getToken, getUserId } from '../../../redux/slices/GetUser';
 import { bloggerReject, Reject, rejectBloggerCampagins, rejectedCampagins } from '../../../redux/slices/Campagins';
+import Spinner from '../../../component/spinner/Spinner';
 function Rejected() {
     const dispatch = useDispatch();
     const TheToken = useSelector(getToken);
@@ -33,7 +34,7 @@ function Rejected() {
                 <h3>Rejected</h3>
                 {blogger ? (
                     loading ? (
-                        'loading...'
+                        <Spinner />
                     ) : rejectedBloggerCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -41,8 +42,8 @@ function Rejected() {
                     )
                 ) : user ? (
                     loading ? (
-                        'loading...'
-                        ) : rejectedCamp.length === 0 ? (
+                        <Spinner />
+                    ) : rejectedCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
                         '' // campaigns are available
