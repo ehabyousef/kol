@@ -34,7 +34,7 @@ function Rejected() {
                 <h3>Rejected</h3>
                 {blogger ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : rejectedBloggerCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -42,7 +42,7 @@ function Rejected() {
                     )
                 ) : user ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : rejectedCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -52,38 +52,16 @@ function Rejected() {
                     'no campaigns available'
                 )}
                 {blogger ? (
-                    rejectedBloggerCamp?.map((camp, ind) => (
-                        <div className="col-12 col-md-6 p-2" key={ind}>
-                            <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
-                                <p className={style.campaign_description}>
-                                    <p style={{ color: 'var(--red)' }}>Description :</p>
-                                    {camp.campaignDescription}
-                                </p>
-                                <div className="d-flex align-items-center w-100 justify-content-between">
-                                    <div className="d-flex flex-column">
-                                        <p>From</p>
-                                        <p>{camp.from}</p>
-                                    </div>
-                                    <div className="d-flex flex-column">
-                                        <p>To</p>
-                                        <p>{camp.to}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    rejectedCamp?.map((camp, ind) => {
-                        return (
+                    (loading ? <Spinner />
+                        :
+
+                        rejectedBloggerCamp?.map((camp, ind) => (
                             <div className="col-12 col-md-6 p-2" key={ind}>
                                 <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
                                     <p className={style.campaign_description}>
-                                        <span style={{ color: 'var(--red)' }}>Description :</span>  {camp.campaignDescription}
+                                        <p style={{ color: 'var(--red)' }}>Description :</p>
+                                        {camp.campaignDescription}
                                     </p>
-                                    <p className={style.campaign_description}>
-                                        <span style={{ color: 'var(--red)' }}>content :</span> {camp.content}
-                                    </p>
-                                    <hr />
                                     <div className="d-flex align-items-center w-100 justify-content-between">
                                         <div className="d-flex flex-column">
                                             <p>From</p>
@@ -96,8 +74,38 @@ function Rejected() {
                                     </div>
                                 </div>
                             </div>
-                        )
-                    })
+                        ))
+                    )
+                ) : (
+                    (loading ? <Spinner />
+                        :
+
+                        rejectedCamp?.map((camp, ind) => {
+                            return (
+                                <div className="col-12 col-md-6 p-2" key={ind}>
+                                    <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
+                                        <p className={style.campaign_description}>
+                                            <span style={{ color: 'var(--red)' }}>Description :</span>  {camp.campaignDescription}
+                                        </p>
+                                        <p className={style.campaign_description}>
+                                            <span style={{ color: 'var(--red)' }}>content :</span> {camp.content}
+                                        </p>
+                                        <hr />
+                                        <div className="d-flex align-items-center w-100 justify-content-between">
+                                            <div className="d-flex flex-column">
+                                                <p>From</p>
+                                                <p>{camp.from}</p>
+                                            </div>
+                                            <div className="d-flex flex-column">
+                                                <p>To</p>
+                                                <p>{camp.to}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    )
                 )}
             </div>
         </div>

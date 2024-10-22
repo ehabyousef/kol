@@ -68,7 +68,7 @@ function Requested() {
                 {/* Handle loading or no campaign states */}
                 {blogger ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : requestedBloggerCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -76,7 +76,7 @@ function Requested() {
                     )
                 ) : user ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : requestedCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -85,54 +85,60 @@ function Requested() {
                 ) : (
                     'no campaigns available'
                 )}
-                {blogger ? (
-                    requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (
-                        <div className="col-12 col-md-6 p-2" key={ind}>
-                            <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
-                                <p className={style.campaign_description}>
-                                    <p style={{ color: 'var(--red)' }}>Description :</p>
-                                    {camp.campaignDescription}
-                                </p>
-                                <div className="d-flex align-items-center w-100 justify-content-between">
-                                    <div className="d-flex flex-column">
-                                        <p>From</p>
-                                        <p>{camp.from}</p>
-                                    </div>
-                                    <div className="d-flex flex-column">
-                                        <p>To</p>
-                                        <p>{camp.to}</p>
-                                    </div>
-                                </div>
-                                <div className="d-flex align-items-center justify-content-around">
-                                    <button className={style.rejApp} onClick={() => handleShowModal(camp.id, false)}>Reject</button>
-                                    <button className={style.rejApp2} onClick={() => handleShowModal(camp.id, true)}>Approve</button>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    requestedCamp.length > 0 && requestedCamp.map((camp, ind) => (
-                        <div className="col-12 col-md-6 p-2" key={ind}>
-                            <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
-                                <p className={style.campaign_description}>
-                                    <p style={{ color: 'var(--red)' }}>Description :</p>
-                                    {camp.campaignDescription}
-                                </p>
-                                <hr />
-                                <div className="d-flex align-items-center w-100 justify-content-between">
-                                    <div className="d-flex flex-column">
-                                        <p>From</p>
-                                        <p>{camp.from}</p>
-                                    </div>
-                                    <div className="d-flex flex-column">
-                                        <p>To</p>
-                                        <p>{camp.to}</p>
+                {blogger ?
+                    (loading ? <Spinner />
+                        :
+                        (
+                            requestedBloggerCamp.length > 0 && requestedBloggerCamp.map((camp, ind) => (
+                                <div className="col-12 col-md-6 p-2" key={ind}>
+                                    <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
+                                        <p className={style.campaign_description}>
+                                            <p style={{ color: 'var(--red)' }}>Description :</p>
+                                            {camp.campaignDescription}
+                                        </p>
+                                        <div className="d-flex align-items-center w-100 justify-content-between">
+                                            <div className="d-flex flex-column">
+                                                <p>From</p>
+                                                <p>{camp.from}</p>
+                                            </div>
+                                            <div className="d-flex flex-column">
+                                                <p>To</p>
+                                                <p>{camp.to}</p>
+                                            </div>
+                                        </div>
+                                        <div className="d-flex align-items-center justify-content-around">
+                                            <button className={style.rejApp} onClick={() => handleShowModal(camp.id, false)}>Reject</button>
+                                            <button className={style.rejApp2} onClick={() => handleShowModal(camp.id, true)}>Approve</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                            ))
+                        )
+                    ) : (
+                        (loading ? <Spinner />
+                            :
+                            requestedCamp.length > 0 && requestedCamp.map((camp, ind) => (
+                                <div className="col-12 col-md-6 p-2" key={ind}>
+                                    <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
+                                        <p className={style.campaign_description}>
+                                            <p style={{ color: 'var(--red)' }}>Description :</p>
+                                            {camp.campaignDescription}
+                                        </p>
+                                        <hr />
+                                        <div className="d-flex align-items-center w-100 justify-content-between">
+                                            <div className="d-flex flex-column">
+                                                <p>From</p>
+                                                <p>{camp.from}</p>
+                                            </div>
+                                            <div className="d-flex flex-column">
+                                                <p>To</p>
+                                                <p>{camp.to}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )))
+                    )}
             </div>
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" role="dialog">

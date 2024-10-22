@@ -33,7 +33,7 @@ function Done() {
                 <h3>Done</h3>
                 {blogger ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : bloggerDone.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -41,7 +41,7 @@ function Done() {
                     )
                 ) : user ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : userDone.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -51,45 +51,19 @@ function Done() {
                     'no campaigns available'
                 )}
                 {blogger ? (
-                    bloggerDone?.map((camp, ind) => (
-                        <div className="col-12 col-md-6 p-2" key={ind}>
-                            <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
-                                <p className={style.campaign_description}>
-                                    <p style={{ color: 'var(--red)' }}>Description :</p>
-                                    {camp.campaignDescription}
-                                </p>
-                                <p className={style.campaign_description}>
-                                    <span style={{ color: 'var(--red)' }}>content :</span> {camp.content}
-                                </p>
-                                <div className="d-flex align-items-center w-100 justify-content-between">
-                                    <div className="d-flex flex-column">
-                                        <p>From</p>
-                                        <p>{camp.from}</p>
-                                    </div>
-                                    <div className="d-flex flex-column">
-                                        <p>To</p>
-                                        <p>{camp.to}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    userDone?.map((camp, ind) => {
-                        return (
+                    (loading ? <Spinner />
+                        :
+
+                        bloggerDone?.map((camp, ind) => (
                             <div className="col-12 col-md-6 p-2" key={ind}>
                                 <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
                                     <p className={style.campaign_description}>
-                                        <span style={{ color: 'var(--red)' }}>Description :</span>  {camp.campaignDescription}
+                                        <p style={{ color: 'var(--red)' }}>Description :</p>
+                                        {camp.campaignDescription}
                                     </p>
                                     <p className={style.campaign_description}>
                                         <span style={{ color: 'var(--red)' }}>content :</span> {camp.content}
                                     </p>
-                                    <p className={style.campaign_description}>
-                                        <span style={{ color: 'var(--red)' }}>blogerName :</span> {camp.blogerName}
-                                    </p>
-                                    <a href={camp.campaignUrl} className='text-decoration-underline fs-4 text-dark fw-bold'>watch</a>
-                                    <hr />
                                     <div className="d-flex align-items-center w-100 justify-content-between">
                                         <div className="d-flex flex-column">
                                             <p>From</p>
@@ -102,8 +76,42 @@ function Done() {
                                     </div>
                                 </div>
                             </div>
-                        )
-                    })
+                        ))
+                    )
+                ) : (
+                    (loading ? <Spinner />
+                        :
+
+                        userDone?.map((camp, ind) => {
+                            return (
+                                <div className="col-12 col-md-6 p-2" key={ind}>
+                                    <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
+                                        <p className={style.campaign_description}>
+                                            <span style={{ color: 'var(--red)' }}>Description :</span>  {camp.campaignDescription}
+                                        </p>
+                                        <p className={style.campaign_description}>
+                                            <span style={{ color: 'var(--red)' }}>content :</span> {camp.content}
+                                        </p>
+                                        <p className={style.campaign_description}>
+                                            <span style={{ color: 'var(--red)' }}>blogerName :</span> {camp.blogerName}
+                                        </p>
+                                        <a href={camp.campaignUrl} className='text-decoration-underline fs-4 text-dark fw-bold'>watch</a>
+                                        <hr />
+                                        <div className="d-flex align-items-center w-100 justify-content-between">
+                                            <div className="d-flex flex-column">
+                                                <p>From</p>
+                                                <p>{camp.from}</p>
+                                            </div>
+                                            <div className="d-flex flex-column">
+                                                <p>To</p>
+                                                <p>{camp.to}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    )
                 )}
             </div>
         </div>

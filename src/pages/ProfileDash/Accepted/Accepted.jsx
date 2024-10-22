@@ -73,7 +73,7 @@ function Accepted() {
                 <h3>Accepted</h3>
                 {blogger ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : paidBlogger.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -81,7 +81,7 @@ function Accepted() {
                     )
                 ) : user ? (
                     loading ? (
-                        <Spinner />
+                        ''
                     ) : acceptedCamp.length === 0 ? (
                         'no campaigns available'
                     ) : (
@@ -91,64 +91,71 @@ function Accepted() {
                     'no campaigns available'
                 )}
                 {blogger ? (
-                    paidBlogger?.map((camp, ind) => (
-                        <div className="col-12 col-md-6 p-2" key={ind}>
-                            <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
-                                <p className={style.campaign_description}>
-                                    <p style={{ color: 'var(--red)' }}>Description :</p>
-                                    {camp.campaignDescription}
-                                </p>
-                                <p className={style.campaign_description}>
-                                    <p style={{ color: 'var(--red)' }}>content :</p>
-                                    {camp.content}
-                                </p>
-                                <hr />
-                                <div className="d-flex align-items-center w-100 justify-content-between">
-                                    <div className="d-flex flex-column">
-                                        <p>From</p>
-                                        <p>{camp.from}</p>
+                    (loading ? <Spinner />
+                        :
+
+                        paidBlogger?.map((camp, ind) => (
+                            <div className="col-12 col-md-6 p-2" key={ind}>
+                                <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
+                                    <p className={style.campaign_description}>
+                                        <p style={{ color: 'var(--red)' }}>Description :</p>
+                                        {camp.campaignDescription}
+                                    </p>
+                                    <p className={style.campaign_description}>
+                                        <p style={{ color: 'var(--red)' }}>content :</p>
+                                        {camp.content}
+                                    </p>
+                                    <hr />
+                                    <div className="d-flex align-items-center w-100 justify-content-between">
+                                        <div className="d-flex flex-column">
+                                            <p>From</p>
+                                            <p>{camp.from}</p>
+                                        </div>
+                                        <div className="d-flex flex-column">
+                                            <p>To</p>
+                                            <p>{camp.to}</p>
+                                        </div>
                                     </div>
-                                    <div className="d-flex flex-column">
-                                        <p>To</p>
-                                        <p>{camp.to}</p>
+                                    <div className="d-flex align-items-center justify-content-around">
+                                        <button className={style.rejApp2} style={{ width: "180px" }} onClick={() => handleShowModal(camp)}>Approve</button>
                                     </div>
-                                </div>
-                                <div className="d-flex align-items-center justify-content-around">
-                                    <button className={style.rejApp2} style={{ width: "180px" }} onClick={() => handleShowModal(camp)}>Approve</button>
                                 </div>
                             </div>
-                        </div>
-                    ))
+                        ))
+                    )
                 ) : (
-                    acceptedCamp?.map((camp, ind) => (
-                        <div className="col-12 col-md-6 p-2" key={ind}>
-                            <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
-                                <p className={style.campaign_description}>
-                                    <p className='m-0' style={{ color: 'var(--red)' }}>Description :</p>
-                                    {camp.campaignDescription}
-                                </p>
-                                <p className={style.campaign_description}>
-                                    <p className='m-0' style={{ color: 'var(--red)' }}>Content :</p>
-                                    {camp.content}
-                                </p>
-                                <hr />
-                                <div className="d-flex align-items-center w-100 justify-content-between">
-                                    <div className="d-flex flex-column">
-                                        <p>From</p>
-                                        <p>{camp.from}</p>
+                    (loading ? <Spinner />
+                        :
+
+                        acceptedCamp?.map((camp, ind) => (
+                            <div className="col-12 col-md-6 p-2" key={ind}>
+                                <div className={`shadow-lg rounded-3 p-2 py-3 ${style.campaign_card}`}>
+                                    <p className={style.campaign_description}>
+                                        <p className='m-0' style={{ color: 'var(--red)' }}>Description :</p>
+                                        {camp.campaignDescription}
+                                    </p>
+                                    <p className={style.campaign_description}>
+                                        <p className='m-0' style={{ color: 'var(--red)' }}>Content :</p>
+                                        {camp.content}
+                                    </p>
+                                    <hr />
+                                    <div className="d-flex align-items-center w-100 justify-content-between">
+                                        <div className="d-flex flex-column">
+                                            <p>From</p>
+                                            <p>{camp.from}</p>
+                                        </div>
+                                        <div className="d-flex flex-column">
+                                            <p>To</p>
+                                            <p>{camp.to}</p>
+                                        </div>
                                     </div>
-                                    <div className="d-flex flex-column">
-                                        <p>To</p>
-                                        <p>{camp.to}</p>
+                                    <div className="d-flex align-items-center justify-content-around">
+                                        <button className={style.rejApp2} style={{ width: "180px" }} >Pay</button>
                                     </div>
-                                </div>
-                                <div className="d-flex align-items-center justify-content-around">
-                                    <button className={style.rejApp2} style={{ width: "180px" }} >Pay</button>
                                 </div>
                             </div>
-                        </div>
-                    ))
-                )}
+                        ))
+                    ))}
             </div>
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" role="dialog">

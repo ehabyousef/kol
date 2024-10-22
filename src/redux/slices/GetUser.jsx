@@ -17,7 +17,7 @@ export const fetchUser = createAsyncThunk(
     async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `https://92.113.26.138:8081/api/profile?email=${email}`,
+                `http://92.113.26.138:8081/api/profile?email=${email}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export const fetchBlogger = createAsyncThunk(
     async ({ token, email }, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `https://92.113.26.138:8081/api/profile/bloger?email=${email}`,
+                `http://92.113.26.138:8081/api/profile/bloger?email=${email}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ export const updateUserPassword = createAsyncThunk(
         };
         try {
             const response = await axios.put(
-                `https://92.113.26.138:8081/api/profile?user_id=${userId}`, // Remove extra bracket here
+                `http://92.113.26.138:8081/api/profile?user_id=${userId}`, // Remove extra bracket here
                 formData,
                 {
                     headers: {
@@ -91,7 +91,7 @@ export const updateUser = createAsyncThunk(
     async ({ token, formData, id }, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                `https://92.113.26.138:8081/api/profile?user_id=${id}`,
+                `http://92.113.26.138:8081/api/profile?user_id=${id}`,
                 formData,
                 {
                     headers: {
@@ -177,13 +177,16 @@ const userSlice = createSlice({
             })
             // Update password
             .addCase(updateUserPassword.pending, (state) => {
+                state.updateStatus = "loading"; // Update user API is in progress
                 state.updateError = null;
             })
             .addCase(updateUserPassword.fulfilled, (state, action) => {
+                state.updateStatus = "succeeded";
                 state.updatedUser = action.payload;
                 state.updateError = null;
             })
             .addCase(updateUserPassword.rejected, (state, action) => {
+                state.updateStatus = "failed"; // Update failed
                 state.updateError = action.payload || action.error.message;
             });
     },
