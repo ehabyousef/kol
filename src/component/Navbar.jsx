@@ -173,12 +173,6 @@ function Navbar() {
                             </div> */}
                             {/* <button className={`me-2 d-flex align-items-center ${style.button}`} onClick={handleLogout}><CiLogout /><span className='d-none d-lg-inline'>logout</span></button> */}
                         </div>
-                        {/* ) : (
-                            <div className="d-flex gap-lg-3">
-                                <button className={`me-2 ${style.button} d-none d-md-block`} onClick={() => { navigate('/auth/login') }}>Login</button>
-                                <button className={`ms-2 ${style.button}`} onClick={() => { navigate('/auth') }}>Register</button>
-                            </div>
-                        )} */}
                         <LanguageSelector />
                     </div>
                 </div>
