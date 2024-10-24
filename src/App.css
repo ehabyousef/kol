@@ -1,0 +1,31 @@
+.app{
+    font-family: "Open Sans", sans-serif;
+position: relative;
+}
+.links_tabs{
+    position: fixed;
+    z-index: 9999;
+    bottom:34px;
+    right:16px;
+    justify-content: center;
+}
+.toptab{
+    background-color: #5a3392;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 7px;
+    margin-left: 7px;
+    cursor: pointer;
+}
+.toptab svg{
+    width: 16px;
+    fill: #fff;
+}
+.whatsappContainer{
+    width: 42px;
+    cursor: pointer;
+}

@@ -49,7 +49,7 @@ function BloggerProfile() {
         const getBlogger = async () => {
             try {
                 const response = await axios.get(
-                    `https://92.113.26.138:8081/api/bloger/${id}`
+                    `http://92.113.26.138:8081/api/bloger/${id}`
                 );
                 setBlogger(response.data);
                 setsameCateg(response.data.interests[0]);
@@ -85,7 +85,7 @@ function BloggerProfile() {
     const handleRequest = (e) => {
         e.preventDefault()
         setspinner(true)
-        axios.post('https://92.113.26.138:8081/api/campaign/request/to-admin', request, {
+        axios.post('http://92.113.26.138:8081/api/campaign/request/to-admin', request, {
             headers: {
                 Authorization: `Bearer ${TheToken}`,
             },
@@ -177,19 +177,25 @@ function BloggerProfile() {
                     </p>
                     <div className="d-flex flex-column gap-4">
                         <div className="d-flex gap-2 align-items-center">
-                            <IoLogoInstagram size={20} color="var(--blue)" />
+                            <a target="_blank" href={blogger.instagramUrl}>
+                                <IoLogoInstagram size={25} color="var(--blue)" />
+                            </a>
                             <p className="m-0">
                                 {blogger.instagramFollowers} <span>followers</span>
                             </p>
                         </div>
                         <div className="d-flex gap-2 align-items-center">
-                            <IoLogoYoutube size={20} color="var(--blue)" />
+                            <a target="_blank" href={blogger.youtubeUrl}>
+                                <IoLogoYoutube size={25} color="var(--blue)" />
+                            </a>
                             <p className="m-0">
                                 {blogger.youtubeFollowers} <span>followers</span>
                             </p>
                         </div>
                         <div className="d-flex gap-2 align-items-center">
-                            <IoLogoTiktok size={20} color="var(--blue)" />
+                            <a target="_blank" href={blogger.tiktokUrl}>
+                                <IoLogoTiktok size={25} color="var(--blue)" />
+                            </a>
                             <p className="m-0">
                                 {blogger.tiktokFollowers} <span>followers</span>
                             </p>

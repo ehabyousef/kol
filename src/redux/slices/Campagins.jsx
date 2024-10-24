@@ -21,7 +21,7 @@ export const requested = createAsyncThunk(
     'campagins/requested',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/user/requested-campaign?userId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/user/requested-campaign?userId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -37,7 +37,7 @@ export const Accept = createAsyncThunk(
     'campagins/Accept',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/user/Accepted-campaign?userId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/user/Accepted-campaign?userId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -53,7 +53,7 @@ export const Reject = createAsyncThunk(
     'campagins/Reject',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/user/rejected-campaign?userId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/user/rejected-campaign?userId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -70,7 +70,7 @@ export const bloggerRequested = createAsyncThunk(
     'campagins/bloggerRequested',
     async ({ id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/requested-campaign?blogerId=${id}`);
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/requested-campaign?blogerId=${id}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -83,7 +83,7 @@ export const bloggerResponse = createAsyncThunk(
     async ({ id, Res, content, TheToken }, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `https://92.113.26.138:8081/api/campaign/response/to-admin`,
+                `http://92.113.26.138:8081/api/campaign/response/to-admin`,
                 null, // Body is null because we are sending the parameters via query string
                 {
                     params: { // Parameters to send in query string
@@ -107,7 +107,7 @@ export const bloggerPaid = createAsyncThunk(
     'campagins/bloggerPaid',
     async ({ id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/paid-campaign?blogerId=${id}`);
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/paid-campaign?blogerId=${id}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -119,7 +119,7 @@ export const bloggerReject = createAsyncThunk(
     'campagins/bloggerReject',
     async ({ id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/rejected-campaign?blogerId=${id}`);
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/rejected-campaign?blogerId=${id}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response ? error.response.data : error.message);
@@ -131,7 +131,7 @@ export const bloggerCompeleteAdmin = createAsyncThunk(
     'campagins/bloggerCompeleteAdmin',
     async ({ TheToken, Body }, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`https://92.113.26.138:8081/api/campaign/complete/to-admin`, Body, {
+            const response = await axios.post(`http://92.113.26.138:8081/api/campaign/complete/to-admin`, Body, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -147,7 +147,7 @@ export const userLiveCampagin = createAsyncThunk(
     'campagins/userLiveCampagin',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/user/live-campaign?userId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/user/live-campaign?userId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -163,7 +163,7 @@ export const bloggerLiveCampagin = createAsyncThunk(
     'campagins/bloggerLiveCampagin',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/live-campaign?blogerId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/live-campaign?blogerId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -179,7 +179,7 @@ export const userDoneCampagin = createAsyncThunk(
     'campagins/userDoneCampagin',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/user/done-campaign?userId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/user/done-campaign?userId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },
@@ -195,7 +195,7 @@ export const bloggerDoneCampagin = createAsyncThunk(
     'campagins/bloggerDoneCampagin',
     async ({ TheToken, id }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`https://92.113.26.138:8081/api/bloger/done-campaign?blogerId=${id}`, {
+            const response = await axios.get(`http://92.113.26.138:8081/api/bloger/done-campaign?blogerId=${id}`, {
                 headers: {
                     Authorization: `Bearer ${TheToken}`,
                 },

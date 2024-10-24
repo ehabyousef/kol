@@ -23,7 +23,7 @@ textarea {
   z-index: 1;
   display: block;
 }
-.swiper-pagination-bullet-active {
+/* .swiper-pagination-bullet-active {
   background-color: var(--pink) !important;
   width: 16px !important;
   border-radius: 6px !important;
@@ -42,7 +42,7 @@ textarea {
 .swiper-button-next:after,
 .swiper-button-prev:after {
   font-size: 4rem !important;
-}
+} */
 .active {
   color: var(--red);
   font-weight: bold;

@@ -41,7 +41,7 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
         setLoading(true);
-        axios.post('https://92.113.26.138:8081/api/signin', formData)
+        axios.post('http://92.113.26.138:8081/api/signin', formData)
             .then((res) => {
                 const Toast = Swal.mixin({
                     toast: true,

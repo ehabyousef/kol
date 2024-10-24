@@ -109,7 +109,7 @@ function BloggerUP() {
         if (typeof data.tiktokFollowers === 'string') data.tiktokFollowers = parseInt(data.tiktokFollowers, 10);
         if (typeof data.youtubeFollowers === 'string') data.youtubeFollowers = parseInt(data.youtubeFollowers, 10);
 
-        axios.post('https://92.113.26.138:8081/api/signup/bloger', data, {
+        axios.post('http://92.113.26.138:8081/api/signup/bloger', data, {
             headers: {
                 'Content-Type': 'application/json'
             }

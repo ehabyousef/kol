@@ -1,0 +1,22 @@
+.bloggers_container{
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 12px;
+}
+.bloggers_container .title{
+    font-size: 20px;
+    font-weight: 700;
+}
+.bloggers_container .viewMoreContainer{
+    flex-direction: row !important;display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5a3392;
+    cursor: pointer;
+}
+.bloggers_container .viewMoreContainer svg{
+    width: 12px;
+    fill: #5a3392;
+}

@@ -8,25 +8,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilteredBlogs, filterLoading, getFilterBlogger } from '../../redux/slices/Bloggers';
 import Slider from '@mui/material/Slider';
 import Spinner from '../../component/spinner/Spinner';
+import { allCategories, getAllCategories } from '../../redux/slices/Category';
 
 function AllBloggers() {
     const location = useLocation();
     const comingCategory = location.state;
-
-    const categories = ['Food', 'Islamic', 'Tech', 'Fashion'];
     const Age = ['10', '20', '30', '40', '50'];
-
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedGender, setSelectedGender] = useState(null);
     const [selectedCateg, setSelectedCateg] = useState(comingCategory || null);
     const [selectedAge, setSelectedAge] = useState(null);
     const [range, setRange] = useState([0, 1000]);
+    const [sliderValue, setSliderValue] = useState([0, 1000]); // Local state for slider value
     const [currentPage, setCurrentPage] = useState(0);
 
     const dispatch = useDispatch();
     const FilterBloggers = useSelector(getFilterBlogger);
     const loading = useSelector(filterLoading);
-    console.log(loading)
+
     // Function to build dynamic query params
     const buildQueryParams = () => {
         const params = {};
@@ -53,8 +52,17 @@ function AllBloggers() {
         handleFilterChange();
     }, [selectedCountry, selectedCateg, selectedGender, selectedAge, range, currentPage]);
 
+    // Debounce slider change: Trigger range change after the user stops moving the slider
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setRange(sliderValue); // Update the actual range after a delay
+        }, 500); // 500ms delay before making the API call
+
+        return () => clearTimeout(timer); // Cleanup the timer on every re-render
+    }, [sliderValue]);
+
     const handleSliderChange = (event, newValue) => {
-        setRange(newValue);
+        setSliderValue(newValue); // Update local state on slider movement
     };
 
     const toggleCategory = useCallback((category) => {
@@ -77,6 +85,13 @@ function AllBloggers() {
         setCurrentPage(value - 1);
     };
 
+    const categories = useSelector(allCategories);
+
+    useEffect(() => {
+        if (categories.length === 0) {
+            dispatch(getAllCategories());
+        }
+    }, [dispatch, categories]);
     return (
         <div className='container'>
             <div className="my-3">
@@ -174,9 +189,9 @@ function AllBloggers() {
                             </h2>
                             <div id="collapseFour" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-3">
-                                    <div className={style.rangeValue}>${range[0]} — ${range[1]}</div>
+                                    <div className={style.rangeValue}>${sliderValue[0]} — ${sliderValue[1]}</div>
                                     <Slider
-                                        value={range}
+                                        value={sliderValue}
                                         onChange={handleSliderChange}
                                         valueLabelDisplay="auto"
                                         min={0}
@@ -186,7 +201,6 @@ function AllBloggers() {
                                 </div>
                             </div>
                         </div>
-
                         {/* Specialization Filter */}
                         <div>
                             <h2 className="accordion-header">
@@ -198,11 +212,11 @@ function AllBloggers() {
                                 <div className="accordion-body d-flex flex-wrap gap-2">
                                     {categories.map((category) => (
                                         <button
-                                            key={category}
-                                            className={`${style.button} ${selectedCateg === category ? style.selectedSpecial : ''}`}
-                                            onClick={() => toggleCategory(category)}
+                                            key={category.name}
+                                            className={`${style.button} ${selectedCateg === category.name ? style.selectedSpecial : ''}`}
+                                            onClick={() => toggleCategory(category.name)}
                                         >
-                                            {category}
+                                            {category.name}
                                         </button>
                                     ))}
                                 </div>
@@ -346,9 +360,9 @@ function AllBloggers() {
                             </h2>
                             <div id="collapseFour" className="accordion-collapse collapse " data-bs-parent="#accordionExample">
                                 <div className="accordion-body d-flex flex-wrap gap-3">
-                                    <div className={style.rangeValue}>${range[0]} — ${range[1]}</div>
+                                    <div className={style.rangeValue}>${sliderValue[0]} — ${sliderValue[1]}</div>
                                     <Slider
-                                        value={range}
+                                        value={sliderValue}
                                         onChange={handleSliderChange}
                                         valueLabelDisplay="auto"
                                         min={0}
@@ -370,11 +384,11 @@ function AllBloggers() {
                                 <div className="accordion-body d-flex flex-wrap gap-2">
                                     {categories.map((category) => (
                                         <button
-                                            key={category}
-                                            className={`${style.button} ${selectedCateg === category ? style.selectedSpecial : ''}`}
-                                            onClick={() => toggleCategory(category)}
+                                            key={category.name}
+                                            className={`${style.button} ${selectedCateg === category.name ? style.selectedSpecial : ''}`}
+                                            onClick={() => toggleCategory(category.name)}
                                         >
-                                            {category}
+                                            {category.name}
                                         </button>
                                     ))}
                                 </div>

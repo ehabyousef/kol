@@ -10,6 +10,8 @@ function Blogger({ name, price, instaLink, TikLink, YouLink, img, id }) {
             <Link to={`/blogger/${id}`}>
                 <img src={img} alt="" />
             </Link>
+            <p className='m-0'>{name}</p>
+
             <div className="p-2">
                 <p className='m-0'>{name}</p>
                 <div className="d-flex justify-content-between align-items-center">

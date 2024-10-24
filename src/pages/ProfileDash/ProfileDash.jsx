@@ -12,10 +12,11 @@ import Requested from './Requested/Requested';
 import Accepted from './Accepted/Accepted';
 import Rejected from './Rejected/Rejected';
 import Favourite from './Favourite/Favourite';
-import { getLoggedBlogger } from '../../redux/slices/GetUser';
-import { useSelector } from 'react-redux';
+import { getLoggedBlogger, logoutUser } from '../../redux/slices/GetUser';
+import { useDispatch, useSelector } from 'react-redux';
 import LIve from './LIve/LIve';
 import Done from './Done/Done';
+import { CiLogout } from 'react-icons/ci';
 
 function ProfileDash() {
     const [selected, setSelected] = useState('');
@@ -28,7 +29,11 @@ function ProfileDash() {
         setSelected(link);
         navigate(`/profileDash/${link}`);
     };
-
+    const dispatch = useDispatch();
+    const handleLogout = () => {
+        navigate('/auth/login');
+        dispatch(logoutUser())
+    };
     useEffect(() => {
         const path = location.pathname.replace('/profileDash/', '');
         setSelected(path || 'profile');
@@ -81,6 +86,7 @@ function ProfileDash() {
                                 <p className='m-0'>Favourite Bloggers</p>
                             </div>
                         )}
+                        <button className='d-flex align-items-center border-0 bg-transparent gap-3 p-3' onClick={handleLogout}><CiLogout size={20} /><p className='d-none d-lg-inline m-0'>logout</p></button>
                     </div>
                 </div>
                 <div className="col-12 col-lg-8">
